@@ -259,7 +259,7 @@ nav button:hover{
     margin: auto 4rem;
 }
 .visit-download a{
-    color: blue;
+    color: var(--primaryText);
     padding: .5em;
     font-size: 12pt;
 }
