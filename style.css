@@ -132,6 +132,14 @@ nav button:hover{
     width: 100%;
 
 }
+.hero-card button:hover{
+    background-color: #f7f5f5;
+    cursor: pointer;
+   
+}
+.hero a{
+    text-decoration: none;
+}
 
 /* ===========================
 ====== ABOUT/MEET SECTION =======
@@ -269,6 +277,32 @@ footer{
     background-color: var(--navy);
     color: white;
 }
+/* ========================
+======== Devpage =====
+=================== */
+
+.missing{
+    background: white;
+    
+}
+.error{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    border-radius: 20px;
+    color: var(--primaryText);
+    text-align: center;
+    height: 100vh;
+
+}
+.error img{
+    height: 30%;
+    object-fit: contain;
+}
+.error a{
+    color: var(--accent1);
+}
+
 
 /* =============
 ===RESPONSIVE====
