@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Web Design 1.1 theory notes by Web Development-Lodan developer." name="description"/>
+<link rel="shortcut icon" href="favicon.svg" type="image/svg">
+<title>Web Design 1.1 | Web Development-Lodan developer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+:root{
+ --navy:#142b45;--navy2:#203e5d;--teal:#087f8c;--teal-light:#e8f5f5;
+ --ink:#253342;--muted:#647485;--line:#dce4ea;--paper:#fff;--wash:#f3f6f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9eef2;color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-size:14px;line-height:1.75}
+.document{max-width:920px;margin:32px auto;background:var(--paper);box-shadow:0 12px 38px rgba(20,43,69,.12)}
+.cover{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.cover:before{content:"WEB";position:absolute;right:28px;top:10px;font-size:150px;font-weight:800;letter-spacing:-13px;color:rgba(255,255,255,.055);line-height:1}
+.cover:after{content:"HTML  /  CSS  /  JS";position:absolute;right:40px;top:180px;font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.22)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#8ed5d8}
+.cover h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.cover p{font-size:15px;color:#d9e6ef;max-width:610px;margin:0}
+.cover-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;padding-top:17px;border-top:1px solid rgba(255,255,255,.2);font-size:10px;color:#c5d5e2;letter-spacing:.5px}
+.content{padding:48px 72px 64px}
+h2{font-size:23px;line-height:1.3;color:var(--navy);margin:48px 0 18px;padding-bottom:11px;border-bottom:2px solid var(--teal);letter-spacing:-.5px}
+h2:first-child{margin-top:0}
+h3{font-size:16px;color:var(--navy2);margin:26px 0 8px}
+h4{font-size:13px;color:var(--teal);margin:18px 0 5px}
+p{margin:8px 0 13px}
+ul,ol{padding-left:23px;margin:8px 0 17px}
+li{padding-left:4px;margin:5px 0}
+strong{color:var(--navy)}
+.lead{font-size:15px;color:#43576a}
+.definition{background:var(--wash);padding:13px 17px;margin:12px 0 16px;border-radius:5px;border-left:3px solid #9eb5c7}
+.definition p:last-child{margin-bottom:0}
+.callout{border-left:4px solid var(--teal);background:var(--teal-light);padding:14px 18px;margin:18px 0 22px;border-radius:0 6px 6px 0}
+.callout strong{display:block;margin-bottom:3px}
+.warning{border-left-color:#c58b35;background:#fbf5e9}
+.topic{margin:21px 0 25px}
+.topic h3{margin-top:0}
+.subtle{color:var(--muted)}
+code{font-family:Consolas,"Courier New",monospace;background:#eef2f5;color:#163c54;padding:2px 5px;border-radius:3px;font-size:.94em}
+pre{font-family:Consolas,"Courier New",monospace;background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px}
+.tag{display:inline-block;background:#e8f5f5;color:#087f8c;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.5px;margin:2px 3px 2px 0}
+.outcome{padding:0;list-style:none}
+.outcome li{padding:8px 12px;border-bottom:1px solid var(--line);margin:0}
+.outcome li:before{content:"•";color:var(--teal);font-weight:800;margin-right:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-top:3px solid var(--teal);padding:13px 15px;border-radius:5px;background:#fff}
+.card h3{margin:0 0 5px;font-size:14px}
+.card p{margin:0;font-size:12px}
+.footer{background:var(--wash);padding:20px 72px;color:var(--muted);font-size:10px;display:flex;justify-content:space-between;gap:15px}
+@page{size:A4;margin:17mm 16mm 18mm}
+@media print{
+ body{background:#fff;font-size:10.3pt;line-height:1.62}
+ .document{max-width:none;margin:0;box-shadow:none}
+ .cover{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}
+ .cover h1{font-size:32pt}
+ .content{padding:0}
+ h2{font-size:18pt;break-after:avoid;margin-top:29px}
+ h3,h4{break-after:avoid}
+ p,li{orphans:3;widows:3}
+ .topic,.callout,.definition,.card,pre{break-inside:avoid}
+ .footer{padding:12px 0;background:#fff;border-top:1px solid var(--line)}
+}
+@media(max-width:700px){
+ body{font-size:13px;background:#fff}
+ .document{margin:0;box-shadow:none}
+ .cover{padding:52px 25px 40px;min-height:340px}
+ .cover h1{font-size:32px}
+ .cover:before{font-size:105px;right:10px;top:20px}
+ .cover:after{top:135px;right:20px;font-size:9px}
+ .content{padding:33px 25px 44px}
+ h2{font-size:20px;margin-top:38px}
+ .footer{padding:18px 25px}
+ .grid{grid-template-columns:1fr}
+}
+
+.brand-strip{max-width:920px;margin:18px auto 0;padding:10px 18px;background:#142b45;color:#fff;
+font:700 11px/1.4 Montserrat,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+@media(max-width:700px){.brand-strip{margin:0}}
+
+
+/* Shared lesson theme extensions used by deployment topics */
+.hero{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.hero h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.hero p{font-size:15px;color:#d9e6ef;max-width:650px;margin:0}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:30px}
+.pill{font-size:10px;letter-spacing:.5px;padding:6px 10px;border:1px solid #ffffff55;border-radius:3px;color:#e1eaf0}
+.small{font-size:12px;color:var(--muted)}
+.callout.good{background:var(--teal-light);border-left-color:var(--teal)}
+.callout.warn{background:#fbf5e9;border-left-color:#c58b35}
+.callout.danger{background:#fbeeee;border-left-color:#b94a48}
+.checklist{list-style:none;padding-left:0}.checklist li{padding-left:24px;position:relative}.checklist li:before{content:"□";position:absolute;left:0;color:var(--teal);font-weight:800}
+.step{display:flex;gap:13px;margin:15px 0;align-items:flex-start}.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800}.step div:last-child{flex:1}
+.diagram{background:var(--wash);border:1px solid var(--line);border-radius:5px;padding:18px;text-align:center;margin:16px 0}.node{display:inline-block;border:1px solid #b8c8d8;background:white;padding:10px 15px;border-radius:5px;font-weight:700}.arrow{display:block;color:var(--muted);font-size:1.3rem;line-height:1.5}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:var(--wash);color:var(--navy)}
+pre{background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px;overflow-x:auto}pre code{background:none;padding:0;color:inherit}
+@media print{.hero{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}.hero h1{font-size:32pt}main.content{padding:0}.card,.callout,pre,.diagram,.step{break-inside:avoid}}
+@media(max-width:700px){.hero{padding:52px 25px 40px;min-height:340px}.hero h1{font-size:32px}main.content{padding:33px 25px 44px}.hero-meta{gap:7px}}
+</style>
+</head>
+<body>
+<main class="document">
+<header class="cover">
+<div class="kicker">Classroom Teaching Notes · Web Technology</div>
+<h1>Web Design 1.1</h1>
+<p>An introduction to the principles used to plan, organise and present websites. These notes cover design purpose, layout, colour, typography, navigation, usability, responsiveness and accessibility.</p>
+<div class="meta"><span>SUBJECT: WEB DESIGN</span><span>LEVEL: FOUNDATIONAL</span><span>FORMAT: THEORY NOTES</span></div>
+</header>
+<article class="content">
+<section>
+<h2>Course Overview</h2>
+<p class="lead">Web design is the process of planning how a website looks, how information is arranged and how visitors move through and use its pages. Good design makes information clear, consistent, accessible and easy to use.</p>
+<h3>General Aim</h3>
+<p>To introduce the principles and elements of web design and explain how they contribute to a usable and effective website.</p>
+<h3>Learning Outcomes</h3>
+<ul>
+<li>Define web design and explain its purpose.</li>
+<li>Distinguish web design from web development.</li>
+<li>Identify the main elements and principles of visual design.</li>
+<li>Explain layout, spacing, colour, typography and navigation.</li>
+<li>Describe responsive design, usability and accessibility.</li>
+<li>Explain the importance of planning and testing a website design.</li>
+</ul>
+</section>
+<section>
+<h2>1. Meaning and Purpose of Web Design</h2>
+<div class="definition"><strong>Web design</strong><p>Web design is the planning and creation of the visual appearance, layout, structure and user experience of a website. It determines how content is presented and how users interact with the interface.</p></div>
+<p>The purpose of web design is not simply to make a website attractive. It should help visitors understand information, find what they need, complete tasks and use the website comfortably on different devices.</p>
+<h3>Web Design versus Web Development</h3>
+<p>Web design focuses on presentation, organisation and user experience. Web development implements the design using technologies such as HTML, CSS and JavaScript. Both activities work together to produce a complete website.</p>
+</section>
+<section>
+<h2>2. Elements of Web Design</h2>
+<div class="grid">
+<div class="card"><h3>Layout</h3><p>The arrangement of headings, text, images, navigation and other elements on a page.</p></div>
+<div class="card"><h3>Colour</h3><p>Colour creates visual identity, communicates meaning and helps distinguish important interface elements.</p></div>
+<div class="card"><h3>Typography</h3><p>The selection and arrangement of fonts, sizes, weights, line spacing and text hierarchy.</p></div>
+<div class="card"><h3>Images and graphics</h3><p>Visual material that supports meaning, explains information and strengthens presentation.</p></div>
+<div class="card"><h3>Whitespace</h3><p>Empty space around elements that improves readability, grouping and visual balance.</p></div>
+<div class="card"><h3>Navigation</h3><p>Menus, links and controls that help visitors move between pages and sections.</p></div>
+</div>
+</section>
+<section>
+<h2>3. Principles of Good Web Design</h2>
+<h3>Consistency</h3><p>Related pages should use familiar colours, typography, spacing and navigation patterns. Consistency helps users learn the interface.</p>
+<h3>Visual hierarchy</h3><p>Important information should be more noticeable through size, position, contrast, spacing and emphasis. A clear hierarchy guides the visitor's attention.</p>
+<h3>Balance and alignment</h3><p>Balance distributes visual weight across a page. Alignment places related elements along clear visual lines, making the design feel organised.</p>
+<h3>Contrast</h3><p>Contrast creates visible differences between elements. It can distinguish headings from body text and make buttons easier to identify. Text must still have sufficient contrast against its background.</p>
+<h3>Simplicity</h3><p>A simple interface avoids unnecessary decoration and controls. Each element should support the website's purpose or help the user complete a task.</p>
+<h3>Proximity</h3><p>Elements that belong together should be placed close to one another. This helps users understand relationships between labels, fields, images and descriptions.</p>
+</section>
+<section>
+<h2>4. Website Layout and Structure</h2>
+<p>A layout defines where content and interface elements appear. A common website page contains:</p>
+<ul>
+<li><strong>Header:</strong> the top area, often containing a logo, site name and navigation.</li>
+<li><strong>Navigation:</strong> links that lead to important pages or sections.</li>
+<li><strong>Hero section:</strong> a prominent introductory area that communicates the page's main message.</li>
+<li><strong>Main content:</strong> the primary information or functionality of the page.</li>
+<li><strong>Sidebar:</strong> optional supporting content or secondary navigation.</li>
+<li><strong>Footer:</strong> the bottom area, commonly containing contact details, policies and secondary links.</li>
+</ul>
+<div class="callout"><strong>Important</strong>Not every website needs a sidebar or a large hero section. The layout should be selected according to the website's content, audience and purpose.</div>
+</section>
+<section>
+<h2>5. Colour and Typography</h2>
+<h3>Colour schemes</h3>
+<p>A colour scheme is a planned group of colours used throughout a website. A design may use a primary colour for identity, secondary colours for supporting elements, an accent colour for important actions and neutral colours for backgrounds and text.</p>
+<p>Common colour relationships include monochromatic schemes, analogous schemes and complementary schemes. Colour should be used consistently and should not be the only way of communicating important information.</p>
+<h3>Typography</h3>
+<p>Typography affects readability and the character of a website. A useful type system defines heading sizes, body text, font weights, line height and spacing. Limit the number of font families and maintain readable text sizes.</p>
+</section>
+<section>
+<h2>6. Navigation and User Experience</h2>
+<div class="definition"><strong>User Experience (UX)</strong><p>User Experience describes the overall experience a person has when interacting with a website or product, including how easy, clear, efficient and satisfying it is to use.</p></div>
+<p>Navigation should use understandable labels and predictable placement. Visitors should be able to identify where they are, where they can go and how to return to important sections.</p>
+<h3>Usability</h3>
+<p>Usability is the degree to which users can achieve their goals effectively, efficiently and with satisfaction. Clear instructions, useful feedback, readable content and predictable controls improve usability.</p>
+</section>
+<section>
+<h2>7. Responsive Web Design</h2>
+<div class="definition"><strong>Responsive web design</strong><p>Responsive web design is an approach in which a website's layout and content adapt to different screen sizes and device capabilities.</p></div>
+<p>A responsive website should remain usable on mobile phones, tablets, laptops and desktop screens. Developers commonly use flexible layouts, relative units, flexible images and CSS media queries to achieve this.</p>
+<h3>Mobile-first design</h3>
+<p>Mobile-first design begins with the constraints of smaller screens, then progressively enhances the layout for larger screens. It encourages designers to prioritise essential content and functionality.</p>
+</section>
+<section>
+<h2>8. Accessibility in Web Design</h2>
+<div class="definition"><strong>Web accessibility</strong><p>Web accessibility means designing and building websites so that people with different abilities can perceive, understand, navigate and interact with the content.</p></div>
+<ul>
+<li>Use meaningful headings in a logical order.</li>
+<li>Provide descriptive alternative text for informative images.</li>
+<li>Use readable text and sufficient colour contrast.</li>
+<li>Ensure interactive controls can be used with a keyboard.</li>
+<li>Give form fields clear labels and useful error messages.</li>
+<li>Do not rely on colour alone to communicate meaning.</li>
+</ul>
+</section>
+<section>
+<h2>9. The Web Design Process</h2>
+<ol>
+<li><strong>Understand the purpose:</strong> identify the website's goals and intended users.</li>
+<li><strong>Gather requirements:</strong> determine the content, features and tasks the website must support.</li>
+<li><strong>Plan the structure:</strong> organise pages and create a sitemap.</li>
+<li><strong>Create wireframes:</strong> sketch the placement of content and interface elements before detailed styling.</li>
+<li><strong>Develop the visual design:</strong> select colours, typography, spacing, imagery and reusable components.</li>
+<li><strong>Build the interface:</strong> implement the design using HTML, CSS and, where needed, JavaScript.</li>
+<li><strong>Test and improve:</strong> check usability, accessibility, responsiveness and consistency on different devices.</li>
+</ol>
+</section>
+<section>
+<h2>10. Summary of Key Concepts</h2>
+<ul>
+<li>Web design plans a website's appearance, layout, navigation and user experience.</li>
+<li>Layout, colour, typography, imagery, whitespace and navigation are major design elements.</li>
+<li>Consistency, hierarchy, balance, alignment, contrast, simplicity and proximity are important design principles.</li>
+<li>Responsive design helps websites adapt to different screens.</li>
+<li>Accessibility makes websites usable by people with different abilities.</li>
+<li>Good design begins with understanding the user and the purpose of the website.</li>
+</ul>
+<div class="callout"><strong>End of Web Design 1.1</strong>Effective web design combines visual communication with usability, accessibility and a clear understanding of the people who will use the website.</div>
+</section>
+</article>
+<footer aria-label="Document ownership and attribution" class="footer">Loyo Benjamin | DevCore Community</footer>
+</main>
+</body>
+</html>

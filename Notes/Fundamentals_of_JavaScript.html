@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Classroom teaching notes for JavaScript Fundamentals." name="description"/>
+<title>Fundamentals of JavaScript | Web Development-Lodan developer</title>
+<link rel="shortcut icon" href="favicon.svg" type="image/svg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+:root{
+ --navy:#142b45;--navy2:#203e5d;--teal:#087f8c;--teal-light:#e8f5f5;
+ --ink:#253342;--muted:#647485;--line:#dce4ea;--paper:#fff;--wash:#f3f6f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9eef2;color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-size:14px;line-height:1.75}
+.document{max-width:920px;margin:32px auto;background:var(--paper);box-shadow:0 12px 38px rgba(20,43,69,.12)}
+.cover{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.cover:before{content:"WEB";position:absolute;right:28px;top:10px;font-size:150px;font-weight:800;letter-spacing:-13px;color:rgba(255,255,255,.055);line-height:1}
+.cover:after{content:"HTML  /  CSS  /  JS";position:absolute;right:40px;top:180px;font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.22)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#8ed5d8}
+.cover h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.cover p{font-size:15px;color:#d9e6ef;max-width:610px;margin:0}
+.cover-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;padding-top:17px;border-top:1px solid rgba(255,255,255,.2);font-size:10px;color:#c5d5e2;letter-spacing:.5px}
+.content{padding:48px 72px 64px}
+h2{font-size:23px;line-height:1.3;color:var(--navy);margin:48px 0 18px;padding-bottom:11px;border-bottom:2px solid var(--teal);letter-spacing:-.5px}
+h2:first-child{margin-top:0}
+h3{font-size:16px;color:var(--navy2);margin:26px 0 8px}
+h4{font-size:13px;color:var(--teal);margin:18px 0 5px}
+p{margin:8px 0 13px}
+ul,ol{padding-left:23px;margin:8px 0 17px}
+li{padding-left:4px;margin:5px 0}
+strong{color:var(--navy)}
+.lead{font-size:15px;color:#43576a}
+.definition{background:var(--wash);padding:13px 17px;margin:12px 0 16px;border-radius:5px;border-left:3px solid #9eb5c7}
+.definition p:last-child{margin-bottom:0}
+.callout{border-left:4px solid var(--teal);background:var(--teal-light);padding:14px 18px;margin:18px 0 22px;border-radius:0 6px 6px 0}
+.callout strong{display:block;margin-bottom:3px}
+.warning{border-left-color:#c58b35;background:#fbf5e9}
+.topic{margin:21px 0 25px}
+.topic h3{margin-top:0}
+.subtle{color:var(--muted)}
+code{font-family:Consolas,"Courier New",monospace;background:#eef2f5;color:#163c54;padding:2px 5px;border-radius:3px;font-size:.94em}
+pre{font-family:Consolas,"Courier New",monospace;background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px}
+.tag{display:inline-block;background:#e8f5f5;color:#087f8c;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.5px;margin:2px 3px 2px 0}
+.outcome{padding:0;list-style:none}
+.outcome li{padding:8px 12px;border-bottom:1px solid var(--line);margin:0}
+.outcome li:before{content:"•";color:var(--teal);font-weight:800;margin-right:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-top:3px solid var(--teal);padding:13px 15px;border-radius:5px;background:#fff}
+.card h3{margin:0 0 5px;font-size:14px}
+.card p{margin:0;font-size:12px}
+.footer{background:var(--wash);padding:20px 72px;color:var(--muted);font-size:10px;display:flex;justify-content:space-between;gap:15px}
+@page{size:A4;margin:17mm 16mm 18mm}
+@media print{
+ body{background:#fff;font-size:10.3pt;line-height:1.62}
+ .document{max-width:none;margin:0;box-shadow:none}
+ .cover{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}
+ .cover h1{font-size:32pt}
+ .content{padding:0}
+ h2{font-size:18pt;break-after:avoid;margin-top:29px}
+ h3,h4{break-after:avoid}
+ p,li{orphans:3;widows:3}
+ .topic,.callout,.definition,.card,pre{break-inside:avoid}
+ .footer{padding:12px 0;background:#fff;border-top:1px solid var(--line)}
+}
+@media(max-width:700px){
+ body{font-size:13px;background:#fff}
+ .document{margin:0;box-shadow:none}
+ .cover{padding:52px 25px 40px;min-height:340px}
+ .cover h1{font-size:32px}
+ .cover:before{font-size:105px;right:10px;top:20px}
+ .cover:after{top:135px;right:20px;font-size:9px}
+ .content{padding:33px 25px 44px}
+ h2{font-size:20px;margin-top:38px}
+ .footer{padding:18px 25px}
+ .grid{grid-template-columns:1fr}
+}
+
+.brand-strip{max-width:920px;margin:18px auto 0;padding:10px 18px;background:#142b45;color:#fff;
+font:700 11px/1.4 Montserrat,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+@media(max-width:700px){.brand-strip{margin:0}}
+
+
+/* Shared lesson theme extensions used by deployment topics */
+.hero{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.hero h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.hero p{font-size:15px;color:#d9e6ef;max-width:650px;margin:0}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:30px}
+.pill{font-size:10px;letter-spacing:.5px;padding:6px 10px;border:1px solid #ffffff55;border-radius:3px;color:#e1eaf0}
+.small{font-size:12px;color:var(--muted)}
+.callout.good{background:var(--teal-light);border-left-color:var(--teal)}
+.callout.warn{background:#fbf5e9;border-left-color:#c58b35}
+.callout.danger{background:#fbeeee;border-left-color:#b94a48}
+.checklist{list-style:none;padding-left:0}.checklist li{padding-left:24px;position:relative}.checklist li:before{content:"□";position:absolute;left:0;color:var(--teal);font-weight:800}
+.step{display:flex;gap:13px;margin:15px 0;align-items:flex-start}.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800}.step div:last-child{flex:1}
+.diagram{background:var(--wash);border:1px solid var(--line);border-radius:5px;padding:18px;text-align:center;margin:16px 0}.node{display:inline-block;border:1px solid #b8c8d8;background:white;padding:10px 15px;border-radius:5px;font-weight:700}.arrow{display:block;color:var(--muted);font-size:1.3rem;line-height:1.5}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:var(--wash);color:var(--navy)}
+pre{background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px;overflow-x:auto}pre code{background:none;padding:0;color:inherit}
+@media print{.hero{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}.hero h1{font-size:32pt}main.content{padding:0}.card,.callout,pre,.diagram,.step{break-inside:avoid}}
+@media(max-width:700px){.hero{padding:52px 25px 40px;min-height:340px}.hero h1{font-size:32px}main.content{padding:33px 25px 44px}.hero-meta{gap:7px}}
+</style>
+</head>
+<body>
+<main class="document">
+<header class="cover">
+<div class="kicker">Classroom Teaching Notes</div>
+<h1>JavaScript Fundamentals</h1>
+<p>Foundational theory for understanding the JavaScript language, its environment and its role in modern web development.</p>
+<div class="cover-meta"><span>SUBJECT: WEB DEVELOPMENT</span><span>LEVEL: FOUNDATIONAL</span><span>FORMAT: THEORY NOTES</span></div>
+</header>
+<article class="content">
+<section>
+<h2>Course Overview</h2>
+<p class="lead">JavaScript Fundamentals introduces the concepts and principles that form the foundation of programming with JavaScript. The course explains what the language is, how it operates, and how its main features are used to create interactive and dynamic applications.</p>
+<h3>General Aim</h3>
+<p>To provide learners with a clear theoretical understanding of JavaScript and the fundamental programming concepts used when developing web applications.</p>
+<h3>Learning Outcomes</h3>
+<p>By the end of this unit, learners should be able to:</p>
+<ul class="outcome">
+<li>Define JavaScript and explain its purpose in software and web development.</li>
+<li>Describe the characteristics and common uses of JavaScript.</li>
+<li>Explain the relationship between HTML, CSS and JavaScript.</li>
+<li>Identify the main parts of JavaScript syntax and program structure.</li>
+<li>Explain variables, constants, data types and operators.</li>
+<li>Describe decision-making structures, loops and functions.</li>
+<li>Identify common categories of programming errors and explain debugging.</li>
+</ul>
+<h3>Unit Outline</h3>
+<ol>
+<li>Introduction to JavaScript</li>
+<li>Characteristics and uses of JavaScript</li>
+<li>JavaScript environments and execution</li>
+<li>Relationship between HTML, CSS and JavaScript</li>
+<li>Basic syntax and program structure</li>
+<li>Variables and constants</li>
+<li>Data types</li>
+<li>Operators and expressions</li>
+<li>Control structures</li>
+<li>Functions</li>
+<li>Errors and debugging</li>
+</ol>
+</section>
+<section>
+<h2>1. Introduction to JavaScript</h2>
+<div class="definition"><strong>Definition</strong><p>JavaScript is a high-level, general-purpose programming language commonly used to make websites and web applications interactive and dynamic. It can also be used outside the browser, including on servers and in other software environments.</p></div>
+<h3>Purpose of JavaScript</h3>
+<p>JavaScript enables a program to respond to events and perform actions based on user input or changing information. It can update page content, validate form entries, respond to button clicks, display messages, retrieve information from servers and control application behaviour.</p>
+<h3>Brief History</h3>
+<p>JavaScript was created by Brendan Eich in 1995 while he was working at Netscape. It was initially developed to add programming capabilities to web pages. The language later became widely adopted and standardized through a specification known as ECMAScript.</p>
+<h3>JavaScript and ECMAScript</h3>
+<p>ECMAScript is the standardized specification that defines the core rules and features of the language. JavaScript is the widely used implementation of that specification. The specification helps different JavaScript environments support a consistent language.</p>
+<div class="callout"><strong>Important distinction</strong>JavaScript and Java are separate programming languages. Their similar names do not mean that they are the same language or that one is a version of the other.</div>
+</section>
+<section>
+<h2>2. Characteristics of JavaScript</h2>
+<div class="topic"><h3>High-level language</h3><p>JavaScript provides language features that allow programmers to work with understandable instructions and data structures without manually managing most low-level computer operations.</p></div>
+<div class="topic"><h3>Interpreted and just-in-time compiled execution</h3><p>JavaScript is commonly described as an interpreted language because developers can run it without manually compiling a separate executable first. Modern engines may also compile parts of the code during execution to improve performance.</p></div>
+<div class="topic"><h3>Dynamically typed</h3><p>A variable does not need a fixed data type declaration. The type is associated with the value currently held by the variable, and that value can change to another type during execution.</p></div>
+<div class="topic"><h3>Event-driven</h3><p>JavaScript can respond to events such as mouse clicks, keyboard input, form submission and page loading. An event is an action or occurrence that a program can detect and respond to.</p></div>
+<div class="topic"><h3>Multi-paradigm</h3><p>JavaScript supports different programming approaches, including procedural, object-oriented and functional programming. A programming paradigm is a general style or approach to organizing and writing programs.</p></div>
+<div class="topic"><h3>Cross-platform</h3><p>JavaScript is supported by modern web browsers and several server-side and application environments. This allows JavaScript programs to run on different operating systems and devices when a compatible runtime is available.</p></div>
+<div class="topic"><h3>Case-sensitive</h3><p>JavaScript distinguishes between uppercase and lowercase letters. For example, <code>total</code>, <code>Total</code> and <code>TOTAL</code> are treated as different identifiers.</p></div>
+</section>
+<section>
+<h2>3. JavaScript Environments and Execution</h2>
+<h3>JavaScript Engine</h3>
+<p>A JavaScript engine is software that reads, processes and executes JavaScript code. It translates the language instructions into operations the computer can perform. Different browsers use different engines.</p>
+<h3>Runtime Environment</h3>
+<p>A runtime environment provides the facilities needed to execute JavaScript. It includes the JavaScript engine and additional features, often called APIs (Application Programming Interfaces), that allow code to interact with its surroundings.</p>
+<h3>Browser Environment</h3>
+<p>When JavaScript runs in a browser, it can work with browser-provided features. These include the Document Object Model (DOM), browser events, timers and network communication facilities.</p>
+<h3>Server-side Environment</h3>
+<p>JavaScript can also run outside a browser. Node.js is a JavaScript runtime environment that allows developers to build server-side applications, work with files, communicate over networks and create backend services.</p>
+<div class="callout"><strong>Engine versus runtime</strong>The engine executes JavaScript language instructions. The runtime provides the engine together with additional tools and APIs that make the environment useful for a particular purpose.</div>
+</section>
+<section>
+<h2>4. Relationship Between HTML, CSS and JavaScript</h2>
+<p>HTML, CSS and JavaScript are three different technologies that commonly work together to build websites.</p>
+<h3>HTML — Structure</h3>
+<p>HyperText Markup Language (HTML) defines the structure and content of a web page. It identifies elements such as headings, paragraphs, images, links, forms and buttons.</p>
+<h3>CSS — Presentation</h3>
+<p>Cascading Style Sheets (CSS) control the appearance and layout of a web page. CSS is used for colours, fonts, spacing, positioning, responsive layouts and visual effects.</p>
+<h3>JavaScript — Behaviour</h3>
+<p>JavaScript controls behaviour and interaction. It can respond to user actions, change page content, update styles and communicate with external services.</p>
+<div class="definition"><strong>How they work together</strong><p>HTML provides the page structure, CSS controls its presentation, and JavaScript adds behaviour. Together, they form the core frontend technologies used in web development.</p></div>
+</section>
+<section>
+<h2>5. JavaScript Syntax and Program Structure</h2>
+<div class="definition"><strong>Syntax</strong><p>Syntax refers to the rules that determine how instructions must be written in a programming language. JavaScript code must follow its syntax rules to be understood correctly by the engine.</p></div>
+<h3>Statements</h3>
+<p>A statement is an instruction that performs an action. A JavaScript program is generally made up of statements that are executed according to the program's control flow.</p>
+<h3>Expressions</h3>
+<p>An expression is a combination of values, variables and operators that produces a value. Expressions can be used inside statements and other expressions.</p>
+<h3>Comments</h3>
+<p>Comments are notes written in source code for people reading or maintaining the program. They are ignored during normal program execution. JavaScript supports single-line comments and multi-line comments.</p>
+<h3>Identifiers</h3>
+<p>An identifier is a name given to a program element, such as a variable or function. Identifiers must follow naming rules: they cannot begin with a number, cannot contain spaces and cannot be reserved keywords. Names are case-sensitive.</p>
+<h3>Semicolons and Code Blocks</h3>
+<p>Semicolons can mark the end of statements. JavaScript also has automatic semicolon insertion, but using semicolons consistently can make code boundaries clearer. Curly braces <code>{ }</code> group statements into a code block, such as the body of a function or condition.</p>
+</section>
+<section>
+<h2>6. Variables and Constants</h2>
+<div class="definition"><strong>Variable</strong><p>A variable is a named storage location used by a program to hold a value that can be accessed and, where permitted, changed during execution.</p></div>
+<div class="definition"><strong>Constant</strong><p>A constant is a named binding that cannot be reassigned after it has been initialized. The value of an object or array declared with a constant may still have its contents changed.</p></div>
+<h3>Variable Declaration Keywords</h3>
+<p>JavaScript provides three commonly discussed keywords for declaring variables:</p>
+<ul>
+<li><strong><code>let</code>:</strong> declares a variable that can be reassigned. It is block-scoped, meaning it is available within the block in which it is declared.</li>
+<li><strong><code>const</code>:</strong> declares a binding that cannot be reassigned. It is also block-scoped and must be initialized when declared.</li>
+<li><strong><code>var</code>:</strong> declares a function-scoped or globally scoped variable. It has older scoping behaviour and is generally less preferred in modern JavaScript.</li>
+</ul>
+<h3>Variable Naming Rules</h3>
+<ul>
+<li>A name may contain letters, digits, underscores and dollar signs.</li>
+<li>A name cannot begin with a digit.</li>
+<li>Spaces are not allowed in identifiers.</li>
+<li>Reserved keywords cannot be used as variable names.</li>
+<li>Names are case-sensitive.</li>
+<li>Descriptive names make programs easier to understand and maintain.</li>
+</ul>
+<h3>Scope</h3>
+<p>Scope determines where a variable or other identifier can be accessed in a program. Common forms include global scope, function scope and block scope. Understanding scope helps prevent naming conflicts and unintended access to data.</p>
+</section>
+<section>
+<h2>7. JavaScript Data Types</h2>
+<div class="definition"><strong>Data type</strong><p>A data type identifies the kind of value a program is working with and influences the operations that can be performed on that value.</p></div>
+<p>JavaScript data types are commonly grouped into primitive types and non-primitive types.</p>
+<h3>Primitive Data Types</h3>
+<ul>
+<li><strong>String:</strong> represents text, such as names, messages and other character data.</li>
+<li><strong>Number:</strong> represents numeric values, including integers and decimal numbers.</li>
+<li><strong>BigInt:</strong> represents integers larger than the range safely represented by the ordinary Number type.</li>
+<li><strong>Boolean:</strong> represents one of two logical values: <code>true</code> or <code>false</code>.</li>
+<li><strong>Undefined:</strong> represents a value that has not been assigned to a declared variable or is otherwise missing.</li>
+<li><strong>Null:</strong> represents the intentional absence of an object value.</li>
+<li><strong>Symbol:</strong> represents a unique value often used as a distinctive property key.</li>
+</ul>
+<h3>Non-primitive Data Type</h3>
+<p><strong>Object:</strong> an object is a collection of related data and functionality represented through properties. Arrays and functions are also objects in JavaScript, although they have specialized behaviour.</p>
+<h3>Dynamic Typing</h3>
+<p>JavaScript is dynamically typed because a variable can hold values of different types at different points in a program. The type belongs to the value rather than being permanently fixed to the variable.</p>
+</section>
+<section>
+<h2>8. Operators and Expressions</h2>
+<div class="definition"><strong>Operator</strong><p>An operator is a symbol or keyword that performs an operation on one or more values. The values an operator acts on are called operands.</p></div>
+<h3>Arithmetic Operators</h3>
+<p>Arithmetic operators perform mathematical calculations. Common examples include addition, subtraction, multiplication, division, remainder and exponentiation.</p>
+<h3>Assignment Operators</h3>
+<p>Assignment operators assign values to variables. The basic assignment operator is <code>=</code>. Compound assignment operators combine an operation with assignment.</p>
+<h3>Comparison Operators</h3>
+<p>Comparison operators compare values and produce a Boolean result. Examples include equal value, equal value and equal type, not equal, greater than and less than.</p>
+<p>The strict equality operator <code>===</code> checks both value and type, while <code>==</code> may convert values before comparing them.</p>
+<h3>Logical Operators</h3>
+<p>Logical operators combine or reverse logical conditions. The main operators are AND (<code>&amp;&amp;</code>), OR (<code>||</code>) and NOT (<code>!</code>).</p>
+<h3>Other Operators</h3>
+<p>JavaScript also provides operators such as the conditional (ternary) operator, the type-checking <code>typeof</code> operator and the nullish coalescing operator. Each serves a particular purpose when evaluating values or conditions.</p>
+</section>
+<section>
+<h2>9. Control Structures</h2>
+<div class="definition"><strong>Control structure</strong><p>A control structure determines the order in which instructions in a program are executed. It allows a program to make decisions, repeat instructions or follow a particular sequence.</p></div>
+<h3>Sequence</h3>
+<p>Sequence is the normal flow in which instructions are executed one after another, in the order in which they appear, unless another control structure changes that flow.</p>
+<h3>Selection or Decision-making</h3>
+<p>Selection structures allow a program to choose which instructions to execute based on whether a condition is true or false.</p>
+<ul>
+<li><strong><code>if</code>:</strong> executes a block when a condition is true.</li>
+<li><strong><code>if...else</code>:</strong> selects between two possible paths.</li>
+<li><strong><code>else if</code>:</strong> checks additional conditions when earlier conditions are false.</li>
+<li><strong><code>switch</code>:</strong> selects a block from several possible cases based on an expression's value.</li>
+</ul>
+<h3>Iteration or Loops</h3>
+<p>Iteration means repeating a block of instructions. Loops reduce unnecessary repetition and are useful when an action must be performed multiple times.</p>
+<ul>
+<li><strong><code>for</code> loop:</strong> commonly used when the number of repetitions or the loop progression is known.</li>
+<li><strong><code>while</code> loop:</strong> repeats while a condition remains true.</li>
+<li><strong><code>do...while</code> loop:</strong> executes its block at least once before checking the condition.</li>
+<li><strong><code>for...of</code> loop:</strong> iterates over values from an iterable, such as an array or string.</li>
+<li><strong><code>for...in</code> loop:</strong> iterates over enumerable property names of an object.</li>
+</ul>
+<h3>Loop Control Statements</h3>
+<p><code>break</code> terminates a loop or switch structure. <code>continue</code> skips the remaining instructions in the current loop iteration and proceeds to the next iteration where applicable.</p>
+</section>
+<section>
+<h2>10. Functions</h2>
+<div class="definition"><strong>Definition</strong><p>A function is a reusable block of code designed to perform a particular task. It can be called whenever that task needs to be performed.</p></div>
+<h3>Purpose of Functions</h3>
+<ul>
+<li>Reduce repeated code.</li>
+<li>Divide a large program into smaller manageable parts.</li>
+<li>Improve organization and readability.</li>
+<li>Make code easier to test, maintain and reuse.</li>
+</ul>
+<h3>Parameters and Arguments</h3>
+<p>A parameter is a named variable listed in a function definition to receive input. An argument is the actual value supplied when the function is called.</p>
+<h3>Return Value</h3>
+<p>A return value is the result a function sends back to the part of the program that called it. The <code>return</code> statement ends the function's current execution and can provide that result.</p>
+<h3>Common Forms of Functions</h3>
+<ul>
+<li><strong>Function declaration:</strong> a named function defined using the <code>function</code> keyword.</li>
+<li><strong>Function expression:</strong> a function created as part of an expression and commonly assigned to a variable.</li>
+<li><strong>Arrow function:</strong> a shorter function syntax introduced in modern JavaScript. Arrow functions have different rules for handling their own <code>this</code> value compared with traditional functions.</li>
+<li><strong>Anonymous function:</strong> a function without its own declared name, often used where a function value is needed temporarily.</li>
+</ul>
+</section>
+<section>
+<h2>11. Errors and Debugging</h2>
+<div class="definition"><strong>Programming error</strong><p>An error is a problem in a program that may prevent it from running correctly or cause it to produce an unintended result.</p></div>
+<h3>Syntax Errors</h3>
+<p>A syntax error occurs when code violates the language's writing rules. The JavaScript engine cannot correctly parse the affected code.</p>
+<h3>Runtime Errors</h3>
+<p>A runtime error occurs while a program is executing. The code may have been accepted syntactically, but an operation fails during execution.</p>
+<h3>Logical Errors</h3>
+<p>A logical error occurs when a program runs but produces an incorrect result because its instructions or reasoning do not achieve the intended outcome.</p>
+<h3>Debugging</h3>
+<p>Debugging is the process of finding, understanding and correcting errors in a program. It may involve reading error messages, inspecting values, following program execution and testing corrections.</p>
+<h3>Common Debugging Tools</h3>
+<p>Browser developer tools provide facilities such as the console, debugger, breakpoints and inspection panels. These tools help developers observe program behaviour and investigate problems.</p>
+</section>
+<section>
+<h2>12. Summary of Key Concepts</h2>
+<ul>
+<li>JavaScript is a programming language used to create interactive and dynamic applications.</li>
+<li>ECMAScript is the standard specification on which JavaScript is based.</li>
+<li>A JavaScript engine executes JavaScript code, while a runtime provides the engine and additional capabilities.</li>
+<li>HTML defines structure, CSS controls presentation and JavaScript provides behaviour.</li>
+<li>Syntax defines the rules for writing valid instructions.</li>
+<li>Variables hold values; constants prevent reassignment of their bindings.</li>
+<li>Data types describe the kinds of values handled by a program.</li>
+<li>Operators perform operations on values.</li>
+<li>Control structures determine the flow of execution.</li>
+<li>Functions organize reusable instructions into manageable units.</li>
+<li>Debugging helps identify and correct program errors.</li>
+</ul>
+<div class="callout"><strong>End of JavaScript Fundamentals</strong>These concepts provide the theoretical foundation for further study of JavaScript programming, browser interaction and application development.</div>
+</section>
+</article>
+<footer aria-label="Document ownership and attribution" class="footer">Loyo Benjamin | DevCore Community</footer>
+</main>
+</body>
+</html>

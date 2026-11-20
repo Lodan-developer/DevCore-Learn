@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="A practical, step-by-step professional website deployment course covering domains, DNS, HTTPS, cloud hosting on Google Cloud, AWS and Azure, PostgreSQL, SEO, security, CI/CD and maintenance." name="description"/>
+<link rel="shortcut icon" href="favicon.svg" type="image/svg">
+<title>Deployment and Hosting | Web Development-Lodan developer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+:root{
+ --navy:#142b45;--navy2:#203e5d;--teal:#087f8c;--teal-light:#e8f5f5;
+ --ink:#253342;--muted:#647485;--line:#dce4ea;--paper:#fff;--wash:#f3f6f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9eef2;color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-size:14px;line-height:1.75}
+.document{max-width:920px;margin:32px auto;background:var(--paper);box-shadow:0 12px 38px rgba(20,43,69,.12)}
+.cover{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.cover:before{content:"WEB";position:absolute;right:28px;top:10px;font-size:150px;font-weight:800;letter-spacing:-13px;color:rgba(255,255,255,.055);line-height:1}
+.cover:after{content:"HTML  /  CSS  /  JS";position:absolute;right:40px;top:180px;font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.22)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#8ed5d8}
+.cover h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.cover p{font-size:15px;color:#d9e6ef;max-width:610px;margin:0}
+.cover-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;padding-top:17px;border-top:1px solid rgba(255,255,255,.2);font-size:10px;color:#c5d5e2;letter-spacing:.5px}
+.content{padding:48px 72px 64px}
+h2{font-size:23px;line-height:1.3;color:var(--navy);margin:48px 0 18px;padding-bottom:11px;border-bottom:2px solid var(--teal);letter-spacing:-.5px}
+h2:first-child{margin-top:0}
+h3{font-size:16px;color:var(--navy2);margin:26px 0 8px}
+h4{font-size:13px;color:var(--teal);margin:18px 0 5px}
+p{margin:8px 0 13px}
+ul,ol{padding-left:23px;margin:8px 0 17px}
+li{padding-left:4px;margin:5px 0}
+strong{color:var(--navy)}
+.lead{font-size:15px;color:#43576a}
+.definition{background:var(--wash);padding:13px 17px;margin:12px 0 16px;border-radius:5px;border-left:3px solid #9eb5c7}
+.definition p:last-child{margin-bottom:0}
+.callout{border-left:4px solid var(--teal);background:var(--teal-light);padding:14px 18px;margin:18px 0 22px;border-radius:0 6px 6px 0}
+.callout strong{display:block;margin-bottom:3px}
+.warning{border-left-color:#c58b35;background:#fbf5e9}
+.topic{margin:21px 0 25px}
+.topic h3{margin-top:0}
+.subtle{color:var(--muted)}
+code{font-family:Consolas,"Courier New",monospace;background:#eef2f5;color:#163c54;padding:2px 5px;border-radius:3px;font-size:.94em}
+pre{font-family:Consolas,"Courier New",monospace;background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px}
+.tag{display:inline-block;background:#e8f5f5;color:#087f8c;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.5px;margin:2px 3px 2px 0}
+.outcome{padding:0;list-style:none}
+.outcome li{padding:8px 12px;border-bottom:1px solid var(--line);margin:0}
+.outcome li:before{content:"•";color:var(--teal);font-weight:800;margin-right:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-top:3px solid var(--teal);padding:13px 15px;border-radius:5px;background:#fff}
+.card h3{margin:0 0 5px;font-size:14px}
+.card p{margin:0;font-size:12px}
+.footer{background:var(--wash);padding:20px 72px;color:var(--muted);font-size:10px;display:flex;justify-content:space-between;gap:15px}
+@page{size:A4;margin:17mm 16mm 18mm}
+@media print{
+ body{background:#fff;font-size:10.3pt;line-height:1.62}
+ .document{max-width:none;margin:0;box-shadow:none}
+ .cover{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}
+ .cover h1{font-size:32pt}
+ .content{padding:0}
+ h2{font-size:18pt;break-after:avoid;margin-top:29px}
+ h3,h4{break-after:avoid}
+ p,li{orphans:3;widows:3}
+ .topic,.callout,.definition,.card,pre{break-inside:avoid}
+ .footer{padding:12px 0;background:#fff;border-top:1px solid var(--line)}
+}
+@media(max-width:700px){
+ body{font-size:13px;background:#fff}
+ .document{margin:0;box-shadow:none}
+ .cover{padding:52px 25px 40px;min-height:340px}
+ .cover h1{font-size:32px}
+ .cover:before{font-size:105px;right:10px;top:20px}
+ .cover:after{top:135px;right:20px;font-size:9px}
+ .content{padding:33px 25px 44px}
+ h2{font-size:20px;margin-top:38px}
+ .footer{padding:18px 25px}
+ .grid{grid-template-columns:1fr}
+}
+
+.brand-strip{max-width:920px;margin:18px auto 0;padding:10px 18px;background:#142b45;color:#fff;
+font:700 11px/1.4 Montserrat,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+@media(max-width:700px){.brand-strip{margin:0}}
+
+
+/* Shared lesson theme extensions used by deployment topics */
+.hero{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.hero h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.hero p{font-size:15px;color:#d9e6ef;max-width:650px;margin:0}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:30px}
+.pill{font-size:10px;letter-spacing:.5px;padding:6px 10px;border:1px solid #ffffff55;border-radius:3px;color:#e1eaf0}
+.small{font-size:12px;color:var(--muted)}
+.callout.good{background:var(--teal-light);border-left-color:var(--teal)}
+.callout.warn{background:#fbf5e9;border-left-color:#c58b35}
+.callout.danger{background:#fbeeee;border-left-color:#b94a48}
+.checklist{list-style:none;padding-left:0}.checklist li{padding-left:24px;position:relative}.checklist li:before{content:"□";position:absolute;left:0;color:var(--teal);font-weight:800}
+.step{display:flex;gap:13px;margin:15px 0;align-items:flex-start}.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800}.step div:last-child{flex:1}
+.diagram{background:var(--wash);border:1px solid var(--line);border-radius:5px;padding:18px;text-align:center;margin:16px 0}.node{display:inline-block;border:1px solid #b8c8d8;background:white;padding:10px 15px;border-radius:5px;font-weight:700}.arrow{display:block;color:var(--muted);font-size:1.3rem;line-height:1.5}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:var(--wash);color:var(--navy)}
+pre{background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px;overflow-x:auto}pre code{background:none;padding:0;color:inherit}
+@media print{.hero{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}.hero h1{font-size:32pt}main.content{padding:0}.card,.callout,pre,.diagram,.step{break-inside:avoid}}
+@media(max-width:700px){.hero{padding:52px 25px 40px;min-height:340px}.hero h1{font-size:32px}main.content{padding:33px 25px 44px}.hero-meta{gap:7px}}
+</style>
+</head>
+<body>
+<div class="document">
+<header class="cover">
+<div class="kicker">Practical engineering course · 2026 edition</div>
+<h1>Professional Website Deployment</h1>
+<p>A guided course for taking a finished website from a developer's computer to a secure, discoverable, monitored production service. Covers DNS, HTTPS, cloud infrastructure, Google Cloud, AWS, Microsoft Azure, databases, SEO, deployment automation and long-term operations.</p>
+<div class="hero-meta"><span class="pill">Beginner → production-ready</span><span class="pill">Windows + VS Code</span><span class="pill">HTML · CSS · JavaScript</span><span class="pill">Node.js / .NET · PostgreSQL</span></div>
+</header>
+
+
+<main class="content">
+<section id="start">
+<h2>How to use this course</h2>
+<p class="lead">Work through the modules in order. Each module explains the concept, why it matters, what you need, and what you should be able to demonstrate before moving on.</p>
+<div class="callout good"><strong>Course outcome:</strong> you should be able to deploy a static frontend, publish a backend API, connect it securely to a managed database, attach a custom domain, enable HTTPS, configure search indexing, and operate the live site.</div>
+<p>This guide uses a representative application: a school or business website with public pages, a registration/admissions form, an API, PostgreSQL and email notifications. Adapt the data model and security controls to your actual application.</p>
+<p><strong>Important:</strong> Google Cloud, AWS and Azure are three alternative cloud platforms. You normally choose one provider for a given deployment rather than deploying the same beginner project to all three. Learn the concepts once, then practise the provider-specific method you select.</p>
+<p class="small">Cloud product names, pricing, free tiers, supported regions and quotas can change. Verify them in the provider's live documentation and pricing calculator before creating billable resources. No cloud service is guaranteed to be free.</p>
+</section>
+<section id="architecture">
+<h2>1. Understand the production architecture</h2>
+<p>A production website is a set of cooperating services. The browser downloads the frontend; the frontend calls the backend; the backend validates requests and talks to the database. DNS directs the domain, TLS encrypts traffic, and monitoring helps you detect faults.</p>
+<div class="diagram">
+<div class="node">Visitor's browser</div><span class="arrow">↓ HTTPS</span>
+<div class="node">Domain DNS + CDN / WAF</div><span class="arrow">↓ routes request</span>
+<div class="grid">
+<div class="node">Frontend hosting<br/><small>HTML · CSS · JavaScript</small></div>
+<div class="node">Backend hosting<br/><small>Node.js / ASP.NET Core API</small></div>
+</div>
+<span class="arrow">↓ private / controlled database connection</span>
+<div class="node">Managed PostgreSQL database</div>
+<p class="small">Supporting services: email delivery · object/file storage · logs · alerts · backups · CI/CD</p>
+</div>
+<h3>Understand each layer</h3>
+<ul>
+<li><strong>Domain:</strong> the human-readable name, such as <code>example.com</code>.</li>
+<li><strong>DNS:</strong> the directory that tells clients where a domain's services are located.</li>
+<li><strong>CDN / edge:</strong> caches eligible content near visitors and can provide filtering and protection.</li>
+<li><strong>Frontend:</strong> the browser-facing HTML, CSS, JavaScript, images and fonts.</li>
+<li><strong>Backend/API:</strong> server-side business rules, validation, authentication and database access.</li>
+<li><strong>Database:</strong> persistent structured records. It should not be exposed directly to public visitors.</li>
+<li><strong>Operations:</strong> deployment, logs, monitoring, backups, patching and incident response.</li>
+</ul>
+<div class="callout warn"><strong>Do not confuse hosting with a domain.</strong> Buying a domain does not host your application. Hosting does not automatically mean your domain's DNS is configured. A certificate does not replace application security.</div>
+</section>
+<section id="requirements">
+<h2>2. System and software requirements</h2>
+<h3>2.1 Developer computer</h3>
+<p>These are practical learning-machine recommendations, not universal vendor minimums. Cloud consoles and command-line tools vary by operating system and release.</p>
+<table>
+<tr><th>Component</th><th>Practical recommendation</th><th>Notes</th></tr>
+<tr><td>Operating system</td><td>Windows 10/11 64-bit, current updates</td><td>Linux and macOS are also supported by most tools.</td></tr>
+<tr><td>Processor</td><td>Modern 64-bit dual-core or better</td><td>More cores help with builds and containers.</td></tr>
+<tr><td>RAM</td><td>8 GB workable; 16 GB preferred</td><td>Close unused applications if running Docker, database tools and browser tabs together.</td></tr>
+<tr><td>Storage</td><td>At least 20–30 GB free for tools, SDKs and project files</td><td>Keep backups and database exports on separate storage where possible.</td></tr>
+<tr><td>Network</td><td>Stable broadband; reliable upload is useful</td><td>Cloud deployment, package downloads and remote database access need connectivity.</td></tr>
+<tr><td>Browser</td><td>Current Chrome, Edge or Firefox</td><td>Use developer tools for network, console, performance and responsive testing.</td></tr>
+</table>
+<p>Your current 8 GB Windows laptop is adequate for learning managed cloud deployment. You do not need to run a full production cloud stack locally. Avoid running multiple virtual machines and containers at the same time on limited RAM.</p>
+<h3>2.2 Software to install</h3>
+<table>
+<tr><th>Software</th><th>Purpose</th><th>Required?</th></tr>
+<tr><td><a href="https://code.visualstudio.com/">Visual Studio Code</a></td><td>Code editor and terminal</td><td>Yes</td></tr>
+<tr><td><a href="https://git-scm.com/downloads">Git</a></td><td>Version control and deployment history</td><td>Yes</td></tr>
+<tr><td><a href="https://github.com/">GitHub account</a></td><td>Remote repository and CI/CD integration</td><td>Strongly recommended</td></tr>
+<tr><td><a href="https://nodejs.org/">Node.js LTS</a></td><td>Needed for Node backend and common frontend tooling</td><td>Only if using Node.js / tooling</td></tr>
+<tr><td><a href="https://dotnet.microsoft.com/download">.NET SDK</a></td><td>Build and publish ASP.NET Core applications</td><td>Only if using .NET</td></tr>
+<tr><td><a href="https://www.postgresql.org/download/">PostgreSQL tools</a></td><td><code>psql</code>, <code>pg_dump</code>, local database testing</td><td>If using PostgreSQL</td></tr>
+<tr><td><a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></td><td>Build and test container images</td><td>Optional initially; useful for advanced deployments</td></tr>
+<tr><td><a href="https://cloud.google.com/sdk/docs/install">Google Cloud CLI</a></td><td><code>gcloud</code> commands</td><td>Only for Google Cloud</td></tr>
+<tr><td><a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI v2</a></td><td><code>aws</code> commands</td><td>Only for AWS</td></tr>
+<tr><td><a href="https://learn.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a></td><td><code>az</code> commands</td><td>Only for Azure</td></tr>
+</table>
+<h3>2.3 Accounts and access you need</h3>
+<ul>
+<li>A domain registrar account and control of the domain's DNS.</li>
+<li>One cloud account with billing enabled and a payment method accepted by that provider.</li>
+<li>A GitHub account and a private repository for source code.</li>
+<li>A database account/service and a separate least-privilege application database user.</li>
+<li>An email delivery provider if the website sends confirmations or notifications.</li>
+<li>Access to Search Console and Analytics if you want Google search and traffic reporting.</li>
+</ul>
+<div class="callout danger"><strong>Billing safety:</strong> create a budget and billing alerts before provisioning resources. Alerts notify you; they are not always a hard spending cap. Check whether disks, IP addresses, database instances, backups, logs, network egress and idle services continue to incur charges. Delete practice resources when finished.</div>
+</section>
+<section id="fundamentals">
+<h2>3. Internet and server foundations</h2>
+<h3>3.1 Client, server and request</h3>
+<p>A <strong>client</strong> is software requesting a resource, usually a browser. A <strong>server</strong> is software or a machine that receives requests and provides responses. HTTP defines the request/response exchange.</p>
+<pre><code>Browser  ── HTTPS request ──&gt; Web application
+Browser  &lt;─ HTTPS response ─── Web application</code></pre>
+<h3>3.2 IP addresses, ports and protocols</h3>
+<ul>
+<li><strong>IP address:</strong> identifies a network interface or destination, such as an IPv4 address.</li>
+<li><strong>Port:</strong> identifies a service endpoint on a host. Common defaults are HTTP 80, HTTPS 443, PostgreSQL 5432, SSH 22.</li>
+<li><strong>TCP:</strong> reliable, ordered transport used by conventional HTTPS connections.</li>
+<li><strong>TLS:</strong> cryptographic protocol that authenticates the server and encrypts traffic.</li>
+<li><strong>HTTP:</strong> application protocol used by browsers and APIs.</li>
+</ul>
+<p>A port number is not a security boundary by itself. Firewall rules and application authentication still matter. Never open PostgreSQL's port to the entire internet just to make a remote connection work.</p>
+<h3>3.3 Web server, application server and reverse proxy</h3>
+<p>A web server such as Nginx or Apache can serve static files and forward dynamic requests. An application process such as Node.js or ASP.NET Core runs your business logic. A reverse proxy receives public traffic and routes it to the application. Managed platforms often provide much of this infrastructure for you.</p>
+<h3>3.4 Containers and serverless</h3>
+<p>A <strong>container</strong> packages an application with its runtime dependencies into an image. It helps make builds repeatable. A <strong>virtual machine</strong> provides a virtual computer whose operating system you manage. A <strong>managed platform</strong> runs your code while the provider manages more of the underlying servers. <strong>Serverless</strong> does not mean there are no servers; it means server management is abstracted and billing/scaling is based on the provider's model.</p>
+</section>
+<section id="domain">
+<h2>4. Domain registration and DNS configuration</h2>
+<h3>4.1 Register a domain</h3>
+<ol>
+<li>Choose a clear, memorable domain and check spelling, renewal price and registration terms.</li>
+<li>Register it through a reputable registrar. Turn on account MFA and domain transfer lock.</li>
+<li>Use an email address you control and keep renewal/payment details current.</li>
+<li>Decide which DNS provider will host the DNS zone. The registrar and DNS provider can be different companies.</li>
+</ol>
+<h3>4.2 DNS records you must recognize</h3>
+<table>
+<tr><th>Record</th><th>Purpose</th><th>Example / note</th></tr>
+<tr><td>A</td><td>Hostname to IPv4 address</td><td><code>@ → 203.0.113.10</code> (documentation-only example IP)</td></tr>
+<tr><td>AAAA</td><td>Hostname to IPv6 address</td><td>Use only when the destination supports IPv6.</td></tr>
+<tr><td>CNAME</td><td>Alias one hostname to another hostname</td><td><code>www → example.host-provider.com</code></td></tr>
+<tr><td>MX</td><td>Routes inbound email</td><td>Use the exact mail-provider values and priorities.</td></tr>
+<tr><td>TXT</td><td>Text verification and email authentication</td><td>SPF, DKIM, DMARC and service verification.</td></tr>
+<tr><td>CAA</td><td>Restricts which certificate authorities may issue certificates</td><td>Optional hardening; configure carefully.</td></tr>
+<tr><td>NS</td><td>Identifies authoritative nameservers</td><td>Usually set at the registrar when delegating DNS.</td></tr>
+</table>
+<p><strong>TTL</strong> means time to live: how long a DNS answer may be cached. Lower TTL values can help during planned migrations, but they do not make all DNS changes instantly visible. DNS caches expire at different times.</p>
+<h3>4.3 Practical DNS sequence</h3>
+<ol>
+<li>Add the domain to your chosen DNS provider.</li>
+<li>Copy the provider's assigned nameservers into the registrar if you are changing DNS authority.</li>
+<li>Wait for the delegation change to become visible.</li>
+<li>Add the exact A, AAAA or CNAME records supplied by your hosting platform.</li>
+<li>Add email MX/TXT records only when configuring domain email. Do not overwrite existing mail records accidentally.</li>
+<li>Verify the root domain and <code>www</code> hostname independently.</li>
+</ol>
+<pre><code># Windows: inspect DNS resolution
+nslookup example.com
+nslookup www.example.com
+
+# PowerShell: inspect selected record types
+Resolve-DnsName example.com -Type A
+Resolve-DnsName example.com -Type MX
+Resolve-DnsName example.com -Type TXT</code></pre>
+<div class="callout warn">Do not copy sample IP addresses from tutorials into your live DNS. Use the exact values shown by your hosting provider. Some platforms use CNAME targets or verification records rather than a fixed IP address.</div>
+</section>
+<section id="tls">
+<h2>5. HTTPS, SSL and TLS</h2>
+<p>People often say “SSL certificate”, but modern websites use TLS. HTTPS is HTTP carried over a TLS-protected connection. TLS helps authenticate the server and protect data against interception and modification in transit.</p>
+<h3>5.1 Certificate terms</h3>
+<ul>
+<li><strong>Certificate Authority (CA):</strong> trusted organization that issues certificates.</li>
+<li><strong>Public/private key pair:</strong> cryptographic keys used in authentication and secure key establishment.</li>
+<li><strong>Certificate:</strong> binds a public key to a domain identity for a validity period.</li>
+<li><strong>Certificate renewal:</strong> replaces an expiring certificate before it becomes invalid.</li>
+<li><strong>HTTPS redirect:</strong> sends HTTP visitors to the HTTPS URL.</li>
+<li><strong>HSTS:</strong> tells browsers to use HTTPS for future connections to the domain.</li>
+</ul>
+<h3>5.2 Enable HTTPS safely</h3>
+<ol>
+<li>Attach the domain to the hosting service and complete its ownership verification.</li>
+<li>Issue or attach a trusted certificate for every required hostname, such as root and <code>www</code>.</li>
+<li>Confirm the certificate is valid and covers the exact hostname.</li>
+<li>Enable automatic renewal where supported.</li>
+<li>Redirect HTTP to HTTPS at the platform or web-server layer.</li>
+<li>Fix mixed content: images, scripts, fonts and API requests must not load insecurely.</li>
+<li>Test forms, login, API calls and redirects after enabling HTTPS.</li>
+</ol>
+<p><a href="https://letsencrypt.org/">Let's Encrypt</a> provides free automated certificates. Many managed hosts issue and renew certificates automatically after domain verification.</p>
+<div class="callout danger"><strong>Cloudflare proxy warning:</strong> if Cloudflare proxies requests to your origin server, encrypt both legs: visitor-to-Cloudflare and Cloudflare-to-origin. Use Full (strict) when the origin has a valid, hostname-matching certificate. “Flexible” can leave the origin leg unencrypted and can cause redirect loops in some configurations.</div>
+</section>
+<section id="hosting">
+<h2>6. Choose the right hosting model</h2>
+<table>
+<tr><th>Hosting model</th><th>What you manage</th><th>Good fit</th></tr>
+<tr><td>Static hosting</td><td>Files, build output, domain and app configuration</td><td>Portfolio, brochure site, public pages</td></tr>
+<tr><td>Platform as a Service (PaaS)</td><td>Application code, runtime settings, data and access rules</td><td>APIs and business applications without managing a VM</td></tr>
+<tr><td>Virtual Private Server (VPS)</td><td>OS, firewall, web server, runtime, patches, deployment and backups</td><td>More control; requires server administration skills</td></tr>
+<tr><td>Containers</td><td>Image, configuration, registry and service settings</td><td>Repeatable deployment and portability</td></tr>
+<tr><td>Kubernetes</td><td>Container orchestration platform and cluster operations</td><td>Complex multi-service systems; usually unnecessary for a first website</td></tr>
+</table>
+<h3>Recommended first deployment</h3>
+<p>For a modest website, start with managed hosting: static frontend hosting, a managed backend runtime and managed PostgreSQL. This reduces the number of servers you must patch and administer. Move to VMs, load balancers or Kubernetes only when you have a clear technical reason.</p>
+<h3>Cloud provider comparison</h3>
+<table>
+<tr><th>Provider</th><th>Application service</th><th>Managed PostgreSQL</th><th>Useful supporting services</th></tr>
+<tr><td>Google Cloud</td><td>Cloud Run</td><td>Cloud SQL for PostgreSQL</td><td>Cloud Storage, Cloud Build, Artifact Registry, Cloud Logging, Secret Manager, Cloud Load Balancing</td></tr>
+<tr><td>AWS</td><td>App Runner, Elastic Beanstalk or ECS</td><td>Amazon RDS for PostgreSQL</td><td>S3, ECR, CloudWatch, Secrets Manager, Route 53, CloudFront, WAF</td></tr>
+<tr><td>Microsoft Azure</td><td>App Service or Container Apps</td><td>Azure Database for PostgreSQL Flexible Server</td><td>Blob Storage, Azure Container Registry, Application Insights, Key Vault, Azure DNS, Front Door</td></tr>
+</table>
+<p class="small">Availability, runtime versions, deployment features and service names differ by region and account. Confirm your chosen service is offered in the region you intend to use.</p>
+</section>
+<section id="gcp">
+<h2>7. Google Cloud deployment method</h2>
+<p><strong>Suggested path:</strong> Cloud Run for the API/application, Cloud SQL for PostgreSQL, Cloud Storage or a static hosting product for static assets, Secret Manager for secrets, and Cloud Logging for operations. Cloud Run can deploy supported language source directly or run a container image.</p>
+<h3>7.1 Required tools and resources</h3>
+<ul>
+<li>Google account and Google Cloud project with billing enabled.</li>
+<li>Google Cloud CLI (<code>gcloud</code>) installed, or use Cloud Shell.</li>
+<li>Git repository with a working app and production start command.</li>
+<li>Cloud Run API and Cloud SQL API enabled as needed.</li>
+<li>Cloud SQL PostgreSQL instance, database, user and backup policy.</li>
+<li>Secret Manager secrets for database credentials and other private configuration.</li>
+</ul>
+<h3>7.2 Prepare the application</h3>
+<p>Your application must listen on the port supplied by the runtime environment and bind to the expected network interface. Do not hard-code a local development port. Keep secrets out of source control.</p>
+<pre><code># Example: authenticate and select your project
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+
+# Enable commonly needed APIs
+gcloud services enable run.googleapis.com
+gcloud services enable cloudbuild.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
+gcloud services enable sqladmin.googleapis.com
+gcloud services enable secretmanager.googleapis.com</code></pre>
+<p>API enablement may require project permissions. Follow the current Cloud Run and Cloud SQL setup guides for IAM roles and service identity configuration.</p>
+<h3>7.3 Deploy a supported source project to Cloud Run</h3>
+<p>For supported source runtimes, source-based deployment can build the application for you. Run the command from the application directory.</p>
+<pre><code># Deploy from the current source directory
+gcloud run deploy YOUR_SERVICE_NAME \
+  --source . \
+  --region YOUR_REGION \
+  --allow-unauthenticated</code></pre>
+<p><code>--allow-unauthenticated</code> makes the service publicly reachable. Use it only for a public website/API whose own routes and data are designed for public access. Private admin APIs should require authentication. For production, configure environment variables, service identity, secrets and database connectivity deliberately.</p>
+<h3>7.4 Connect Cloud Run to Cloud SQL</h3>
+<ol>
+<li>Create a Cloud SQL for PostgreSQL instance in a suitable region.</li>
+<li>Create the application database and a dedicated database user.</li>
+<li>Configure a Cloud Run service identity with only the required Cloud SQL permissions.</li>
+<li>Configure Cloud Run's Cloud SQL connection using the current provider instructions.</li>
+<li>Store credentials in Secret Manager; reference them as secrets in the service configuration.</li>
+<li>Use TLS/secure connector configuration as recommended by Google Cloud. Do not expose the database to all public IP addresses.</li>
+<li>Run schema migrations using a controlled release process and verify the app can read/write expected records.</li>
+</ol>
+<h3>7.5 Domain, HTTPS and logs</h3>
+<p>Map the custom domain using the current Cloud Run domain-mapping guidance or an appropriate load-balancer setup. Add only the DNS records Google provides. Verify certificate provisioning before announcing the domain. Use Cloud Logging and Error Reporting to inspect startup failures, HTTP errors and application exceptions.</p>
+<div class="callout good"><strong>Google Cloud completion test:</strong> the Cloud Run URL responds; the custom domain resolves; HTTPS is valid; the API reaches Cloud SQL; secrets are not visible in Git; logs show no repeated errors; backups are configured.</div>
+<p><strong>Official guides:</strong> <a href="https://docs.cloud.google.com/run/docs">Cloud Run documentation</a> · <a href="https://docs.cloud.google.com/sql/docs/postgres">Cloud SQL for PostgreSQL</a> · <a href="https://cloud.google.com/sdk/docs/install">Install Google Cloud CLI</a>.</p>
+</section>
+<section id="aws">
+<h2>8. Amazon Web Services deployment method</h2>
+<p><strong>Suggested beginner path:</strong> AWS App Runner for a supported web service sourced from GitHub or a container image; Amazon RDS for PostgreSQL; Secrets Manager for credentials; CloudWatch for logs and metrics. Other valid options include Elastic Beanstalk, ECS with Fargate, or EC2. Select based on the application's needs and regional availability.</p>
+<h3>8.1 Required tools and resources</h3>
+<ul>
+<li>AWS account, billing access and an IAM identity with least-privilege permissions.</li>
+<li>AWS CLI v2 if you want terminal-based administration; the AWS Console is also available.</li>
+<li>GitHub repository or container image in Amazon ECR.</li>
+<li>App Runner service or another chosen compute service.</li>
+<li>RDS for PostgreSQL database in a suitable VPC/subnet configuration.</li>
+<li>Secrets Manager, CloudWatch and a defined backup/retention plan.</li>
+</ul>
+<h3>8.2 Prepare your AWS account</h3>
+<ol>
+<li>Enable MFA on the root account and do not use root credentials for daily development.</li>
+<li>Create an IAM identity/role for deployment with only the permissions required.</li>
+<li>Choose a region near the target audience where all required services are available.</li>
+<li>Create a billing budget and alerts before provisioning.</li>
+</ol>
+<pre><code># Configure AWS CLI v2 credentials/profile
+aws configure
+
+# Confirm the active identity
+aws sts get-caller-identity
+
+# Check the configured region
+aws configure get region</code></pre>
+<p>Do not paste access keys into source files or commit them to GitHub. Prefer short-lived role-based credentials and managed integrations where available.</p>
+<h3>8.3 Deploy with App Runner (console workflow)</h3>
+<ol>
+<li>Push a working application to GitHub. Ensure the repository has the correct build and start instructions.</li>
+<li>Open AWS App Runner and choose <em>Create service</em>.</li>
+<li>Choose source code repository and connect the GitHub account through the AWS-supported connection flow.</li>
+<li>Select the repository, branch and source directory.</li>
+<li>Choose automatic deployments only if you want commits to that branch to deploy automatically.</li>
+<li>Configure the runtime, build command, start command and listening port for your language/framework.</li>
+<li>Configure environment variables and secrets using supported secure references.</li>
+<li>Review instance sizing, health checks, networking and access settings, then create the service.</li>
+<li>Wait for deployment to finish and inspect service events and logs.</li>
+</ol>
+<p>App Runner builds and runs a managed service from source or a container image. If you use RDS, carefully configure networking so the service can reach the database without making PostgreSQL publicly open. Follow the current App Runner VPC connector and RDS connectivity documentation for your chosen topology.</p>
+<h3>8.4 Database and supporting services</h3>
+<ol>
+<li>Create an RDS PostgreSQL database in a private network configuration where practical.</li>
+<li>Configure security groups to allow database traffic only from the application service's approved network path.</li>
+<li>Create a dedicated application database user with restricted permissions.</li>
+<li>Store the connection details in AWS Secrets Manager and grant the application role permission to retrieve only that secret.</li>
+<li>Enable automated backups, define retention and test a restore procedure.</li>
+<li>Use CloudWatch logs/metrics and configure alerts for errors, CPU, storage and availability.</li>
+</ol>
+<h3>8.5 Domain and HTTPS</h3>
+<p>Use Route 53 or your existing DNS provider. Configure the custom domain and certificate using the selected AWS service's current instructions. AWS Certificate Manager is commonly used with supported AWS endpoints. If CloudFront is used, follow its certificate-region and DNS validation requirements exactly.</p>
+<div class="callout good"><strong>AWS completion test:</strong> App Runner or the chosen compute service is healthy; the service can reach private RDS; security groups are restrictive; secrets are managed; HTTPS and custom domain work; CloudWatch shows healthy operation; backups are restorable.</div>
+<p><strong>Official guides:</strong> <a href="https://docs.aws.amazon.com/apprunner/latest/dg/getting-started.html">App Runner getting started</a> · <a href="https://docs.aws.amazon.com/apprunner/latest/dg/">App Runner developer guide</a> · <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html">RDS for PostgreSQL</a> · <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI installation</a>.</p>
+</section>
+<section id="azure">
+<h2>9. Microsoft Azure deployment method</h2>
+<p><strong>Suggested path:</strong> Azure App Service for Node.js or ASP.NET Core, Azure Database for PostgreSQL Flexible Server, Key Vault for secrets and Application Insights for application telemetry. Azure Container Apps is another option for container-based applications.</p>
+<h3>9.1 Required tools and resources</h3>
+<ul>
+<li>Microsoft account and Azure subscription with billing enabled.</li>
+<li>Azure CLI or the Azure extension for VS Code.</li>
+<li>GitHub repository and a working production build.</li>
+<li>App Service plan and Web App, or Container Apps environment.</li>
+<li>Azure Database for PostgreSQL Flexible Server.</li>
+<li>Key Vault, Application Insights and backup/restore configuration.</li>
+</ul>
+<h3>9.2 Sign in and choose a resource group</h3>
+<pre><code># Sign in to Azure
+az login
+
+# Select the intended subscription
+az account list --output table
+az account set --subscription YOUR_SUBSCRIPTION_ID
+
+# Create a resource group
+az group create \
+  --name rg-website-production \
+  --location YOUR_AZURE_REGION</code></pre>
+<p>A resource group is a logical container for related Azure resources. Use clear names and tags so you can identify the resources and their environment.</p>
+<h3>9.3 Create and deploy an App Service</h3>
+<ol>
+<li>In the Azure Portal or VS Code Azure extension, create a Web App.</li>
+<li>Choose a supported runtime stack that matches your application, such as the appropriate .NET or Node.js version.</li>
+<li>Choose Linux or Windows based on runtime and deployment requirements.</li>
+<li>Create or select an App Service plan. Understand the plan's pricing tier, memory, CPU, scaling and availability features.</li>
+<li>Deploy from GitHub Actions, the VS Code extension or the documented Azure CLI workflow.</li>
+<li>Set production application settings in App Service configuration rather than hard-coding secrets.</li>
+<li>Configure health checks, logging and Application Insights where appropriate.</li>
+</ol>
+<p>For Node.js, ensure the app listens on the port provided by the hosting environment where required. For ASP.NET Core, publish the correct configuration and verify the runtime stack matches the target service.</p>
+<h3>9.4 Configure PostgreSQL and Key Vault</h3>
+<ol>
+<li>Create Azure Database for PostgreSQL Flexible Server in an appropriate region.</li>
+<li>Choose private networking where practical; if using public access, tightly restrict allowed sources.</li>
+<li>Create the application database and a dedicated restricted user.</li>
+<li>Configure TLS for database connections according to Azure's current instructions.</li>
+<li>Store credentials in Key Vault and grant the app's managed identity permission to read only the required secrets.</li>
+<li>Configure backup retention and test restore to a separate instance or safe environment.</li>
+</ol>
+<h3>9.5 Custom domain and HTTPS</h3>
+<p>Add and verify the custom domain in App Service. Configure the DNS records Azure specifies, then bind a supported TLS certificate. Use HTTPS-only settings and test both the root and <code>www</code> hostnames. Do not assume that domain verification alone enables a secure certificate.</p>
+<div class="callout good"><strong>Azure completion test:</strong> the App Service deployment is healthy; the app can access PostgreSQL securely; managed identity/Key Vault is configured; domain verification and HTTPS work; Application Insights captures errors; backups and restore have been tested.</div>
+<p><strong>Official guides:</strong> <a href="https://learn.microsoft.com/azure/app-service/">Azure App Service</a> · <a href="https://learn.microsoft.com/azure/app-service/quickstart-dotnetcore">Deploy ASP.NET Core</a> · <a href="https://learn.microsoft.com/azure/app-service/quickstart-nodejs">Deploy Node.js</a> · <a href="https://learn.microsoft.com/azure/postgresql/flexible-server/">Azure Database for PostgreSQL</a> · <a href="https://learn.microsoft.com/cli/azure/install-azure-cli">Azure CLI installation</a>.</p>
+</section>
+<section id="database">
+<h2>10. Deploy and protect the production database</h2>
+<p>A production database is not simply your local PostgreSQL instance copied to the internet. It needs access control, encrypted connections, backups, monitoring, capacity planning and a tested recovery procedure.</p>
+<h3>10.1 Before migration</h3>
+<ul class="checklist">
+<li>Remove sample/test records and unnecessary personal data.</li>
+<li>Review table relationships, primary keys, foreign keys, unique constraints and indexes.</li>
+<li>Check that schema migrations can be run predictably.</li>
+<li>Use a separate migration/administrative identity and runtime application identity where appropriate.</li>
+<li>Store all credentials outside source control.</li>
+<li>Document expected data retention and deletion rules.</li>
+</ul>
+<h3>10.2 PostgreSQL export and restore examples</h3>
+<pre><code># Export a database in custom format
+pg_dump -Fc -h localhost -U postgres -d your_database -f backup.dump
+
+# Restore into an already-created empty target database
+pg_restore -h YOUR_DB_HOST -U YOUR_DB_USER \
+  -d YOUR_TARGET_DATABASE --no-owner backup.dump</code></pre>
+<p>These are examples; supply the correct host, database and credentials. Avoid putting passwords directly in command history. Use the cloud provider's recommended secure authentication and network path. Check PostgreSQL major-version compatibility and test the restore before production cutover.</p>
+<h3>10.3 Database safety rules</h3>
+<ul>
+<li>Do not use the database superuser as the website's normal login.</li>
+<li>Do not allow <code>0.0.0.0/0</code> access to PostgreSQL as a shortcut.</li>
+<li>Require encrypted connections and verify certificates where supported.</li>
+<li>Use parameterized SQL queries; never build SQL by concatenating untrusted form input.</li>
+<li>Limit what the application account can read, insert, update and delete.</li>
+<li>Enable automated backups and point-in-time recovery if supported and justified.</li>
+<li>Test restore, not just backup creation.</li>
+</ul>
+<h3>10.4 Production configuration</h3>
+<p>Use environment-specific settings. A development connection string must never accidentally point at the production database, and production credentials must never be committed to a repository.</p>
+<pre><code># Example environment variable names (values belong in a secret store)
+DATABASE_URL=...
+APP_ENV=production
+EMAIL_API_KEY=...
+SESSION_SECRET=...</code></pre>
+<p>Never paste real passwords, tokens, private keys or complete production connection strings into screenshots, public issue trackers or chat messages.</p>
+</section>
+<section id="pipeline">
+<h2>11. Git, staging and automated deployment (CI/CD)</h2>
+<p><strong>CI</strong> means Continuous Integration: automatically build and test code changes. <strong>CD</strong> means Continuous Delivery/Deployment: prepare or automatically release verified changes to an environment.</p>
+<h3>11.1 Use separate environments</h3>
+<table>
+<tr><th>Environment</th><th>Purpose</th><th>Data</th></tr>
+<tr><td>Development</td><td>Local coding and debugging</td><td>Fake/test data</td></tr>
+<tr><td>Staging</td><td>Production-like final testing</td><td>Sanitized test data</td></tr>
+<tr><td>Production</td><td>Real public service</td><td>Real user data; strict access</td></tr>
+</table>
+<h3>11.2 Basic Git workflow</h3>
+<pre><code>git init
+git add .
+git commit -m "Prepare website for deployment"
+git branch -M main
+git remote add origin https://github.com/YOUR_ACCOUNT/YOUR_REPOSITORY.git
+git push -u origin main</code></pre>
+<p>Before committing, create a <code>.gitignore</code> file and exclude secrets, local environment files, build outputs and temporary files. Review <code>git status</code> before every push.</p>
+<h3>11.3 CI/CD pipeline stages</h3>
+<ol>
+<li>Developer pushes a change to a branch.</li>
+<li>Automated workflow checks out the source.</li>
+<li>Dependencies are installed using lockfiles.</li>
+<li>Linting, unit tests and security checks run.</li>
+<li>The application is built or a container image is produced.</li>
+<li>Staging deployment runs and smoke tests verify the service.</li>
+<li>Production deployment requires the chosen approval/release rule.</li>
+<li>Health checks run; a failed release triggers rollback or a documented recovery.</li>
+</ol>
+<p>Store deployment credentials as protected repository/environment secrets or, preferably, use the cloud provider's supported federated identity/OIDC flow to avoid long-lived cloud keys. Restrict production deployment to trusted branches and reviewers.</p>
+<p><a href="https://docs.github.com/en/actions">GitHub Actions documentation</a> · <a href="https://docs.github.com/en/actions/concepts/workflows-and-actions/deployment-environments">Deployment environments and approvals</a>.</p>
+</section>
+<section id="seo">
+<h2>12. SEO, indexing and website discoverability</h2>
+<p>SEO (Search Engine Optimization) improves how search engines understand your content and how people discover it. Technical correctness helps crawling and indexing, but no technical setting guarantees a particular ranking.</p>
+<h3>12.1 On-page SEO</h3>
+<ul>
+<li>Give every important page a unique, descriptive <code>&lt;title&gt;</code>.</li>
+<li>Write a useful meta description for people deciding whether to visit.</li>
+<li>Use semantic HTML and a logical heading hierarchy.</li>
+<li>Write original, helpful content that matches the page's purpose and audience.</li>
+<li>Use descriptive URLs, internal links and meaningful link text.</li>
+<li>Add useful alternative text to informative images; use empty alt text for purely decorative images.</li>
+<li>Make the site mobile-friendly and accessible by keyboard.</li>
+</ul>
+<h3>12.2 Technical SEO files</h3>
+<p>Example <code>robots.txt</code> for a public website:</p>
+<pre><code>User-agent: *
+Allow: /
+Sitemap: https://www.example.com/sitemap.xml</code></pre>
+<p>Example sitemap entry (replace the example domain with the real canonical URL):</p>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://www.example.com/&lt;/loc&gt;
+  &lt;/url&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://www.example.com/admissions&lt;/loc&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;</code></pre>
+<p><strong>robots.txt is not a privacy or security control.</strong> It gives crawlers instructions; it does not prevent someone from opening a URL. Protect private pages with authentication and authorization. Use a <code>noindex</code> directive where appropriate for pages that should not appear in search.</p>
+<h3>12.3 Google Search Console</h3>
+<ol>
+<li>Open <a href="https://search.google.com/search-console/">Google Search Console</a>.</li>
+<li>Add the domain property and verify ownership using the DNS TXT record Google supplies.</li>
+<li>Submit the sitemap URL.</li>
+<li>Inspect important URLs and review indexing issues.</li>
+<li>Check mobile usability and Core Web Vitals reports when data is available.</li>
+<li>Update broken links, duplicate pages and incorrect canonical URLs.</li>
+</ol>
+<h3>12.4 Analytics and structured data</h3>
+<p>Use an analytics tool only after deciding what user activity you need to measure and configuring appropriate privacy notices and consent requirements. Structured data can help search engines interpret eligible content, but it does not guarantee rich results. Use only markup that accurately describes visible page content.</p>
+<p>Official guidance: <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">SEO Starter Guide</a> · <a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro">Robots.txt guidance</a> · <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview">Sitemaps</a>.</p>
+</section>
+<section id="security">
+<h2>13. Application and infrastructure security</h2>
+<p>Security is a shared responsibility. The cloud provider secures parts of the underlying platform; you remain responsible for your application code, data, identities, configuration and the services you choose to expose.</p>
+<h3>13.1 Application security controls</h3>
+<ul class="checklist">
+<li>Validate every input on the server, not only in browser JavaScript.</li>
+<li>Use parameterized database queries or a safe ORM.</li>
+<li>Hash passwords with a modern password-hashing algorithm; never store plaintext passwords.</li>
+<li>Use secure session cookies: HttpOnly, Secure and an appropriate SameSite policy.</li>
+<li>Use CSRF protections where cookie-based authentication requires them.</li>
+<li>Encode output and sanitize rich text to reduce XSS risk.</li>
+<li>Enforce authorization on every protected API endpoint.</li>
+<li>Apply rate limits to login, registration and sensitive endpoints.</li>
+<li>Limit file upload types, size, storage location and processing.</li>
+<li>Keep dependencies and runtimes patched; scan for known vulnerabilities.</li>
+</ul>
+<h3>13.2 Infrastructure security controls</h3>
+<ul class="checklist">
+<li>Enable MFA on registrar, GitHub, cloud and email accounts.</li>
+<li>Use least-privilege IAM roles and separate production access.</li>
+<li>Keep database services private where practical.</li>
+<li>Use secret managers instead of source-code credentials.</li>
+<li>Configure firewall/security-group rules deliberately.</li>
+<li>Enable security logs and alerts for suspicious activity.</li>
+<li>Use HTTPS end-to-end and renew certificates automatically.</li>
+<li>Protect backups and test restoration.</li>
+</ul>
+<h3>13.3 Common attacks to understand</h3>
+<table>
+<tr><th>Threat</th><th>Meaning</th><th>Primary protection</th></tr>
+<tr><td>SQL injection</td><td>Untrusted input changes the meaning of a database query.</td><td>Parameterized queries, least privilege, validation.</td></tr>
+<tr><td>XSS</td><td>Attacker-controlled script runs in another user's browser.</td><td>Output encoding, safe templating, CSP as defence in depth.</td></tr>
+<tr><td>CSRF</td><td>A browser is tricked into sending an unwanted authenticated request.</td><td>CSRF tokens, SameSite cookies, origin checks as appropriate.</td></tr>
+<tr><td>Broken access control</td><td>A user accesses records or actions they should not.</td><td>Server-side authorization on every request.</td></tr>
+<tr><td>Credential stuffing</td><td>Stolen password pairs are tried against your login.</td><td>MFA, rate limits, breached-password checks, secure recovery.</td></tr>
+<tr><td>DDoS</td><td>Traffic overwhelms a service or its dependencies.</td><td>Provider protection, CDN/WAF, rate controls, capacity planning.</td></tr>
+<tr><td>Secret leakage</td><td>Keys/passwords are exposed in code, logs or repositories.</td><td>Secret manager, scanning, rotation and access controls.</td></tr>
+</table>
+<div class="callout danger"><strong>Never promise a website is “unhackable”.</strong> Security is risk reduction and continuous verification. Use the OWASP Top 10:2025 as an awareness checklist and OWASP ASVS as a more testable requirements standard.</div>
+<p>References: <a href="https://owasp.org/Top10/">OWASP Top 10</a> · <a href="https://asvs.owasp.org/">OWASP ASVS</a> · <a href="https://cheatsheetseries.owasp.org/">OWASP Cheat Sheet Series</a>.</p>
+</section>
+<section id="performance">
+<h2>14. Performance, caching and reliability</h2>
+<h3>14.1 Frontend performance</h3>
+<ul>
+<li>Resize and compress images; use WebP or AVIF where suitable.</li>
+<li>Minify production CSS and JavaScript where your build process supports it.</li>
+<li>Remove unused code and avoid loading large libraries unnecessarily.</li>
+<li>Lazy-load below-the-fold images, but do not lazy-load the main hero image if it delays the visible page.</li>
+<li>Set image dimensions to reduce layout shifts.</li>
+<li>Use browser caching for versioned static assets.</li>
+</ul>
+<h3>14.2 Backend and database performance</h3>
+<ul>
+<li>Use database indexes for frequent filters, joins and lookups, then verify with query plans.</li>
+<li>Use connection pooling and sensible timeouts.</li>
+<li>Paginate large result sets.</li>
+<li>Avoid repeated queries inside loops (N+1 query patterns).</li>
+<li>Cache only data whose freshness rules are understood.</li>
+<li>Set request size limits and protect expensive endpoints with rate limits.</li>
+</ul>
+<h3>14.3 Core Web Vitals</h3>
+<p>Learn Largest Contentful Paint (LCP), Interaction to Next Paint (INP) and Cumulative Layout Shift (CLS). Test with <a href="https://pagespeed.web.dev/">PageSpeed Insights</a> and real-user data where available. A lab score is useful for diagnosis but is not the same as every visitor's real experience.</p>
+<h3>14.4 CDN and cache invalidation</h3>
+<p>A Content Delivery Network (CDN) caches eligible assets at edge locations. Use long cache lifetimes for fingerprinted static assets such as <code>app.a83f2.js</code>, and shorter or revalidated caching for HTML that changes frequently. Do not cache private, personalized responses publicly.</p>
+</section>
+<section id="operations">
+<h2>15. Monitoring, backups and ongoing maintenance</h2>
+<h3>15.1 What to monitor</h3>
+<ul>
+<li>Uptime and external availability checks.</li>
+<li>HTTP 4xx/5xx rates and application exceptions.</li>
+<li>CPU, memory, disk, network and database connections.</li>
+<li>Database storage, slow queries, failed connections and backup status.</li>
+<li>Certificate expiry, domain renewal and email delivery failures.</li>
+<li>Unexpected billing changes and resource usage.</li>
+</ul>
+<h3>15.2 Backup and recovery plan</h3>
+<p>Define Recovery Point Objective (RPO): how much data loss in time you can tolerate. Define Recovery Time Objective (RTO): how long the service can remain unavailable. Choose backup frequency and retention based on these objectives and the importance of the data.</p>
+<ol>
+<li>Enable automated database backups and confirm retention settings.</li>
+<li>Back up application configuration and required uploaded files.</li>
+<li>Protect backups from ordinary application credentials and accidental deletion.</li>
+<li>Document restoration steps and who is authorized to perform them.</li>
+<li>Practise restoring into a separate environment.</li>
+<li>Record the restore result and fix gaps before relying on the plan.</li>
+</ol>
+<h3>15.3 Routine maintenance schedule</h3>
+<table>
+<tr><th>Frequency</th><th>Tasks</th></tr>
+<tr><td>Daily / automated</td><td>Uptime checks, error alerts, backup job status and billing anomaly alerts.</td></tr>
+<tr><td>Weekly</td><td>Review application errors, failed logins, deployment history and unusual resource use.</td></tr>
+<tr><td>Monthly</td><td>Patch dependencies, review IAM users/roles, check domain and certificate status, test key user journeys.</td></tr>
+<tr><td>Quarterly</td><td>Restore-test backups, review security controls, remove unused resources and verify recovery documentation.</td></tr>
+</table>
+</section>
+<section id="launch">
+<h2>16. Final production launch checklist</h2>
+<p>Do not announce the site until the relevant items below have been checked.</p>
+<h3>Domain and network</h3>
+<ul class="checklist">
+<li>Domain registration and renewal ownership confirmed.</li>
+<li>Root domain and <code>www</code> resolve to the intended destination.</li>
+<li>DNS records have been checked; old/unused records removed safely.</li>
+<li>HTTP redirects to HTTPS and certificate covers every public hostname.</li>
+</ul>
+<h3>Application and database</h3>
+<ul class="checklist">
+<li>Production build tested on staging.</li>
+<li>Backend uses production environment settings and correct listening port.</li>
+<li>Database is not publicly exposed without a compelling, secured design.</li>
+<li>Application database identity has limited permissions.</li>
+<li>Secrets are stored outside the repository.</li>
+<li>Registration forms have server-side validation and safe error handling.</li>
+<li>Email notifications tested, including spam/delivery checks.</li>
+</ul>
+<h3>Security and privacy</h3>
+<ul class="checklist">
+<li>Admin accounts use MFA and least privilege.</li>
+<li>Protected pages and records require server-side authorization.</li>
+<li>Common injection, XSS, CSRF and access-control risks reviewed.</li>
+<li>Privacy notice and data retention process reviewed for the information collected.</li>
+<li>Logs do not expose passwords, tokens or sensitive personal data.</li>
+</ul>
+<h3>SEO and quality</h3>
+<ul class="checklist">
+<li>Unique page titles, useful descriptions and semantic headings.</li>
+<li>Mobile layout and keyboard navigation tested.</li>
+<li>robots.txt and sitemap.xml reviewed.</li>
+<li>Canonical hostname and URL strategy selected.</li>
+<li>Search Console domain verified and sitemap submitted.</li>
+<li>Broken links, missing images and browser console errors checked.</li>
+</ul>
+<h3>Operations</h3>
+<ul class="checklist">
+<li>Automated backups enabled and a restore tested.</li>
+<li>Uptime and error monitoring configured.</li>
+<li>Billing budget and alerts configured.</li>
+<li>Rollback/redeployment procedure documented.</li>
+<li>Domain, cloud and repository account recovery protected with MFA.</li>
+</ul>
+<div class="callout good"><strong>Launch gate:</strong> every critical security, data, HTTPS, backup and recovery item must pass. If one fails, delay public launch and fix it. A site that loads is not automatically production-ready.</div>
+</section>
+<section id="glossary">
+<h2>Glossary of essential terms</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>API</td><td>A defined interface through which software systems exchange data or request operations.</td></tr>
+<tr><td>CDN</td><td>Content Delivery Network; distributed caching and delivery infrastructure.</td></tr>
+<tr><td>CI/CD</td><td>Automated integration, testing and release/deployment workflow.</td></tr>
+<tr><td>DNS</td><td>Domain Name System; resolves names and publishes service records.</td></tr>
+<tr><td>DNSSEC</td><td>DNS Security Extensions; cryptographically protects DNS data authenticity.</td></tr>
+<tr><td>Domain registrar</td><td>Company through which a domain name is registered and renewed.</td></tr>
+<tr><td>Firewall</td><td>Network control that allows or blocks traffic according to rules.</td></tr>
+<tr><td>IAM</td><td>Identity and Access Management; identities, roles and permissions.</td></tr>
+<tr><td>Load balancer</td><td>Distributes requests across multiple application instances or servers.</td></tr>
+<tr><td>Managed database</td><td>Database service where the provider manages much of the underlying operation.</td></tr>
+<tr><td>Reverse proxy</td><td>Server that receives client requests and forwards them to backend services.</td></tr>
+<tr><td>RPO</td><td>Maximum acceptable data-loss window measured in time.</td></tr>
+<tr><td>RTO</td><td>Target time to restore a service after disruption.</td></tr>
+<tr><td>TLS</td><td>Protocol that provides encryption and authentication for network connections.</td></tr>
+<tr><td>VPC/VNet</td><td>Logically isolated cloud network (provider terminology differs).</td></tr>
+<tr><td>WAF</td><td>Web Application Firewall; filters HTTP requests using security rules.</td></tr>
+</table>
+</section>
+<section id="resources">
+<h2>Official documentation and learning resources</h2>
+<p>Use official documentation for current commands, supported regions, runtime versions, quotas and pricing. Tutorials can become outdated; always check the publication/version and the live service page.</p>
+<h3>Cloud platforms</h3>
+<ul>
+<li><a href="https://docs.cloud.google.com/run/docs">Google Cloud Run</a></li>
+<li><a href="https://docs.cloud.google.com/sql/docs/postgres">Google Cloud SQL for PostgreSQL</a></li>
+<li><a href="https://cloud.google.com/pricing/calculator">Google Cloud Pricing Calculator</a></li>
+<li><a href="https://docs.aws.amazon.com/apprunner/latest/dg/">AWS App Runner</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html">Amazon RDS for PostgreSQL</a></li>
+<li><a href="https://calculator.aws/">AWS Pricing Calculator</a></li>
+<li><a href="https://learn.microsoft.com/azure/app-service/">Azure App Service</a></li>
+<li><a href="https://learn.microsoft.com/azure/postgresql/flexible-server/">Azure Database for PostgreSQL</a></li>
+<li><a href="https://azure.microsoft.com/pricing/calculator/">Azure Pricing Calculator</a></li>
+</ul>
+<h3>Web standards, security and SEO</h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN Web Development</a></li>
+<li><a href="https://letsencrypt.org/docs/">Let's Encrypt documentation</a></li>
+<li><a href="https://developers.cloudflare.com/dns/">Cloudflare DNS documentation</a></li>
+<li><a href="https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/">Cloudflare Full (strict) TLS mode</a></li>
+<li><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">Google SEO Starter Guide</a></li>
+<li><a href="https://search.google.com/search-console/">Google Search Console</a></li>
+<li><a href="https://owasp.org/Top10/">OWASP Top 10:2025</a></li>
+<li><a href="https://asvs.owasp.org/">OWASP Application Security Verification Standard</a></li>
+<li><a href="https://docs.github.com/en/actions">GitHub Actions documentation</a></li>
+</ul>
+</section>
+</main>
+
+<footer aria-label="Document ownership and attribution" class="footer">Loyo Benjamin | DevCore Community</footer>
+</div></body>
+</html>

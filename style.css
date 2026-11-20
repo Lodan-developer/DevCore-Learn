@@ -1,0 +1,376 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: montserrat;
+    scroll-margin-top: 100px;
+    scroll-behavior: smooth;
+    
+}
+::-webkit-scrollbar{
+    display: none;
+}
+html{
+    scroll-behavior: smooth;
+}
+:root{
+    --navy:#142b45;
+    --navy2:#203e5d;
+    --primaryText:#087f8c;
+    --accent1:#0080ff;
+    --ink:#253342;
+    --muted:#647485;
+    --line:#dce4ea;
+    --paper:#fff;
+    
+}
+body{
+    background: var(--navy2);
+}
+header{
+    display: flex;
+    padding: 10px 2em;
+    justify-content: space-between;
+    background: var(--navy);
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+
+}
+.logo{
+    display: flex;
+    gap: .2em;
+    align-items: center;
+}
+.logo img{
+    height: 4em;
+}
+.logo span{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primaryText);
+}
+.logo .title{
+    color: var(--paper);
+}
+nav a{
+    text-decoration: none;
+    color: var(--primaryText);
+    padding: 1em;
+    font-weight: bold;
+}
+nav a:hover{
+    color: var(--paper);
+}
+nav button{
+    padding: .8em 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--paper);
+    font-weight: bold;
+    color: var(--navy2);
+
+}
+nav button:hover{
+    background-color: var(--primaryText);
+    color: var(--paper);
+}
+.navMenu{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    border-top: 2px solid var(--primaryText);
+}
+#navMenuBtn{
+    padding: 1px 8px;
+    border: none;
+    font-weight: bold;
+    font-size: 30px;
+}
+.hidden{
+    display: none;
+}
+
+
+/* ===========================
+====== HERO SECTION =======
+=========================== */
+
+.hero{
+    padding: 10em 2em 5em 2em;
+    background: linear-gradient( 120deg, #087f8c79), url(assets/Abstract\ vector\ bg.webp) no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+}
+.hero-text{
+    font-size: 1.5rem;
+}
+.hero-card{
+    height: 50vh;
+    width: 30%;
+    border: .5px solid var(--navy2);
+    border-radius: 30px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(189, 189, 189, 0.187);
+    backdrop-filter: blur(12px);
+}
+.hero-card button{
+    padding: .8em;
+    color: var(--primaryText);
+    background-color: var(--paper);
+    border: 1px solid var(--navy);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+/* ===========================
+====== ABOUT/MEET SECTION =======
+=========================== */
+.me{
+    display: block;
+    padding: 2em;
+    color: var(--paper);
+}
+.profile-card{
+    display: flex;
+    padding: 1em;
+    background-color: white;
+    color: var(--primaryText);
+    border: 1px solid var(--muted);
+    border-radius: 30px;
+    min-width: 2em;
+    max-width: 70%;
+    gap: 1.5em;
+    margin: 1em;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.511);
+}
+.profile-card .message{
+    align-self: center;
+}
+.profile-card img{
+    border-radius: 35px;
+}
+
+
+/* ==========================
+======PROJECTS SECTION ======
+========================== */
+
+.projects{
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    color: var(--paper);
+}
+.levels{
+    display: flex;
+    gap: 2em;
+    overflow-x: auto;
+    position: relative;
+    anchor-name: --buttonNav;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+.levels::scroll-button(left),.levels::scroll-button(right){
+    content: '←';
+    height: 40px;
+    width: 40px;
+    border: 1px solid var(--ink);
+    background-color: var(--line);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    position-anchor: --buttonNav;
+    position-area: left center;
+}
+.levels::scroll-button(right){
+    content: "→";
+    position-area: right center;
+}
+
+.level{
+    padding: .2em;
+    background-color: var(--primaryText);
+    border-radius: 30px;
+    flex: 0 0 45%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.8;
+    scroll-snap-align: start;
+    
+    
+}
+
+.level ul{
+    list-style: none;
+}
+.level:hover{
+    background-color: var(--ink);
+    cursor: pointer;
+}
+
+
+/* ====================
+==== NOTES SECTION ====
+===================== */
+
+
+.notes{
+    display: block;
+    padding: 2em;
+    color: white;
+}
+.lessons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.lesson-module{
+    display: flex;
+    flex-direction: column;
+}
+.lesson-module iframe{
+    height: 100vh;
+    width: 80vw;
+    border-radius: 30px;
+    padding: 1em;
+}
+.visit-download{
+    padding: .2em;
+    align-self: flex-end;
+    margin: auto 4rem;
+}
+.visit-download a{
+    color: blue;
+    padding: .5em;
+    font-size: 12pt;
+}
+footer{
+    padding: 2em;
+    text-align: center;
+    background-color: var(--navy);
+    color: white;
+}
+
+/* =============
+===RESPONSIVE====
+================ */
+
+@media (max-width:768px) {
+    header{
+        position: sticky;
+    }
+    nav{
+        display: none;
+    }
+    #navMenuBtn{
+        display: block;
+    }
+    nav a:hover{
+        color: var(--navy);
+    }
+    .hero{
+        flex-direction: column;
+        height: fit-content;
+        margin-top:0;
+    }
+    .hero-card{
+        flex-direction: column;
+        width: 100%;
+    }
+    .profile-card{
+        min-width: 100%;
+        height: 280px;
+        padding: 5px;
+        font-size: 12pt;
+    }
+    .profile-card img{
+        height: 100px;
+    }
+    .projects .level{
+        flex: 0 0 100%;
+    }
+    
+}
+@media(max-width:360px) {
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    .hero-card{
+        flex-direction: column;
+        width: 100%;
+    }
+    .profile-card{
+        display: flex;
+        flex-direction: column;
+        min-width: 100%;
+        margin: 0;
+        height: fit-content;
+        align-items: center;
+        padding: 10px;
+        font-size: 11pt;
+    }
+    .profile-card img{
+        height: 100px;
+    }
+    .lesson-module iframe{
+    height: 250px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 0;
+}
+.visit-download{
+    padding: 0;
+    align-self: center;
+    justify-content: space-between;
+
+}
+.projects{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    color: var(--paper);
+}
+
+.level{
+    padding: 4px;
+    flex: 0 0 100%;
+    height: 50vh;
+    
+}
+.levels::scroll-button(right){
+    content: '›';
+    border: none;
+    font-weight: bold;
+    border-radius: 0;
+
+}
+.levels::scroll-button(left){
+    content: '‹';
+    border: none;
+    font-weight: bold;
+    border-radius: 0;
+
+}
+
+
+}

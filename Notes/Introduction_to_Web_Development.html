@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Classroom theory notes introducing website design and development, frontend and backend technologies, server-side programming, hosting and deployment." name="description"/>
+<link rel="shortcut icon" href="favicon.svg" type="image/svg">
+<title>Introduction to Web Development | Classroom Notes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+:root{
+ --navy:#142b45;--navy2:#203e5d;--teal:#087f8c;--teal-light:#e8f5f5;
+ --ink:#253342;--muted:#647485;--line:#dce4ea;--paper:#fff;--wash:#f3f6f8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9eef2;color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-size:14px;line-height:1.75}
+.document{max-width:920px;margin:32px auto;background:var(--paper);box-shadow:0 12px 38px rgba(20,43,69,.12)}
+.cover{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.cover:before{content:"WEB";position:absolute;right:28px;top:10px;font-size:150px;font-weight:800;letter-spacing:-13px;color:rgba(255,255,255,.055);line-height:1}
+.cover:after{content:"HTML  /  CSS  /  JS";position:absolute;right:40px;top:180px;font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.22)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#8ed5d8}
+.cover h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.cover p{font-size:15px;color:#d9e6ef;max-width:610px;margin:0}
+.cover-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;padding-top:17px;border-top:1px solid rgba(255,255,255,.2);font-size:10px;color:#c5d5e2;letter-spacing:.5px}
+.content{padding:48px 72px 64px}
+h2{font-size:23px;line-height:1.3;color:var(--navy);margin:48px 0 18px;padding-bottom:11px;border-bottom:2px solid var(--teal);letter-spacing:-.5px}
+h2:first-child{margin-top:0}
+h3{font-size:16px;color:var(--navy2);margin:26px 0 8px}
+h4{font-size:13px;color:var(--teal);margin:18px 0 5px}
+p{margin:8px 0 13px}
+ul,ol{padding-left:23px;margin:8px 0 17px}
+li{padding-left:4px;margin:5px 0}
+strong{color:var(--navy)}
+.lead{font-size:15px;color:#43576a}
+.definition{background:var(--wash);padding:13px 17px;margin:12px 0 16px;border-radius:5px;border-left:3px solid #9eb5c7}
+.definition p:last-child{margin-bottom:0}
+.callout{border-left:4px solid var(--teal);background:var(--teal-light);padding:14px 18px;margin:18px 0 22px;border-radius:0 6px 6px 0}
+.callout strong{display:block;margin-bottom:3px}
+.warning{border-left-color:#c58b35;background:#fbf5e9}
+.topic{margin:21px 0 25px}
+.topic h3{margin-top:0}
+.subtle{color:var(--muted)}
+code{font-family:Consolas,"Courier New",monospace;background:#eef2f5;color:#163c54;padding:2px 5px;border-radius:3px;font-size:.94em}
+pre{font-family:Consolas,"Courier New",monospace;background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px}
+.tag{display:inline-block;background:#e8f5f5;color:#087f8c;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.5px;margin:2px 3px 2px 0}
+.outcome{padding:0;list-style:none}
+.outcome li{padding:8px 12px;border-bottom:1px solid var(--line);margin:0}
+.outcome li:before{content:"•";color:var(--teal);font-weight:800;margin-right:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--line);border-top:3px solid var(--teal);padding:13px 15px;border-radius:5px;background:#fff}
+.card h3{margin:0 0 5px;font-size:14px}
+.card p{margin:0;font-size:12px}
+.footer{background:var(--wash);padding:20px 72px;color:var(--muted);font-size:10px;display:flex;justify-content:space-between;gap:15px}
+@page{size:A4;margin:17mm 16mm 18mm}
+@media print{
+ body{background:#fff;font-size:10.3pt;line-height:1.62}
+ .document{max-width:none;margin:0;box-shadow:none}
+ .cover{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}
+ .cover h1{font-size:32pt}
+ .content{padding:0}
+ h2{font-size:18pt;break-after:avoid;margin-top:29px}
+ h3,h4{break-after:avoid}
+ p,li{orphans:3;widows:3}
+ .topic,.callout,.definition,.card,pre{break-inside:avoid}
+ .footer{padding:12px 0;background:#fff;border-top:1px solid var(--line)}
+}
+@media(max-width:700px){
+ body{font-size:13px;background:#fff}
+ .document{margin:0;box-shadow:none}
+ .cover{padding:52px 25px 40px;min-height:340px}
+ .cover h1{font-size:32px}
+ .cover:before{font-size:105px;right:10px;top:20px}
+ .cover:after{top:135px;right:20px;font-size:9px}
+ .content{padding:33px 25px 44px}
+ h2{font-size:20px;margin-top:38px}
+ .footer{padding:18px 25px}
+ .grid{grid-template-columns:1fr}
+}
+
+.brand-strip{max-width:920px;margin:18px auto 0;padding:10px 18px;background:#142b45;color:#fff;
+font:700 11px/1.4 Montserrat,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+@media(max-width:700px){.brand-strip{margin:0}}
+
+
+/* Shared lesson theme extensions used by deployment topics */
+.hero{background:linear-gradient(135deg,#10243b 0%,#203e5d 58%,#087f8c 145%);color:#fff;padding:72px 72px 62px;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.hero h1{font-size:40px;line-height:1.16;letter-spacing:-1.4px;margin:17px 0 14px;color:#fff;max-width:690px}
+.hero p{font-size:15px;color:#d9e6ef;max-width:650px;margin:0}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:30px}
+.pill{font-size:10px;letter-spacing:.5px;padding:6px 10px;border:1px solid #ffffff55;border-radius:3px;color:#e1eaf0}
+.small{font-size:12px;color:var(--muted)}
+.callout.good{background:var(--teal-light);border-left-color:var(--teal)}
+.callout.warn{background:#fbf5e9;border-left-color:#c58b35}
+.callout.danger{background:#fbeeee;border-left-color:#b94a48}
+.checklist{list-style:none;padding-left:0}.checklist li{padding-left:24px;position:relative}.checklist li:before{content:"□";position:absolute;left:0;color:var(--teal);font-weight:800}
+.step{display:flex;gap:13px;margin:15px 0;align-items:flex-start}.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800}.step div:last-child{flex:1}
+.diagram{background:var(--wash);border:1px solid var(--line);border-radius:5px;padding:18px;text-align:center;margin:16px 0}.node{display:inline-block;border:1px solid #b8c8d8;background:white;padding:10px 15px;border-radius:5px;font-weight:700}.arrow{display:block;color:var(--muted);font-size:1.3rem;line-height:1.5}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:var(--wash);color:var(--navy)}
+pre{background:#f1f4f7;border:1px solid var(--line);padding:13px 16px;border-radius:5px;overflow-wrap:anywhere;white-space:pre-wrap;font-size:12px;line-height:1.65;color:#163c54;margin:11px 0 17px;overflow-x:auto}pre code{background:none;padding:0;color:inherit}
+@media print{.hero{min-height:255mm;padding:35mm 22mm 25mm;break-after:page}.hero h1{font-size:32pt}main.content{padding:0}.card,.callout,pre,.diagram,.step{break-inside:avoid}}
+@media(max-width:700px){.hero{padding:52px 25px 40px;min-height:340px}.hero h1{font-size:32px}main.content{padding:33px 25px 44px}.hero-meta{gap:7px}}
+</style>
+</head>
+<body>
+<main class="document">
+<header class="cover">
+<div class="kicker">Classroom Teaching Notes · Web Technology</div>
+<h1>Introduction to Web Development</h1>
+<p>A structured introduction to the technologies, concepts, architecture and terminology behind modern websites — from page structure and user interaction to servers, hosting and deployment.</p>
+<div class="cover-meta"><span>SUBJECT: WEBSITE DESIGN &amp; DEVELOPMENT</span><span>LEVEL: FOUNDATIONAL TO INTERMEDIATE</span><span>FORMAT: THEORY NOTES</span></div>
+</header>
+<article class="content">
+<section>
+<h2>Course Overview</h2>
+<p class="lead">Website design and development is the process of planning, designing, building, testing, publishing and maintaining websites and web applications. It combines visual communication, information structure, programming, data handling and internet infrastructure.</p>
+<h3>General Aim</h3>
+<p>To provide learners with a broad theoretical understanding of how websites are designed and developed, how frontend and backend systems work together, and how completed websites are hosted and made accessible through the internet.</p>
+<h3>Learning Outcomes</h3>
+<p>By the end of this unit, learners should be able to:</p>
+<ul class="outcome">
+<li>Explain website design, website development and the World Wide Web.</li>
+<li>Describe the roles of HTML, CSS and JavaScript in frontend development.</li>
+<li>Identify common markup languages, data formats and web standards.</li>
+<li>Explain frontend and backend architecture and how they communicate.</li>
+<li>Define synchronous and asynchronous programming and related terms.</li>
+<li>Identify common frameworks, libraries, runtimes and development tools.</li>
+<li>Explain server-side programming, databases, APIs and request processing.</li>
+<li>Define hosting, domains, DNS, HTTP, HTTPS, SSL/TLS and deployment terminology.</li>
+<li>Describe the basic stages involved in publishing and maintaining a website.</li>
+</ul>
+<h3>Unit Outline</h3>
+<ol>
+<li>Introduction and overview of website design and development</li>
+<li>Frontend development: HTML, CSS, JavaScript and browser technologies</li>
+<li>Markup languages, data formats and related standards</li>
+<li>Frontend frameworks, libraries and tools</li>
+<li>Backend development and application architecture</li>
+<li>Data exchange, APIs and synchronous/asynchronous processing</li>
+<li>Server-side programming and databases</li>
+<li>Web servers, hosting, domains and internet infrastructure</li>
+<li>Deployment, security, maintenance and performance</li>
+</ol>
+</section>
+<section>
+<h2>1. Introduction to Website Design and Development</h2>
+<div class="definition"><strong>Website</strong><p>A website is a collection of related web pages and resources, usually identified by a common domain name and made accessible through the internet or a private network.</p></div>
+<div class="definition"><strong>Website design</strong><p>Website design is the planning and creation of a website's appearance, layout, navigation, content presentation and user experience. It considers how information should look and how visitors should interact with it.</p></div>
+<div class="definition"><strong>Website development</strong><p>Website development is the technical process of building a website. It includes writing code, creating page structures, implementing interactions, processing data, connecting databases, testing and preparing the website for use.</p></div>
+<h3>Website Design versus Website Development</h3>
+<p>Design focuses strongly on how a website is organised, presented and experienced. Development focuses on implementing the website's structure and behaviour using technologies and programming. In practice, the two activities overlap and must work together.</p>
+<h3>What is the World Wide Web?</h3>
+<p>The <strong>World Wide Web (WWW)</strong> is a system of interlinked documents and resources that people access over the internet using web browsers. It commonly uses URLs to identify resources and HTTP or HTTPS to transfer them. The Web is a service that operates over the internet; it is not another name for the entire internet.</p>
+<h3>Internet versus World Wide Web</h3>
+<p>The <strong>internet</strong> is the global network infrastructure connecting computers and other devices. The <strong>World Wide Web</strong> is one service that uses that infrastructure. Email, file transfer, voice communication and other services also use the internet without being the Web itself.</p>
+<h3>Important Basic Terms</h3>
+<ul>
+<li><strong>Web page:</strong> an individual document or resource displayed by a browser.</li>
+<li><strong>Home page:</strong> the main or introductory page of a website, often the first page visitors encounter.</li>
+<li><strong>Web browser:</strong> application software used to request, interpret and display web content, for example Chrome, Firefox, Edge and Safari.</li>
+<li><strong>Web application:</strong> software accessed through a browser or web interface that provides functionality such as messaging, banking or online learning.</li>
+<li><strong>Hyperlink:</strong> a reference that allows a user to navigate from one resource to another.</li>
+<li><strong>URL — Uniform Resource Locator:</strong> the address used to identify and locate a resource on a network.</li>
+<li><strong>URI — Uniform Resource Identifier:</strong> a general identifier for a resource. A URL is a type of URI that also provides a means of locating the resource.</li>
+<li><strong>Responsive website:</strong> a website whose layout adapts to different screen sizes and device conditions.</li>
+<li><strong>Static website:</strong> a website that serves prepared files with little or no page content generated from user-specific or frequently changing data.</li>
+<li><strong>Dynamic website:</strong> a website whose content or behaviour can change according to data, user actions, application logic or server responses.</li>
+</ul>
+<div class="callout"><strong>Core idea</strong>A modern website is not simply a collection of attractive pages. It is a system in which content, presentation, interaction, data processing and internet infrastructure work together.</div>
+</section>
+<section>
+<h2>2. The Three Core Frontend Technologies</h2>
+<p>The <strong>frontend</strong> is the part of a website or web application that users directly see and interact with. It runs mainly in the user's browser and is responsible for presenting information and receiving user input.</p>
+<div class="grid">
+<div class="card"><h3>HTML — Structure</h3><p>Defines the meaning, organisation and content of a web page.</p></div>
+<div class="card"><h3>CSS — Presentation</h3><p>Controls layout, colours, typography, spacing and visual appearance.</p></div>
+<div class="card"><h3>JavaScript — Behaviour</h3><p>Provides logic, interaction, dynamic updates and browser-side processing.</p></div>
+<div class="card"><h3>Browser — Execution environment</h3><p>Interprets the page technologies and displays the resulting interface.</p></div>
+</div>
+<h3>2.1 HTML — HyperText Markup Language</h3>
+<div class="definition"><strong>Definition</strong><p>HTML stands for <strong>HyperText Markup Language</strong>. It is the standard markup language used to describe the structure and meaning of content on web pages.</p></div>
+<p><strong>HyperText</strong> refers to text that can contain links to other documents or resources. <strong>Markup</strong> means adding labels or tags that describe the role and structure of content. <strong>Language</strong> refers to the defined set of elements and rules used to write that markup.</p>
+<h4>HTML terminology</h4>
+<ul>
+<li><strong>Element:</strong> a complete HTML unit, commonly consisting of an opening tag, content and a closing tag. Some elements are void elements and do not have closing tags.</li>
+<li><strong>Tag:</strong> the markup written inside angle brackets, such as <code>&lt;p&gt;</code> or <code>&lt;/p&gt;</code>.</li>
+<li><strong>Attribute:</strong> additional information written in an element's opening tag, such as <code>href</code>, <code>src</code>, <code>id</code> or <code>class</code>.</li>
+<li><strong>Semantic HTML:</strong> using elements according to their meaning, such as <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code> and <code>&lt;footer&gt;</code>.</li>
+<li><strong>DOM — Document Object Model:</strong> a programming representation of a document as a tree of objects that scripts can inspect and modify.</li>
+<li><strong>DOCTYPE:</strong> the declaration that tells the browser to use standards mode when interpreting an HTML document. Modern HTML documents begin with <code>&lt;!DOCTYPE html&gt;</code>.</li>
+<li><strong>Metadata:</strong> information that describes a document, such as its character encoding, viewport settings, title and description.</li>
+<li><strong>Form:</strong> an HTML structure used to collect user input through controls such as text fields, radio buttons, checkboxes and submit buttons.</li>
+</ul>
+<h4>Common HTML element groups</h4>
+<p><strong>Document structure:</strong> <code>html</code>, <code>head</code>, <code>body</code>, <code>title</code>, <code>meta</code>.</p>
+<p><strong>Text:</strong> <code>h1</code> to <code>h6</code>, <code>p</code>, <code>strong</code>, <code>em</code>, <code>blockquote</code>.</p>
+<p><strong>Navigation and media:</strong> <code>a</code>, <code>img</code>, <code>audio</code>, <code>video</code>.</p>
+<p><strong>Layout and meaning:</strong> <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, <code>footer</code>.</p>
+<p><strong>Forms:</strong> <code>form</code>, <code>label</code>, <code>input</code>, <code>textarea</code>, <code>select</code>, <code>option</code>, <code>button</code>.</p>
+<div class="callout"><strong>Why semantic HTML matters</strong>Meaningful elements improve document organisation, accessibility, maintainability and the ability of search engines and assistive technologies to understand page content.</div>
+<h3>2.2 CSS — Cascading Style Sheets</h3>
+<div class="definition"><strong>Definition</strong><p>CSS stands for <strong>Cascading Style Sheets</strong>. It is a style sheet language used to describe how HTML and other structured documents should be presented on screen, on paper or in other media.</p></div>
+<p><strong>Cascading</strong> refers to the process browsers use to resolve competing style rules. <strong>Style</strong> describes visual presentation, while a <strong>style sheet</strong> is a collection of rules that specify that presentation.</p>
+<h4>CSS terminology</h4>
+<ul>
+<li><strong>Selector:</strong> identifies the HTML elements to which a CSS rule applies.</li>
+<li><strong>Declaration:</strong> a property and value written inside a CSS rule, such as <code>color: navy;</code>.</li>
+<li><strong>Property:</strong> the visual characteristic being controlled, such as <code>font-size</code>, <code>margin</code> or <code>background-color</code>.</li>
+<li><strong>Value:</strong> the setting assigned to a property, such as <code>16px</code>, <code>center</code> or <code>#ffffff</code>.</li>
+<li><strong>Specificity:</strong> the weight browsers use when deciding which competing selector rule takes priority.</li>
+<li><strong>Inheritance:</strong> the process by which some CSS property values pass from a parent element to its descendants.</li>
+<li><strong>Box model:</strong> the layout model in which an element is represented by content, padding, border and margin.</li>
+<li><strong>Responsive design:</strong> designing layouts that adapt to available screen space and device characteristics.</li>
+<li><strong>Media query:</strong> a CSS condition that applies styles when characteristics such as viewport width or media type match.</li>
+<li><strong>Flexbox:</strong> a CSS layout model mainly used to arrange items along one dimension — a row or a column.</li>
+<li><strong>CSS Grid:</strong> a CSS layout model designed for two-dimensional layouts involving rows and columns.</li>
+<li><strong>Pseudo-class:</strong> a selector keyword that targets an element in a particular state, such as <code>:hover</code> or <code>:focus</code>.</li>
+<li><strong>Pseudo-element:</strong> a selector that targets a specific part of an element or creates a stylable generated part, such as <code>::before</code>.</li>
+</ul>
+<h4>Ways of applying CSS</h4>
+<ul>
+<li><strong>Inline CSS:</strong> styles written directly in an HTML element using the <code>style</code> attribute.</li>
+<li><strong>Internal CSS:</strong> styles written inside a <code>&lt;style&gt;</code> element in the HTML document.</li>
+<li><strong>External CSS:</strong> styles stored in a separate <code>.css</code> file and connected to HTML using a <code>&lt;link&gt;</code> element.</li>
+</ul>
+<div class="callout"><strong>Why CSS exists separately from HTML</strong>Separating structure from presentation makes websites easier to redesign, maintain and adapt. One style sheet can control the appearance of many pages without repeating the same visual rules in every document.</div>
+<h3>2.3 JavaScript</h3>
+<div class="definition"><strong>Definition</strong><p>JavaScript is a high-level, general-purpose programming language commonly used to make websites interactive and dynamic. It can run in browsers and in other environments, including server-side runtimes.</p></div>
+<h4>JavaScript terminology in web development</h4>
+<ul>
+<li><strong>Event:</strong> an occurrence that code can detect, such as a click, key press, page load or form submission.</li>
+<li><strong>Event listener:</strong> code that waits for a specified event and runs a function when that event occurs.</li>
+<li><strong>Function:</strong> a reusable block of code designed to perform a task.</li>
+<li><strong>Variable:</strong> a named binding used to refer to a value.</li>
+<li><strong>Condition:</strong> an expression used to determine whether a particular path of code should run.</li>
+<li><strong>DOM manipulation:</strong> using JavaScript to inspect or change the document's elements, text, attributes or structure.</li>
+<li><strong>Validation:</strong> checking whether supplied data meets specified rules before it is accepted or processed.</li>
+<li><strong>Fetch API:</strong> a browser and runtime API used to make network requests and handle responses.</li>
+<li><strong>Client-side scripting:</strong> scripts executed in the user's environment, commonly the browser.</li>
+</ul>
+<h4>Typical uses of JavaScript on a website</h4>
+<ul>
+<li>Opening and closing navigation menus.</li><li>Validating form entries before submission.</li><li>Displaying messages and updating page content without a full reload.</li><li>Creating image galleries, sliders, tabs and interactive calculators.</li><li>Requesting data from a server and displaying the response.</li><li>Managing interactive application state, such as selected products or logged-in interface details.</li>
+</ul>
+<div class="callout"><strong>Frontend relationship</strong>HTML describes what the content is, CSS describes how it is presented, and JavaScript describes how the interface responds and changes. These roles are distinct, but the technologies cooperate.</div>
+</section>
+<section>
+<h2>3. Other Markup Languages and Data Formats</h2>
+<p>HTML is not the only language or format used to describe structured information. Some technologies mark up documents, some define data structures, and others describe interfaces or configuration. They should not all be classified as programming languages.</p>
+<h3>3.1 XML — Extensible Markup Language</h3>
+<div class="definition"><strong>Definition</strong><p>XML stands for <strong>Extensible Markup Language</strong>. It is a markup language designed to store, structure and transport data using custom, descriptive tags.</p></div>
+<p>Unlike HTML, which uses a standard set of elements to describe web content, XML allows document authors to define their own element names. XML is strict about correct nesting, closing tags and case.</p>
+<p><strong>Common terms:</strong> well-formed document (follows XML syntax rules), root element (the single outermost element), attribute (information attached to an element), namespace (a mechanism for avoiding naming conflicts), and parser (software that reads and processes structured XML).</p>
+<pre>&lt;student&gt;
+  &lt;name&gt;Amina&lt;/name&gt;
+  &lt;course&gt;Web Development&lt;/course&gt;
+&lt;/student&gt;</pre>
+<h3>3.2 JSON — JavaScript Object Notation</h3>
+<div class="definition"><strong>Definition</strong><p>JSON stands for <strong>JavaScript Object Notation</strong>. It is a lightweight text-based data-interchange format used to represent and exchange structured data between applications.</p></div>
+<p>JSON is language-independent even though its syntax was inspired by JavaScript object notation. It is widely used when a browser communicates with a backend API. JSON supports objects, arrays, strings, numbers, Boolean values and <code>null</code>. Object property names and string values use double quotation marks.</p>
+<pre>{
+  "student": {
+    "name": "Amina",
+    "course": "Web Development",
+    "active": true,
+    "subjects": ["HTML", "CSS", "JavaScript"]
+  }
+}</pre>
+<p><strong>JSON object:</strong> an unordered collection of name/value pairs enclosed in curly braces. <strong>JSON array:</strong> an ordered list of values enclosed in square brackets. <strong>Serialization:</strong> converting data into a format suitable for storage or transfer. <strong>Deserialization:</strong> converting the transferred representation back into usable data.</p>
+<div class="callout"><strong>JSON is not the same as a JavaScript object</strong>JSON is text following a strict data format. A JavaScript object is an in-memory language value. JavaScript provides <code>JSON.stringify()</code> to convert suitable values to JSON text and <code>JSON.parse()</code> to parse JSON text.</div>
+<h3>3.3 XHTML — Extensible HyperText Markup Language</h3>
+<p>XHTML is a reformulation of HTML using XML syntax rules. It requires stricter document structure, including properly nested and closed elements. It was developed to bring HTML documents into an XML-based environment. Modern HTML is generally the normal choice for new websites.</p>
+<h3>3.4 SVG — Scalable Vector Graphics</h3>
+<p>SVG stands for <strong>Scalable Vector Graphics</strong>. It is an XML-based markup format for describing two-dimensional vector graphics. Vector graphics are defined using shapes, paths and mathematical descriptions, so they can scale without the pixelation associated with ordinary raster images.</p>
+<h3>3.5 MathML — Mathematical Markup Language</h3>
+<p>MathML represents mathematical notation and structure in a machine-readable form. It can be used to display mathematical expressions on the Web while preserving information about their structure and meaning.</p>
+<h3>3.6 XAML — Extensible Application Markup Language</h3>
+<div class="definition"><strong>Definition</strong><p>XAML is a declarative, XML-based markup language used mainly in Microsoft's application-development technologies to describe user interfaces and, in supported frameworks, related objects and resources.</p></div>
+<p>XAML is commonly associated with technologies such as Windows Presentation Foundation (WPF), Universal Windows Platform (UWP), and .NET MAUI. It is not a standard language for structuring ordinary web pages like HTML. It can describe interface elements such as windows, buttons, layouts and controls, while application code handles behaviour.</p>
+<h3>3.7 YAML — YAML Ain't Markup Language</h3>
+<p>YAML is a human-readable data-serialization language commonly used for configuration files. It represents data using indentation and key/value relationships. It is frequently encountered in deployment pipelines, application configuration and infrastructure tools. Indentation is significant.</p>
+<pre>application:
+  name: student-portal
+  port: 1750
+  environment: development</pre>
+<h3>3.8 Markdown</h3>
+<p>Markdown is a lightweight markup language that uses plain-text symbols to format headings, lists, links, emphasis and code blocks. It is commonly used for README files, technical documentation and notes.</p>
+<h3>3.9 Other related formats</h3>
+<ul>
+<li><strong>RSS — Really Simple Syndication:</strong> an XML-based web feed format used to publish frequently updated content.</li>
+<li><strong>Atom:</strong> a web feed format used to distribute updates and content.</li>
+<li><strong>CSV — Comma-Separated Values:</strong> a plain-text tabular data format in which records are commonly separated by lines and fields by commas.</li>
+<li><strong>SQL — Structured Query Language:</strong> a language used to define, query and manipulate data in relational database systems. It is not a markup language.</li>
+</ul>
+</section>
+<section>
+<h2>4. Frontend Frameworks, Libraries and Tools</h2>
+<p>As websites become larger, developers often use libraries and frameworks to organise code, reuse solutions and manage complex interfaces.</p>
+<div class="definition"><strong>Framework</strong><p>A framework is a structured software foundation that provides conventions, tools and reusable components for building applications. It often guides how an application should be organised and may control parts of the application's execution flow.</p></div>
+<div class="definition"><strong>Library</strong><p>A library is reusable code that developers call when they need particular functionality. The application generally remains in control and chooses when to use the library.</p></div>
+<p><strong>Important distinction:</strong> a framework commonly provides a broader application structure, while a library usually provides focused functionality. The distinction is useful, although real tools may combine characteristics of both.</p>
+<h3>Common frontend frameworks and libraries</h3>
+<ul>
+<li><strong>React:</strong> a JavaScript library for building user interfaces from reusable components. It is commonly used for interactive single-page applications and can also be used in larger application frameworks.</li>
+<li><strong>Angular:</strong> a TypeScript-based web application framework that provides an organised system for building large client applications.</li>
+<li><strong>Vue.js:</strong> a progressive JavaScript framework for building user interfaces. It supports component-based development and can be adopted gradually.</li>
+<li><strong>Svelte:</strong> a UI framework that uses a compiler to transform component code into efficient JavaScript.</li>
+<li><strong>Bootstrap:</strong> a frontend toolkit containing CSS and JavaScript components, layout utilities and responsive design features.</li>
+<li><strong>Tailwind CSS:</strong> a utility-first CSS framework that provides small, composable classes for styling elements directly in markup.</li>
+<li><strong> jQuery:</strong> a JavaScript library that historically simplified DOM manipulation, event handling and AJAX requests. Many tasks it once simplified are now supported by modern browser APIs.</li>
+</ul>
+<h3>Related frontend concepts</h3>
+<ul>
+<li><strong>Component:</strong> a reusable, self-contained part of an interface, such as a navigation bar, card or form.</li>
+<li><strong>SPA — Single-Page Application:</strong> an application that loads an initial page and updates much of its interface dynamically as users navigate or interact.</li>
+<li><strong>MPA — Multi-Page Application:</strong> a website structure in which navigation commonly requests separate documents or pages from the server.</li>
+<li><strong>Routing:</strong> matching a URL or navigation action to the page, view or handler that should respond.</li>
+<li><strong>State:</strong> information that describes the current condition of an interface or application, such as selected items or form status.</li>
+<li><strong>Props — properties:</strong> input values passed from a parent component to a child component in component-based UI systems such as React.</li>
+<li><strong>Virtual DOM:</strong> a programming representation of UI structure used by some libraries to calculate and apply interface updates.</li>
+<li><strong>Bundler:</strong> a development tool that processes and combines application modules and assets for delivery, for example Vite or webpack.</li>
+<li><strong>Transpiler:</strong> a tool that converts source code from one language version or syntax form into another, for example TypeScript being transformed into JavaScript.</li>
+</ul>
+<h3>Common frontend development tools</h3>
+<ul>
+<li><strong>Code editor:</strong> software used to write and organise source code, for example Visual Studio Code.</li>
+<li><strong>Browser developer tools:</strong> built-in browser facilities for inspecting HTML, CSS, network requests, storage, performance and JavaScript execution.</li>
+<li><strong>Git:</strong> a distributed version control system used to track changes in source code.</li>
+<li><strong>Package manager:</strong> a tool that installs and manages software dependencies, such as npm, pnpm or Yarn.</li>
+<li><strong>npm:</strong> commonly refers to the package manager and package registry ecosystem used with JavaScript and Node.js.</li>
+<li><strong>Node.js:</strong> a JavaScript runtime that allows JavaScript to execute outside the browser. It is also widely used to run frontend development tools.</li>
+<li><strong>Vite:</strong> a frontend development and build tool that provides a development server and production build process.</li>
+</ul>
+<div class="callout"><strong>Frameworks do not replace the fundamentals</strong>Developers need to understand HTML, CSS, JavaScript, browser behaviour and HTTP before relying heavily on frameworks. A framework organises development; it does not remove the underlying web platform.</div>
+</section>
+<section>
+<h2>5. Backend Development</h2>
+<div class="definition"><strong>Backend</strong><p>The backend is the part of an application responsible for server-side processing, business rules, data access, authentication, authorisation and communication with other systems. It is not normally displayed directly as the user interface.</p></div>
+<p>When a visitor submits a form, signs in, searches for a record or places an order, the browser may send information to a backend. The backend checks the request, applies application rules, interacts with databases or other services and returns an appropriate response.</p>
+<h3>Frontend versus backend</h3>
+<p>The frontend presents the interface and gathers user actions. The backend processes requests and manages protected application operations and data. A complete web application normally needs both sides to cooperate.</p>
+<h3>Common backend responsibilities</h3>
+<ul>
+<li>Receiving and processing HTTP requests.</li>
+<li>Validating incoming data and enforcing business rules.</li>
+<li>Authenticating users and checking their permissions.</li>
+<li>Reading from and writing to databases.</li>
+<li>Generating responses, reports and documents.</li>
+<li>Communicating with payment, email, identity or other external services.</li>
+<li>Recording logs and handling errors.</li>
+</ul>
+<h3>Backend terminology</h3>
+<ul>
+<li><strong>Business logic:</strong> the rules that define how an application should operate, such as admission eligibility or fee calculations.</li>
+<li><strong>Endpoint:</strong> a specific URL and HTTP method combination through which an API exposes an operation.</li>
+<li><strong>API — Application Programming Interface:</strong> a defined way for software systems or components to communicate and use one another's functionality.</li>
+<li><strong>REST — Representational State Transfer:</strong> an architectural style for networked systems. REST APIs commonly use HTTP methods and resource-oriented URLs.</li>
+<li><strong>CRUD:</strong> Create, Read, Update and Delete — the four basic operations commonly performed on stored records.</li>
+<li><strong>Middleware:</strong> software that runs between the arrival of a request and the final route or response handler. It can perform tasks such as logging, parsing, authentication and validation.</li>
+<li><strong>Authentication:</strong> verifying who a user or system is.</li>
+<li><strong>Authorisation:</strong> deciding what an authenticated identity is permitted to do.</li>
+<li><strong>Session:</strong> a mechanism for maintaining information about a user's interaction across multiple requests.</li>
+<li><strong>Cookie:</strong> a small piece of data stored by a browser and sent with matching requests according to its settings.</li>
+<li><strong>Token:</strong> a value used to represent or prove a particular identity, permission or claim. A token must be protected against theft and misuse.</li>
+<li><strong>JWT — JSON Web Token:</strong> a compact token format for representing claims between parties. A JWT is commonly signed; signing does not automatically encrypt its contents.</li>
+<li><strong>Environment variable:</strong> a value supplied to a running process from its environment, often used for configuration such as ports or secret references.</li>
+<li><strong>Logging:</strong> recording events and diagnostic information to help monitor and investigate application behaviour.</li>
+</ul>
+<h3>Backend languages and runtimes</h3>
+<ul>
+<li><strong>JavaScript with Node.js:</strong> uses JavaScript outside the browser to build APIs, web servers and backend applications.</li>
+<li><strong>TypeScript:</strong> a typed superset of JavaScript that adds compile-time type checking and is transformed into JavaScript for execution.</li>
+<li><strong>Python:</strong> a general-purpose programming language used for backend development, automation, data processing and many other tasks.</li>
+<li><strong>PHP — PHP: Hypertext Preprocessor:</strong> a server-side scripting language widely used in web development.</li>
+<li><strong>C#:</strong> a general-purpose language commonly used with the .NET platform to build web APIs and other applications.</li>
+<li><strong>Java:</strong> a general-purpose programming language commonly used with server-side frameworks such as Spring.</li>
+<li><strong>Ruby:</strong> a general-purpose language used in web development, notably with Ruby on Rails.</li>
+</ul>
+</section>
+<section>
+<h2>6. Backend Frameworks and Common Packages</h2>
+<p>Backend frameworks provide structures for receiving requests, organising routes, applying middleware, validating information and producing responses.</p>
+<ul>
+<li><strong>Express.js:</strong> a minimal web framework for Node.js used to build web servers and APIs.</li>
+<li><strong>NestJS:</strong> a Node.js framework, commonly using TypeScript, that provides a structured architecture for server-side applications.</li>
+<li><strong>Fastify:</strong> a Node.js web framework designed for efficient request handling and a plugin-based architecture.</li>
+<li><strong>Django:</strong> a high-level Python web framework that includes many built-in facilities for common web application requirements.</li>
+<li><strong>Flask:</strong> a lightweight Python web framework that provides a smaller core and allows developers to add extensions as needed.</li>
+<li><strong>FastAPI:</strong> a Python framework for building APIs with type hints and automatic interactive API documentation support.</li>
+<li><strong>Laravel:</strong> a PHP web application framework providing tools for routing, database access, authentication and other common tasks.</li>
+<li><strong>ASP.NET Core:</strong> Microsoft's cross-platform framework for building web applications and APIs using .NET, commonly with C#.</li>
+<li><strong>Spring Boot:</strong> a Java-based framework that simplifies the creation of stand-alone, production-oriented applications built with the Spring ecosystem.</li>
+<li><strong>Ruby on Rails:</strong> a Ruby web application framework that emphasises conventions and developer productivity.</li>
+</ul>
+<h3>Framework versus runtime versus package</h3>
+<ul>
+<li><strong>Runtime:</strong> the environment that executes a program, such as Node.js for JavaScript outside a browser.</li>
+<li><strong>Framework:</strong> a structured foundation that guides application organisation and execution.</li>
+<li><strong>Library:</strong> reusable code called by an application to perform particular tasks.</li>
+<li><strong>Package:</strong> a distributable unit of software, commonly containing code, metadata and dependencies.</li>
+<li><strong>Dependency:</strong> an external package or module that an application relies on.</li>
+<li><strong>Module:</strong> a reusable unit of code that can expose functionality for other parts of a program to use.</li>
+</ul>
+<div class="callout"><strong>Example architecture</strong>A browser can display an HTML/CSS/JavaScript interface. The interface sends an HTTP request to an Express.js application running on Node.js. The application validates the request, accesses a database and returns a JSON response.</div>
+</section>
+<section>
+<h2>7. Data Exchange, HTTP and APIs</h2>
+<h3>HTTP — HyperText Transfer Protocol</h3>
+<div class="definition"><strong>Definition</strong><p>HTTP stands for <strong>HyperText Transfer Protocol</strong>. It is an application-layer protocol used for communication between clients and servers on the Web. It defines how requests and responses are structured.</p></div>
+<p>A <strong>client</strong> is the system that initiates a request, commonly a browser. A <strong>server</strong> is the system that receives the request and provides a response or service.</p>
+<h3>HTTP request</h3>
+<p>An HTTP request is a message sent by a client asking a server to perform an operation or provide a resource. It commonly contains a method, URL, headers and, where needed, a body.</p>
+<h3>HTTP response</h3>
+<p>An HTTP response is the message returned by a server. It commonly contains a status code, headers and an optional body containing HTML, JSON, an image or another representation.</p>
+<h3>Common HTTP methods</h3>
+<ul>
+<li><strong>GET:</strong> requests a representation of a resource. It is intended for retrieval.</li>
+<li><strong>POST:</strong> submits data for processing, often creating a resource or triggering an operation.</li>
+<li><strong>PUT:</strong> creates or replaces the state of a resource at a specified target URI, depending on the API design.</li>
+<li><strong>PATCH:</strong> applies a partial modification to a resource.</li>
+<li><strong>DELETE:</strong> requests removal of a specified resource.</li>
+<li><strong>OPTIONS:</strong> asks about communication options supported for a resource or server.</li>
+</ul>
+<h3>HTTP status codes</h3>
+<ul>
+<li><strong>1xx — Informational:</strong> the request has been received and processing is continuing.</li>
+<li><strong>2xx — Success:</strong> the request was successfully received, understood and accepted.</li>
+<li><strong>200 OK:</strong> the request succeeded.</li>
+<li><strong>201 Created:</strong> the request succeeded and resulted in a resource being created.</li>
+<li><strong>204 No Content:</strong> the request succeeded but the response has no content body.</li>
+<li><strong>3xx — Redirection:</strong> further action is needed, commonly to access another location.</li>
+<li><strong>400 Bad Request:</strong> the server cannot process the request because it is invalid or malformed.</li>
+<li><strong>401 Unauthorized:</strong> valid authentication credentials are missing or unacceptable. Despite the name, it concerns authentication.</li>
+<li><strong>403 Forbidden:</strong> the server understands the request but refuses to authorise it.</li>
+<li><strong>404 Not Found:</strong> the requested resource or route was not found.</li>
+<li><strong>405 Method Not Allowed:</strong> the method is not supported for the target resource.</li>
+<li><strong>409 Conflict:</strong> the request conflicts with the current state of a resource.</li>
+<li><strong>422 Unprocessable Content:</strong> the content is understood but cannot be processed according to the application's rules.</li>
+<li><strong>429 Too Many Requests:</strong> the client has sent too many requests within a given period.</li>
+<li><strong>5xx — Server Error:</strong> the server failed to fulfil an apparently valid request.</li>
+<li><strong>500 Internal Server Error:</strong> an unexpected server-side failure occurred.</li>
+<li><strong>502 Bad Gateway:</strong> a gateway or proxy received an invalid response from an upstream server.</li>
+<li><strong>503 Service Unavailable:</strong> the server is temporarily unable to handle the request.</li>
+<li><strong>504 Gateway Timeout:</strong> a gateway or proxy did not receive a timely response from an upstream server.</li>
+</ul>
+<h3>Headers, body and content type</h3>
+<ul>
+<li><strong>HTTP header:</strong> metadata sent with a request or response, such as content type, accepted formats or caching instructions.</li>
+<li><strong>Request body:</strong> data sent by a client, commonly with POST, PUT or PATCH.</li>
+<li><strong>Response body:</strong> the content returned by the server.</li>
+<li><strong>MIME type:</strong> a media type label identifying the format of content, for example <code>text/html</code>, <code>text/css</code>, <code>application/javascript</code> or <code>application/json</code>.</li>
+<li><strong>Content-Type:</strong> an HTTP header that identifies the media type of the message body.</li>
+<li><strong>Accept:</strong> a request header indicating which response media types the client can process.</li>
+</ul>
+<h3>API communication</h3>
+<p>An API allows one software component to request functionality or data from another through an agreed interface. A web API commonly exposes endpoints over HTTP. The client and server agree on methods, URL patterns, request formats, response formats and error behaviour.</p>
+<h3>AJAX — Asynchronous JavaScript and XML</h3>
+<p>AJAX is a web-development approach in which JavaScript communicates with a server asynchronously and updates parts of a page without requiring a complete page reload. Despite the historical word XML in its name, modern AJAX-style communication commonly uses JSON and the Fetch API.</p>
+<h3>CORS — Cross-Origin Resource Sharing</h3>
+<p>CORS is a browser security mechanism that uses HTTP headers to determine whether a web page from one origin may access resources from another origin. An <strong>origin</strong> is the combination of scheme, host and port. CORS is not a replacement for authentication or authorisation.</p>
+</section>
+<section>
+<h2>8. Synchronous and Asynchronous Programming</h2>
+<div class="definition"><strong>Synchronous programming</strong><p>Synchronous execution follows an ordered process in which an operation must complete before the next dependent operation proceeds. The current flow waits for that operation to finish.</p></div>
+<div class="definition"><strong>Asynchronous programming</strong><p>Asynchronous programming allows an operation to be started without requiring the surrounding program flow to remain blocked until the operation completes. The program can continue other work and handle the result later.</p></div>
+<h3>Why asynchronous programming is important</h3>
+<p>Web applications frequently wait for external operations such as network responses, database queries, file access and timers. These operations may take an unpredictable amount of time. Asynchronous techniques help applications remain responsive while waiting for such work.</p>
+<h3>Blocking and non-blocking operations</h3>
+<ul>
+<li><strong>Blocking operation:</strong> prevents the current execution flow from proceeding until the operation finishes.</li>
+<li><strong>Non-blocking operation:</strong> allows the program to continue while the operation is being completed elsewhere or scheduled for later handling.</li>
+</ul>
+<h3>Callback</h3>
+<p>A callback is a function passed to another function so that it can be called later, often when an operation finishes or an event occurs. Callbacks are one way of handling asynchronous operations.</p>
+<h3>Promise</h3>
+<p>A Promise is a JavaScript object representing the eventual success or failure of an asynchronous operation. Its main states are pending, fulfilled and rejected. A settled Promise is either fulfilled or rejected.</p>
+<h3>async and await</h3>
+<p><code>async</code> is a JavaScript keyword used to define a function that returns a Promise. <code>await</code> is used within an async function, or supported module contexts, to pause that function's progress until a Promise settles. It does not normally block the entire JavaScript runtime.</p>
+<h3>Event loop</h3>
+<p>The event loop is a mechanism used by JavaScript environments to coordinate execution of queued tasks and asynchronous callbacks. It allows JavaScript to handle events and asynchronous results while maintaining its execution model.</p>
+<h3>Concurrency and parallelism</h3>
+<ul>
+<li><strong>Concurrency:</strong> managing multiple tasks whose execution periods overlap. The tasks may make progress in turns rather than literally running at the same instant.</li>
+<li><strong>Parallelism:</strong> executing multiple tasks at the same instant, commonly using multiple CPU cores or workers.</li>
+</ul>
+<div class="callout"><strong>Important distinction</strong>Asynchronous does not automatically mean parallel. A program can handle asynchronous network operations without executing JavaScript instructions on multiple CPU cores at the same time.</div>
+</section>
+<section>
+<h2>9. Databases and Data Storage in Web Applications</h2>
+<div class="definition"><strong>Database</strong><p>A database is an organised collection of data stored so that it can be accessed, managed, updated and retrieved efficiently.</p></div>
+<h3>Database management system</h3>
+<p>A <strong>DBMS — Database Management System</strong> is software used to define, create, store, query, update and control access to databases. It manages data operations and helps enforce integrity and security rules.</p>
+<h3>Relational databases</h3>
+<p>A relational database organises data into tables made up of rows and columns. Tables can be connected using keys and relationships. Examples include MySQL, PostgreSQL, SQLite and Microsoft SQL Server.</p>
+<h3>NoSQL databases</h3>
+<p>NoSQL is a broad term for database systems that use data models other than the traditional relational table model, or provide alternative approaches to data organisation and access. Examples include document, key-value, wide-column and graph databases.</p>
+<h3>Common database terms</h3>
+<ul>
+<li><strong>Table:</strong> a structured collection of related records in a relational database.</li>
+<li><strong>Record / row:</strong> one stored entry in a table.</li>
+<li><strong>Field / column:</strong> a named attribute in a table.</li>
+<li><strong>Primary key:</strong> a column or combination of columns that uniquely identifies a row.</li>
+<li><strong>Foreign key:</strong> a column or combination of columns that references a key in another table or the same table.</li>
+<li><strong>Query:</strong> a request to retrieve or manipulate data.</li>
+<li><strong>SQL:</strong> Structured Query Language, used with relational database systems.</li>
+<li><strong>ORM — Object-Relational Mapper:</strong> a tool that maps application objects or models to relational database structures and operations.</li>
+<li><strong>Connection pool:</strong> a managed set of reusable database connections that reduces the cost of repeatedly opening new connections.</li>
+<li><strong>Transaction:</strong> a group of database operations treated as one logical unit, with commit and rollback behaviour.</li>
+<li><strong>ACID:</strong> Atomicity, Consistency, Isolation and Durability — properties used to describe reliable database transactions.</li>
+</ul>
+<h3>Common database technologies</h3>
+<ul>
+<li><strong>MySQL:</strong> an open-source relational database management system widely used in web applications.</li>
+<li><strong>PostgreSQL:</strong> an advanced open-source object-relational database management system.</li>
+<li><strong>SQLite:</strong> a lightweight, embedded relational database engine that stores a database in a file.</li>
+<li><strong>MongoDB:</strong> a document-oriented NoSQL database that stores records in BSON, a binary-encoded JSON-like format.</li>
+<li><strong>Microsoft SQL Server:</strong> a relational database management system developed by Microsoft.</li>
+</ul>
+</section>
+<section>
+<h2>10. Server-Side Programming</h2>
+<div class="definition"><strong>Server-side programming</strong><p>Server-side programming is the development and execution of application logic on a server or server runtime rather than directly in the user's browser. It handles requests, applies rules, accesses protected resources and prepares responses.</p></div>
+<h3>Server</h3>
+<p>A server is a computer system or software process that provides resources or services to other systems, called clients. A physical server is hardware; a server application is software that listens for and handles requests. One physical machine can run many server processes.</p>
+<h3>Web server</h3>
+<p>A web server is software, and sometimes the computer running it, that accepts HTTP requests and serves web resources or forwards requests to application software. Common web server software includes Nginx, Apache HTTP Server and Microsoft IIS.</p>
+<h3>Application server</h3>
+<p>An application server runs application logic and provides services required by an application. In many modern deployments, the application process handles business logic while a separate web server or reverse proxy receives public traffic and forwards requests.</p>
+<h3>Reverse proxy</h3>
+<p>A reverse proxy is a server positioned in front of one or more backend servers. It receives client requests and forwards them to the appropriate internal service. It may also handle TLS termination, compression, caching, routing and load balancing.</p>
+<h3>Load balancer</h3>
+<p>A load balancer distributes incoming traffic across multiple servers or application instances to improve availability, capacity and performance.</p>
+<h3>Server-side rendering and client-side rendering</h3>
+<ul>
+<li><strong>SSR — Server-Side Rendering:</strong> the server generates HTML for a page and sends it to the browser.</li>
+<li><strong>CSR — Client-Side Rendering:</strong> the browser uses JavaScript to construct or update much of the interface after receiving the application resources.</li>
+<li><strong>SSG — Static Site Generation:</strong> pages are generated into static files before users request them, often during a build process.</li>
+<li><strong>Hydration:</strong> attaching client-side JavaScript behaviour to HTML that was already rendered, commonly by a server or build process.</li>
+</ul>
+<h3>Server-side request lifecycle</h3>
+<ol>
+<li>A user performs an action in the browser.</li>
+<li>The browser constructs an HTTP request and sends it over the network.</li>
+<li>The server or reverse proxy receives the request.</li>
+<li>The application routes the request to the appropriate handler.</li>
+<li>Middleware may parse the body, log the request and perform security checks.</li>
+<li>The application validates input and applies business rules.</li>
+<li>The application may query a database or communicate with another service.</li>
+<li>The server creates an HTTP response with an appropriate status code and body.</li>
+<li>The browser receives the response and updates the interface.</li>
+</ol>
+<div class="callout"><strong>Server-side security principle</strong>Never assume that data is safe because a browser form checked it. A user can bypass the interface and send a request directly. The backend must independently validate input, enforce permissions and protect secrets.</div>
+</section>
+<section>
+<h2>11. Hosting, Domains and Internet Infrastructure</h2>
+<p>After a website has been developed and tested, it needs an environment where its files or application can run and a way for visitors to locate it. This stage introduces infrastructure and networking terminology.</p>
+<h3>Hosting</h3>
+<div class="definition"><strong>Web hosting</strong><p>Web hosting is a service or infrastructure arrangement that provides storage, computing resources and network access for making a website or web application available to users.</p></div>
+<p>A hosting provider may supply storage, server processing, databases, network connectivity, security features, backups and management tools. Hosting is not the same as a domain name: hosting provides the environment, while a domain provides a human-readable address.</p>
+<h3>Common hosting types</h3>
+<ul>
+<li><strong>Shared hosting:</strong> multiple websites use resources on the same hosting server. It is often inexpensive but offers less control over the environment.</li>
+<li><strong>VPS — Virtual Private Server:</strong> a virtual server with allocated resources and an operating-system environment hosted on shared physical hardware.</li>
+<li><strong>Dedicated server:</strong> a physical server allocated to one customer or organisation.</li>
+<li><strong>Cloud hosting:</strong> hosting that uses a pool of connected computing resources and can offer flexible scaling and availability.</li>
+<li><strong>Managed hosting:</strong> a service where the provider takes responsibility for specified server administration tasks.</li>
+<li><strong>Static hosting:</strong> hosting designed to serve static files such as HTML, CSS, JavaScript, images and documents.</li>
+<li><strong>Serverless hosting / computing:</strong> a cloud model in which the provider manages server infrastructure and runs code or services on demand. Servers still exist; their management is abstracted from the application developer.</li>
+</ul>
+<h3>Domain name</h3>
+<div class="definition"><strong>Definition</strong><p>A domain name is a human-readable name used to identify an internet resource or network location, such as <code>example.com</code>.</p></div>
+<p>Domain names are organised hierarchically and are resolved through the Domain Name System. Registering a domain gives the registrant rights to use that name for the registration period, subject to the registrar's and registry's rules.</p>
+<h3>Domain terminology</h3>
+<ul>
+<li><strong>TLD — Top-Level Domain:</strong> the highest level in the public domain name hierarchy, such as <code>.com</code>, <code>.org</code> or <code>.ug</code>.</li>
+<li><strong>ccTLD — Country-Code Top-Level Domain:</strong> a top-level domain associated with a country or territory, such as <code>.ug</code> for Uganda.</li>
+<li><strong>gTLD — Generic Top-Level Domain:</strong> a top-level domain category not assigned as a country code, such as <code>.com</code> or <code>.org</code>.</li>
+<li><strong>Second-level domain:</strong> the label directly below the TLD in a domain name, such as <code>example</code> in <code>example.com</code>.</li>
+<li><strong>Subdomain:</strong> a label added before the main registered domain, such as <code>admissions</code> in <code>admissions.example.com</code>.</li>
+<li><strong>Registrar:</strong> an organisation authorised to register domain names for customers.</li>
+<li><strong>Registry:</strong> the organisation responsible for maintaining the authoritative database for a particular top-level domain.</li>
+<li><strong>WHOIS / RDAP:</strong> systems used to access domain registration information. RDAP means Registration Data Access Protocol and is the modern standard replacing many traditional WHOIS services.</li>
+</ul>
+<h3>DNS — Domain Name System</h3>
+<div class="definition"><strong>Definition</strong><p>DNS stands for <strong>Domain Name System</strong>. It is the distributed naming system that translates domain names into information needed to locate services on the internet, commonly including IP addresses.</p></div>
+<p>An <strong>IP address</strong> is a numerical network address assigned to an interface or resource. IPv4 uses 32-bit addresses, commonly written in dotted-decimal form. IPv6 uses 128-bit addresses and was developed to provide a much larger address space.</p>
+<h3>Common DNS records</h3>
+<ul>
+<li><strong>A record:</strong> maps a domain name to an IPv4 address.</li>
+<li><strong>AAAA record:</strong> maps a domain name to an IPv6 address.</li>
+<li><strong>CNAME record:</strong> makes one DNS name an alias of another canonical name.</li>
+<li><strong>MX record:</strong> identifies mail servers responsible for receiving email for a domain.</li>
+<li><strong>TXT record:</strong> stores text information, commonly used for domain verification and email security policies.</li>
+<li><strong>NS record:</strong> identifies the authoritative name servers for a DNS zone.</li>
+<li><strong>CAA record:</strong> specifies which certificate authorities may issue certificates for a domain.</li>
+</ul>
+<h3>DNS resolution</h3>
+<p>DNS resolution is the process of finding the DNS information associated with a name. A resolver may consult cached information or query DNS servers through the hierarchy until it obtains an answer. <strong>DNS propagation</strong> is a common informal term for the time taken for DNS changes to become visible through caches and resolvers; it is not a single global switch being updated everywhere at once.</p>
+<h3>Bandwidth, latency and uptime</h3>
+<ul>
+<li><strong>Bandwidth:</strong> the data-transfer capacity of a network connection over a period of time.</li>
+<li><strong>Latency:</strong> the time taken for data to travel between points or for a request to receive a response.</li>
+<li><strong>Throughput:</strong> the actual rate at which data is successfully transferred or processed.</li>
+<li><strong>Uptime:</strong> the period during which a service is operational and available.</li>
+<li><strong>Downtime:</strong> a period when a service is unavailable or not functioning as intended.</li>
+<li><strong>SLA — Service Level Agreement:</strong> a formal agreement defining expected service levels and responsibilities between a provider and customer.</li>
+</ul>
+</section>
+<section>
+<h2>12. Protocols, Security and Certificates</h2>
+<h3>TCP/IP — Transmission Control Protocol / Internet Protocol</h3>
+<p>TCP/IP refers to the family of networking protocols used to communicate across interconnected networks. IP handles addressing and routing packets between networks. TCP provides a reliable, ordered byte stream between endpoints, including retransmission where necessary.</p>
+<h3>UDP — User Datagram Protocol</h3>
+<p>UDP is a transport-layer protocol that sends datagrams without TCP's built-in delivery, ordering and retransmission guarantees. It is useful where low overhead or application-controlled delivery behaviour is important.</p>
+<h3>HTTP versus HTTPS</h3>
+<p><strong>HTTPS</strong> means HTTP Secure. It is HTTP communication protected using TLS. HTTPS helps provide confidentiality, integrity and server authentication for data exchanged between a client and the authenticated server endpoint.</p>
+<h3>SSL and TLS</h3>
+<ul>
+<li><strong>SSL — Secure Sockets Layer:</strong> an older security protocol that has been deprecated and should not be used for modern secure connections.</li>
+<li><strong>TLS — Transport Layer Security:</strong> the modern cryptographic protocol used to secure network communications, including HTTPS.</li>
+<li><strong>SSL certificate:</strong> a common industry phrase for a digital certificate used with HTTPS, although modern HTTPS uses TLS rather than SSL.</li>
+<li><strong>Digital certificate:</strong> an electronic document that binds an identity, such as a domain name, to a public key and is digitally signed by a certificate authority or another trusted issuer.</li>
+<li><strong>CA — Certificate Authority:</strong> an organisation trusted to issue and sign digital certificates under a defined trust system.</li>
+<li><strong>Public key:</strong> a cryptographic key that can be shared and is used in public-key cryptography.</li>
+<li><strong>Private key:</strong> a secret cryptographic key that must be protected and is paired with a public key.</li>
+<li><strong>Encryption:</strong> transforming information so that it cannot be understood without the appropriate key.</li>
+<li><strong>Hashing:</strong> producing a fixed-length digest from data. Hashing is not encryption and is not designed to be reversed.</li>
+</ul>
+<h3>Common web security terms</h3>
+<ul>
+<li><strong>Input validation:</strong> checking that incoming data has the expected type, structure, length and allowed values.</li>
+<li><strong>Output encoding:</strong> converting data into a safe representation for the context in which it will be displayed or inserted.</li>
+<li><strong>XSS — Cross-Site Scripting:</strong> a vulnerability in which attacker-controlled script content executes in another user's browser in the context of a trusted site.</li>
+<li><strong>SQL injection:</strong> a vulnerability in which untrusted input changes the meaning of a database query. Parameterised queries help prevent it.</li>
+<li><strong>CSRF — Cross-Site Request Forgery:</strong> an attack that tricks a user's browser into sending an unwanted authenticated request to a site.</li>
+<li><strong>Rate limiting:</strong> restricting how frequently a client can make requests to a service.</li>
+<li><strong>Firewall:</strong> a security control that filters network traffic according to defined rules.</li>
+<li><strong>WAF — Web Application Firewall:</strong> a security control designed to inspect and filter HTTP traffic to web applications.</li>
+<li><strong>Backup:</strong> a separate copy of data or system information that can be used for recovery.</li>
+<li><strong>Least privilege:</strong> giving a user, process or service only the permissions necessary to perform its assigned task.</li>
+</ul>
+<div class="callout warning"><strong>Security reminder</strong>HTTPS protects data in transit, but it does not automatically make an application secure. Applications still need secure authentication, authorisation, validation, access controls, dependency updates, backups and careful secret management.</div>
+</section>
+<section>
+<h2>13. Deployment and Publishing</h2>
+<div class="definition"><strong>Deployment</strong><p>Deployment is the process of making a software application or website available in a target environment. It may involve building files, configuring servers, setting environment variables, connecting databases, applying migrations and directing traffic to the new version.</p></div>
+<h3>Development, staging and production</h3>
+<ul>
+<li><strong>Development environment:</strong> the environment where developers write code, experiment and test changes during construction.</li>
+<li><strong>Testing environment:</strong> an environment used to check whether software behaves correctly under defined conditions.</li>
+<li><strong>Staging environment:</strong> a pre-production environment intended to resemble production and used for final checks before release.</li>
+<li><strong>Production environment:</strong> the live environment used by real users.</li>
+</ul>
+<h3>Build and release terms</h3>
+<ul>
+<li><strong>Source code:</strong> the human-readable instructions written by developers.</li>
+<li><strong>Build:</strong> the process of transforming source files and dependencies into output suitable for running or distribution.</li>
+<li><strong>Artifact:</strong> a produced file or package from a build, such as compiled code, a bundle or a container image.</li>
+<li><strong>Release:</strong> a version of software made available for deployment or use.</li>
+<li><strong>Rollback:</strong> returning an application or deployment to a previous known version after a problem.</li>
+<li><strong>CI — Continuous Integration:</strong> a practice of frequently integrating code changes and automatically running checks such as builds and tests.</li>
+<li><strong>CD — Continuous Delivery / Continuous Deployment:</strong> Continuous Delivery keeps software ready for release through automated processes; Continuous Deployment automatically releases changes that pass the required pipeline.</li>
+<li><strong>CI/CD pipeline:</strong> an automated sequence of steps for building, testing and preparing or deploying software.</li>
+<li><strong>Environment configuration:</strong> settings supplied to an application for a particular environment, such as database connection details and service endpoints.</li>
+<li><strong>Secret:</strong> sensitive information such as passwords, API keys, private keys or tokens that must not be exposed in public source code.</li>
+</ul>
+<h3>Git and collaboration</h3>
+<ul>
+<li><strong>Version control:</strong> tracking changes to files over time so developers can inspect history and coordinate work.</li>
+<li><strong>Repository:</strong> a project location managed by a version control system.</li>
+<li><strong>Commit:</strong> a recorded set of changes in a version control repository.</li>
+<li><strong>Branch:</strong> an independent line of development within a repository.</li>
+<li><strong>Merge:</strong> combining changes from different branches.</li>
+<li><strong>GitHub / GitLab:</strong> platforms that host Git repositories and provide collaboration and development workflow tools.</li>
+</ul>
+<h3>Containers and virtualisation</h3>
+<ul>
+<li><strong>Virtualisation:</strong> creating virtual versions of computing resources, such as servers or operating systems, on physical hardware.</li>
+<li><strong>Virtual machine (VM):</strong> a software-based computer that runs its own operating system in a virtualised environment.</li>
+<li><strong>Container:</strong> an isolated application execution environment that packages an application with its required dependencies while sharing the host operating system kernel.</li>
+<li><strong>Docker:</strong> a platform and toolset for building, distributing and running containers.</li>
+<li><strong>Container image:</strong> a packaged, read-only template used to create containers.</li>
+<li><strong>Orchestration:</strong> automated management of multiple containers or services, including scheduling, scaling and recovery.</li>
+<li><strong>Kubernetes:</strong> a container orchestration platform for managing containerised workloads and services.</li>
+</ul>
+<h3>Monitoring and maintenance</h3>
+<ul>
+<li><strong>Monitoring:</strong> collecting and observing information about application health, availability and performance.</li>
+<li><strong>Metrics:</strong> numerical measurements such as response time, error rate, memory use and request volume.</li>
+<li><strong>Tracing:</strong> following a request as it travels through multiple application components or services.</li>
+<li><strong>Incident:</strong> an event that causes or risks service interruption, degradation or security impact.</li>
+<li><strong>Patch:</strong> a software update that corrects defects or security weaknesses.</li>
+<li><strong>Scalability:</strong> the ability of a system to handle increased workload by adding or using resources effectively.</li>
+<li><strong>Horizontal scaling:</strong> increasing capacity by adding more instances or machines.</li>
+<li><strong>Vertical scaling:</strong> increasing the resources of an existing machine, such as CPU or memory.</li>
+<li><strong>Cache:</strong> a temporary storage layer that keeps frequently used data so it can be accessed more quickly.</li>
+<li><strong>CDN — Content Delivery Network:</strong> a distributed network of servers that delivers content from locations closer to users, helping reduce latency and improve availability.</li>
+</ul>
+</section>
+<section>
+<h2>14. Common Website Architecture Patterns</h2>
+<h3>Client-server architecture</h3>
+<p>Client-server architecture is a model in which client applications request services or resources from server systems. A web browser is commonly a client, while a web server or backend application provides services.</p>
+<h3>Two-tier architecture</h3>
+<p>A two-tier architecture separates a client application from a server or data service. The client communicates directly with the second tier. In a simple database application, the client may communicate directly with a database server.</p>
+<h3>Three-tier architecture</h3>
+<p>A three-tier architecture separates an application into presentation, application logic and data tiers.</p>
+<ul>
+<li><strong>Presentation tier:</strong> the user interface, commonly the browser-based frontend.</li>
+<li><strong>Application tier:</strong> the backend logic that processes requests and applies rules.</li>
+<li><strong>Data tier:</strong> the database or storage system that manages persistent information.</li>
+</ul>
+<h3>Monolithic architecture</h3>
+<p>A monolithic application is built and deployed as one main application unit, even if its internal code is divided into modules. Monoliths can be straightforward to develop and operate, especially for smaller systems, but a large monolith may become harder to maintain if boundaries are poorly designed.</p>
+<h3>Microservices architecture</h3>
+<p>Microservices architecture structures an application as a collection of relatively small, independently deployable services. Each service handles a defined business capability and communicates with other services through agreed interfaces. This can support independent scaling and deployment, but introduces network, monitoring and operational complexity.</p>
+<h3>Serverless architecture</h3>
+<p>Serverless architecture uses cloud-managed services and execution environments where the provider manages much of the underlying infrastructure. Developers focus more on application code and service configuration. Serverless does not mean that physical servers are absent.</p>
+<h3>Headless architecture</h3>
+<p>A headless system separates the content or application backend from the frontend presentation layer. The backend exposes content or functionality through an API, allowing different frontends — such as websites, mobile applications or kiosks — to use the same source.</p>
+</section>
+<section>
+<h2>15. Website Quality, Accessibility and Search Visibility</h2>
+<h3>UI — User Interface</h3>
+<p>The user interface is the part of a system through which a person interacts with it. It includes visible controls, navigation, text, forms and feedback.</p>
+<h3>UX — User Experience</h3>
+<p>User experience describes the overall experience a person has when using a product or service. It includes usefulness, ease of use, accessibility, clarity, trust and satisfaction.</p>
+<h3>Accessibility</h3>
+<p>Web accessibility is the practice of designing and developing websites so that people with different abilities can perceive, understand, navigate and interact with them. It includes keyboard access, meaningful headings, labels, text alternatives for meaningful images, sufficient contrast and compatibility with assistive technologies.</p>
+<h3>WCAG — Web Content Accessibility Guidelines</h3>
+<p>WCAG is a set of internationally recognised guidelines for making web content more accessible. Its four main principles are Perceivable, Operable, Understandable and Robust (POUR).</p>
+<h3>SEO — Search Engine Optimisation</h3>
+<p>SEO is the practice of improving a website's ability to be discovered and understood through search engines. It includes useful content, descriptive page titles, semantic structure, crawlable links, performance, mobile usability and accurate metadata. SEO does not guarantee a particular ranking.</p>
+<h3>Performance terminology</h3>
+<ul>
+<li><strong>Page load time:</strong> the time required for a page and its important resources to load.</li>
+<li><strong>Core Web Vitals:</strong> a set of user-experience performance metrics published by Google, including loading, interactivity and visual stability measurements.</li>
+<li><strong>Lazy loading:</strong> delaying the loading of non-critical resources until they are needed or likely to be viewed.</li>
+<li><strong>Minification:</strong> removing unnecessary characters from code files to reduce file size without changing intended behaviour.</li>
+<li><strong>Compression:</strong> encoding data in a way that reduces the amount of data transferred or stored.</li>
+<li><strong>Optimisation:</strong> improving a website's performance, accessibility, reliability, security or maintainability.</li>
+</ul>
+</section>
+<section>
+<h2>16. The Complete Website Development Process</h2>
+<ol>
+<li><strong>Requirement gathering:</strong> identify the website's purpose, users, content, features, constraints and expected outcomes.</li>
+<li><strong>Planning:</strong> define scope, page structure, navigation, technology choices, responsibilities and delivery milestones.</li>
+<li><strong>Information architecture:</strong> organise content into sections and establish how users will find information.</li>
+<li><strong>Wireframing:</strong> create simplified layouts showing the placement and hierarchy of page elements before detailed visual styling.</li>
+<li><strong>Visual design:</strong> define colours, typography, spacing, imagery, components and responsive behaviour.</li>
+<li><strong>Frontend development:</strong> implement page structure, styles, interactions and browser-side communication.</li>
+<li><strong>Backend development:</strong> implement routes, business rules, validation, authentication, data access and APIs where required.</li>
+<li><strong>Database design and integration:</strong> define data structures and connect application operations to storage systems.</li>
+<li><strong>Testing:</strong> check functionality, usability, accessibility, responsiveness, security and compatibility.</li>
+<li><strong>Deployment:</strong> build and configure the application in its target hosting environment.</li>
+<li><strong>Domain and DNS configuration:</strong> connect the domain name to the correct hosting or service endpoints.</li>
+<li><strong>Monitoring and maintenance:</strong> observe the live website, correct faults, update dependencies, maintain backups and improve the system.</li>
+</ol>
+<div class="callout"><strong>Remember the order</strong>Understand the problem first, design the solution, build the frontend and backend, test the complete system, deploy it, then monitor and maintain it. Publishing code is not the end of website development.</div>
+</section>
+<section>
+<h2>17. Quick Reference: Important Abbreviations</h2>
+<ul>
+<li><strong>WWW:</strong> World Wide Web.</li>
+<li><strong>HTML:</strong> HyperText Markup Language.</li>
+<li><strong>CSS:</strong> Cascading Style Sheets.</li>
+<li><strong>JS:</strong> JavaScript.</li>
+<li><strong>XML:</strong> Extensible Markup Language.</li>
+<li><strong>JSON:</strong> JavaScript Object Notation.</li>
+<li><strong>XHTML:</strong> Extensible HyperText Markup Language.</li>
+<li><strong>SVG:</strong> Scalable Vector Graphics.</li>
+<li><strong>XAML:</strong> Extensible Application Markup Language.</li>
+<li><strong>YAML:</strong> YAML Ain't Markup Language.</li>
+<li><strong>URL:</strong> Uniform Resource Locator.</li>
+<li><strong>URI:</strong> Uniform Resource Identifier.</li>
+<li><strong>DOM:</strong> Document Object Model.</li>
+<li><strong>API:</strong> Application Programming Interface.</li>
+<li><strong>HTTP:</strong> HyperText Transfer Protocol.</li>
+<li><strong>HTTPS:</strong> HyperText Transfer Protocol Secure.</li>
+<li><strong>AJAX:</strong> Asynchronous JavaScript and XML.</li>
+<li><strong>REST:</strong> Representational State Transfer.</li>
+<li><strong>CORS:</strong> Cross-Origin Resource Sharing.</li>
+<li><strong>CRUD:</strong> Create, Read, Update, Delete.</li>
+<li><strong>DBMS:</strong> Database Management System.</li>
+<li><strong>SQL:</strong> Structured Query Language.</li>
+<li><strong>ORM:</strong> Object-Relational Mapper.</li>
+<li><strong>DNS:</strong> Domain Name System.</li>
+<li><strong>IP:</strong> Internet Protocol.</li>
+<li><strong>TCP:</strong> Transmission Control Protocol.</li>
+<li><strong>UDP:</strong> User Datagram Protocol.</li>
+<li><strong>SSL:</strong> Secure Sockets Layer.</li>
+<li><strong>TLS:</strong> Transport Layer Security.</li>
+<li><strong>CA:</strong> Certificate Authority.</li>
+<li><strong>SEO:</strong> Search Engine Optimisation.</li>
+<li><strong>UI:</strong> User Interface.</li>
+<li><strong>UX:</strong> User Experience.</li>
+<li><strong>WCAG:</strong> Web Content Accessibility Guidelines.</li>
+<li><strong>CDN:</strong> Content Delivery Network.</li>
+<li><strong>VPS:</strong> Virtual Private Server.</li>
+<li><strong>TLD:</strong> Top-Level Domain.</li>
+<li><strong>ccTLD:</strong> Country-Code Top-Level Domain.</li>
+<li><strong>gTLD:</strong> Generic Top-Level Domain.</li>
+<li><strong>CI:</strong> Continuous Integration.</li>
+<li><strong>CD:</strong> Continuous Delivery or Continuous Deployment, depending on context.</li>
+<li><strong>SSR:</strong> Server-Side Rendering.</li>
+<li><strong>CSR:</strong> Client-Side Rendering.</li>
+<li><strong>SSG:</strong> Static Site Generation.</li>
+<li><strong>JWT:</strong> JSON Web Token.</li>
+<li><strong>XSS:</strong> Cross-Site Scripting.</li>
+<li><strong>CSRF:</strong> Cross-Site Request Forgery.</li>
+<li><strong>WAF:</strong> Web Application Firewall.</li>
+<li><strong>SLA:</strong> Service Level Agreement.</li>
+<li><strong>VM:</strong> Virtual Machine.</li>
+</ul>
+</section>
+<section>
+<h2>18. Summary of Key Concepts</h2>
+<ul>
+<li>Website design plans the appearance, organisation and user experience of a website.</li>
+<li>Website development implements the website through structure, styling, programming, data handling and testing.</li>
+<li>HTML structures content, CSS presents it and JavaScript adds behaviour.</li>
+<li>XML, JSON, SVG, XAML, YAML and Markdown serve different purposes; they are not all programming languages or interchangeable formats.</li>
+<li>Frontend development focuses on the browser-facing interface; backend development handles server-side logic and data operations.</li>
+<li>Frameworks provide structure; libraries provide reusable functionality; runtimes execute programs; packages distribute code.</li>
+<li>HTTP defines request-and-response communication, while APIs define how software components interact.</li>
+<li>Synchronous operations wait for completion in the current flow; asynchronous operations allow other work to continue while results are pending.</li>
+<li>Databases store and organise application data.</li>
+<li>Server-side programming processes requests, applies rules and returns responses.</li>
+<li>Hosting provides computing and network resources; a domain name provides a readable address; DNS helps resolve that name.</li>
+<li>HTTPS uses TLS to protect communication, but application security requires more than encryption in transit.</li>
+<li>Deployment publishes an application to a target environment, while monitoring and maintenance keep it reliable after release.</li>
+</ul>
+<div class="callout"><strong>End of Introduction to Web Development</strong>These notes provide a foundation for studying frontend technologies first, then backend development, server-side programming and the infrastructure used to publish and maintain modern websites.</div>
+</section>
+</article>
+<footer aria-label="Document ownership and attribution" class="footer">Loyo Benjamin | DevCore Community</footer>
+</main>
+</body>
+</html>
