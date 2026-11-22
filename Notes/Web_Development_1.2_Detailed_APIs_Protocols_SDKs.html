@@ -1,0 +1,223 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Web Development 1.2 — APIs, Network Protocols &amp; SDKs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#10243A;--teal:#087E8B;--pale:#EAF4F5;--ink:#243447;--muted:#607080;--line:#dce5ea}
+*{box-sizing:border-box}body{margin:0;background:#f1f4f6;color:var(--ink);font:15px/1.75 montserrat}
+main{max-width:1000px;margin:28px auto;background:#fff;box-shadow:0 10px 35px #10243a16}
+header{padding:62px 7%;background:linear-gradient(130deg,var(--navy),#17465b);color:white}
+.kicker{text-transform:uppercase;letter-spacing:.18em;color:#8ee0df;font-weight:bold;font-size:.76rem}
+h1{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.08;margin:16px 0}
+header p{max-width:760px;color:#dce9ee;font-size:1.05rem}
+.meta{margin-top:28px;color:#b9d5df;font-size:.85rem}
+.content{padding:30px 7% 70px}.intro{background:var(--pale);border-left:4px solid var(--teal);padding:17px 20px;margin:12px 0 35px}
+.part{margin-top:46px}.part-label{font-size:.76rem;font-weight:bold;letter-spacing:.16em;color:var(--teal)}
+h2{font-size:1.85rem;line-height:1.2;color:var(--navy);margin:8px 0 15px}
+h3{font-size:1.28rem;line-height:1.3;color:var(--navy);margin:35px 0 13px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+h4{font-size:.97rem;color:var(--teal);margin:17px 0 4px}
+p{margin:0 0 9px}ul{padding-left:22px}li{margin:5px 0}
+.note{background:#fff8e9;border-left:4px solid #e5a93d;padding:13px 17px;margin:15px 0}
+code{font-family:Consolas,monospace;background:#eef3f6;padding:2px 5px;border-radius:4px;color:#075b68}
+pre{white-space:pre-wrap;background:#10243a;color:#e5f4f5;padding:18px;border-radius:9px;overflow-wrap:anywhere}
+footer{background:var(--navy);color:#dce9ee;text-align:center;padding:22px;font-size:.82rem}
+@media(max-width:650px){main{margin:0;box-shadow:none}.content{padding:24px 6% 45px}header{padding:45px 6%}h2{font-size:1.55rem}}
+@media print{body{background:white}main{margin:0;box-shadow:none}.part{break-before:page}header,footer{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style></head><body><main>
+<header><div class="kicker">Web Development 1.2 · Detailed Study Notes</div><h1>APIs, Network Protocols &amp; SDKs</h1><p>A deeper technical branch: each API architecture, network protocol and SDK category is examined separately, including its purpose, operation, common use cases, methods, formats and design considerations.</p><div class="meta">DETAILED STUDY GUIDE · DevCore Community</div></header><div class="content">
+<div class="intro"><b>How to use these notes</b><br>This is not a general introduction. Treat each numbered technology as its own topic. Compare it with the others, pay attention to what belongs to the application layer versus the transport layer, and distinguish a protocol's rules from the data format carried inside its messages.</div>
+<section class="part"><div class="part-label">PART I</div><h2>API TYPES AND ARCHITECTURES</h2><p>This section examines API styles individually. Each subsection explains what the API is, how communication works, where it is commonly used, the operations or methods involved, data formats, strengths, limitations and an example.</p>
+<article><h3>1. REST APIs (Representational State Transfer)</h3>
+<h4>What it is</h4><p>REST is an architectural style for designing networked services. A REST API exposes resources—such as students, products, orders or inquiries—through identifiable URLs. REST is not a programming language, a file format or a protocol. It commonly uses HTTP, but REST describes design constraints placed on the service.</p>
+<h4>How it works</h4><p>A client addresses a resource using a URI/URL and sends an HTTP request. The request includes a method, headers and, when needed, a body. The server interprets the method against the resource, applies validation and business rules, accesses data if necessary, and returns an HTTP response containing a status code, headers and often a representation of the resource. REST emphasizes stateless requests: each request should contain the information needed to understand it, rather than depending on hidden server-side conversation state.</p>
+<h4>Where it is commonly used</h4><p>REST is widely used for public web APIs, mobile-app backends, e-commerce systems, school portals, booking systems, dashboards, payment integrations and communication between microservices. It is a common default when different clients need predictable access to server resources.</p>
+<h4>HTTP methods commonly used</h4><p>GET retrieves a representation; POST submits data or creates a subordinate resource; PUT replaces a resource representation; PATCH applies a partial update; DELETE removes a resource. HEAD requests headers without the response body; OPTIONS asks about communication options, often including CORS preflight. GET is intended to be safe; GET, HEAD, PUT and DELETE are defined as idempotent in HTTP semantics. POST is not generally idempotent.</p>
+<h4>Data formats accepted</h4><p>REST itself does not mandate JSON. JSON is the most common response/request format in modern web APIs. XML may be used in older or enterprise integrations. Form URL-encoded data is common for simple form submissions; multipart/form-data is used for file uploads; plain text or binary formats may be used for specialized resources. The Content-Type header describes the request body format, while Accept communicates preferred response formats. The server must document which media types it supports.</p>
+<h4>Example endpoint design</h4><p>GET /api/students/42 retrieves student 42. POST /api/students creates a student using a JSON body. PATCH /api/students/42 updates selected fields. DELETE /api/students/42 removes the resource if the caller is authorized.</p>
+<h4>Advantages and limitations</h4><p>Advantages: familiar HTTP semantics, broad tooling, cache support, straightforward browser integration and loose coupling. Limitations: clients may receive more or less data than needed; several requests may be needed to assemble related data; teams must design consistent endpoints, pagination, filtering, versioning and error responses.</p>
+<h4>Key design practices</h4><p>Use nouns for resource paths; choose status codes accurately; validate all input on the server; paginate large collections; document schemas; protect endpoints with HTTPS and appropriate authentication/authorization; avoid exposing internal database structure; and make retry behavior safe where possible.</p>
+</article>
+<article><h3>2. SOAP APIs (Simple Object Access Protocol)</h3>
+<h4>What it is</h4><p>SOAP is a formal messaging protocol for exchanging structured information between systems. It commonly uses XML messages and a service contract, often described using WSDL (Web Services Description Language). Unlike REST, SOAP is a protocol with defined message structure and processing rules.</p>
+<h4>How it works</h4><p>A client constructs a SOAP envelope containing an optional Header and a required Body. The body carries the operation request or response. The message is sent through a transport such as HTTP or HTTPS; other bindings are possible. The service reads the XML envelope, checks the requested operation and any required headers, performs the operation and returns a SOAP response or Fault describing an error.</p>
+<h4>Where it is commonly used</h4><p>SOAP is found in enterprise integration, banking, insurance, government systems, payment infrastructure and older systems where strict contracts, formal operations and established WS-* standards are important. It remains relevant where organizations already depend on SOAP services.</p>
+<h4>Operations and HTTP methods</h4><p>SOAP operations are defined by the service contract, not by REST-style resource methods. Over HTTP, SOAP 1.1 commonly uses POST and a SOAPAction header; SOAP 1.2 commonly uses POST with an action parameter where applicable. The HTTP method is a transport binding detail; the operation name is carried in the SOAP message body.</p>
+<h4>Data formats</h4><p>SOAP messages use XML with a defined Envelope structure. XML Schema (XSD) can define the types and structure of message elements. Attachments can be handled using mechanisms such as MTOM/XOP. JSON is not the native SOAP message format.</p>
+<h4>Advantages and limitations</h4><p>Advantages: strict contracts, mature tooling, formal error structures, extensibility through WS-* specifications and support for enterprise requirements. Limitations: verbose XML, more complex tooling, heavier messages and a steeper learning curve than many JSON REST APIs.</p>
+<h4>Key terms</h4><p>Envelope: outer SOAP message structure. Header: metadata such as security or routing information. Body: operation payload. Fault: structured error. WSDL: machine-readable service contract. XSD: schema language used to define XML data structures.</p>
+</article>
+<article><h3>3. GraphQL APIs</h3>
+<h4>What it is</h4><p>GraphQL is a query language for APIs and a runtime for executing those queries against a defined schema. It allows a client to request specific fields and related data, rather than requiring the server to expose a separate URL for every resource shape.</p>
+<h4>How it works</h4><p>The server defines a schema containing types and fields. A client sends a query describing the data it wants. Resolver functions determine how each requested field is obtained, perhaps from a database or another API. The server returns a JSON response whose data shape follows the query. Mutations are used for operations that change data; subscriptions can support ongoing updates when the server and transport support them.</p>
+<h4>Where it is commonly used</h4><p>GraphQL is used in complex frontend applications, mobile applications, content platforms and systems that combine data from several services. It is useful when different screens need different combinations of related fields or when clients need to reduce over-fetching and under-fetching.</p>
+<h4>Operations and HTTP methods</h4><p>The three main operation types are Query (read), Mutation (change data) and Subscription (receive ongoing updates). Queries and mutations are commonly sent using HTTP POST; some servers also support GET for queries. Subscriptions commonly use WebSocket or another supported streaming transport. These are GraphQL operation types, not direct equivalents of all HTTP methods.</p>
+<h4>Data formats</h4><p>GraphQL requests and responses are commonly represented as JSON. A request body often contains a query string, optional variables and an optional operation name. GraphQL is not itself a file format. File uploads require an agreed server-specific approach, commonly multipart request conventions or a separate upload endpoint.</p>
+<h4>Advantages and limitations</h4><p>Advantages: clients select fields, related data can be fetched in one request, and a strongly typed schema supports introspection and tooling. Limitations: caching can be less straightforward than ordinary REST GET caching; poorly controlled queries can be expensive; authorization must be enforced at field/resolver level where appropriate; and schema governance requires discipline.</p>
+<h4>Example</h4><p>A client might query a student name and the names of their enrolled courses in one operation. The response contains only the fields requested, rather than every field stored for the student and courses.</p>
+</article>
+<article><h3>4. RPC APIs and gRPC</h3>
+<h4>What it is</h4><p>RPC means Remote Procedure Call: a client invokes an operation that is executed by another process or machine. gRPC is a modern, high-performance RPC framework originally developed by Google. It commonly uses Protocol Buffers (Protobuf) to define services and serialize messages.</p>
+<h4>How it works</h4><p>A developer defines service methods and message types in a .proto contract. Code-generation tools create client and server interfaces. The client calls a generated method; gRPC serializes the request, sends it over HTTP/2, and the server deserializes it, runs the method and returns a serialized response. gRPC supports unary calls and streaming patterns.</p>
+<h4>Where it is commonly used</h4><p>gRPC is common in internal microservice communication, backend-to-backend systems, cloud infrastructure and environments where efficient typed contracts and streaming are valuable. Browser use is possible through gRPC-Web with supporting infrastructure, but ordinary browsers do not expose every native gRPC capability directly.</p>
+<h4>Operations and methods</h4><p>RPC APIs are organized around named procedures such as GetStudent, CreateStudent or StreamUpdates. gRPC commonly uses HTTP/2 POST requests underneath. The application-level method name is defined in the service contract; it is not selected from GET, POST, PUT and DELETE in the same resource-oriented way as REST.</p>
+<h4>Data formats</h4><p>Native gRPC commonly uses Protocol Buffers, a compact binary serialization format. The .proto file defines messages and service methods. gRPC-Web has its own browser-compatible transport conventions. JSON can be supported by gateways or transcoding, but it is not the default native gRPC wire format.</p>
+<h4>Advantages and limitations</h4><p>Advantages: compact messages, generated strongly typed clients, HTTP/2 multiplexing and support for streaming. Limitations: binary payloads are less human-readable, browser integration may need a proxy or gRPC-Web, and debugging can require specialized tools.</p>
+<h4>Streaming types</h4><p>Unary: one request and one response. Server streaming: one request followed by multiple responses. Client streaming: multiple requests followed by one response. Bidirectional streaming: both sides send multiple messages over one call.</p>
+</article>
+<article><h3>5. WebSocket APIs</h3>
+<h4>What it is</h4><p>A WebSocket API provides a persistent, two-way communication channel between a client and server. Unlike the usual request-then-response pattern of HTTP, either side can send a message whenever the connection is open.</p>
+<h4>How it works</h4><p>A client begins with an HTTP handshake requesting an upgrade to the WebSocket protocol. If accepted, the connection changes to a WebSocket connection. The client and server exchange frames over that connection until it is closed. The application defines the message format and event meanings.</p>
+<h4>Where it is commonly used</h4><p>Live chat, multiplayer games, collaborative editing, live dashboards, trading displays, monitoring systems, notifications and real-time tracking are common use cases.</p>
+<h4>Methods and operations</h4><p>WebSocket is not built around REST HTTP methods after the connection is established. The browser WebSocket API provides operations such as connect, send, receive messages and close. The initial handshake uses HTTP Upgrade semantics; after that, WebSocket frames carry messages.</p>
+<h4>Data formats</h4><p>WebSocket frames can carry text or binary data. JSON text is popular because it is easy to inspect; binary payloads may use formats such as Protobuf or application-specific bytes. WebSocket does not force one message format.</p>
+<h4>Advantages and limitations</h4><p>Advantages: low-latency server push, full-duplex communication and less repeated connection setup. Limitations: connection management, authentication, scaling, reconnection, heartbeat/ping handling and message validation require careful design. A persistent connection consumes server resources.</p>
+<h4>Example event flow</h4><p>A browser connects to /live. The server sends a JSON event when a new inquiry arrives. The browser receives the message and updates the dashboard without polling the server repeatedly.</p>
+</article>
+<article><h3>6. Webhooks (Event Callback APIs)</h3>
+<h4>What it is</h4><p>A webhook is an event-driven HTTP callback. Instead of an application repeatedly asking whether something has changed, a provider sends an HTTP request to a URL registered by the receiving application when a specified event occurs. A webhook is a delivery pattern, not a separate transport protocol.</p>
+<h4>How it works</h4><p>The receiver exposes a public HTTPS endpoint and registers it with the provider. When an event occurs, the provider sends an HTTP request—commonly POST—with an event payload. The receiver verifies the sender, validates the payload, processes it safely and returns a response. Providers often retry failed deliveries, so receivers should handle duplicate events.</p>
+<h4>Where it is commonly used</h4><p>Payment notifications, repository events, form submissions, shipping updates, identity-provider events and automation platforms commonly use webhooks.</p>
+<h4>Methods and formats</h4><p>Providers commonly send POST requests. JSON is the dominant payload format, though the provider's documentation determines the actual Content-Type and schema. The receiver should not assume every webhook uses the same fields or signature method.</p>
+<h4>Security and reliability</h4><p>Use HTTPS; verify signatures or other provider authentication; check timestamps where supported; protect against replay; validate event IDs; make processing idempotent; respond promptly; and queue longer work. Never trust a webhook merely because it reached the endpoint.</p>
+<h4>Webhook vs polling</h4><p>Polling means the client asks repeatedly for updates. A webhook means the provider pushes an event when something happens. Webhooks can reduce unnecessary requests, but require a reachable receiver and robust retry/security handling.</p>
+</article>
+</section>
+<section class="part"><div class="part-label">PART II</div><h2>NETWORK PROTOCOLS</h2><p>A protocol is a rule set for communication. These subsections separate application protocols from transport, internet and security protocols, and explain the role each plays in a complete network exchange.</p>
+<article><h3>1. HTTP — Hypertext Transfer Protocol</h3>
+<h4>What it is</h4><p>HTTP is an application-layer request-response protocol used to transfer web resources and API messages. It defines methods, status codes, headers, message framing and semantics.</p>
+<h4>How it works</h4><p>A client sends a request containing a method, target, headers and optional body. A server or intermediary returns a status line/status, headers and optional content. HTTP is stateless at the protocol level; cookies, tokens and application logic can maintain user sessions.</p>
+<h4>Versions and transport</h4><p>HTTP/1.1 commonly uses TCP and supports persistent connections. HTTP/2 uses TCP with binary framing and multiplexed streams. HTTP/3 uses QUIC over UDP, reducing some connection and transport-level head-of-line blocking issues. These versions retain HTTP semantics while differing in transport and framing.</p>
+<h4>Common methods</h4><p>GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS and TRACE are defined methods. CONNECT is used to establish a tunnel, commonly through a proxy. Method semantics matter: safe methods should not be used to trigger state changes, and idempotency matters for retries.</p>
+<h4>Message formats</h4><p>HTTP itself can carry many media types. Common Content-Type values include application/json, application/xml, text/html, text/plain, application/octet-stream, application/x-www-form-urlencoded and multipart/form-data. HTTP does not mean JSON; JSON is just one possible representation.</p>
+<h4>Where used</h4><p>Websites, REST APIs, GraphQL over HTTP, downloads, uploads, service-to-service communication and many cloud integrations.</p>
+<h4>Important headers</h4><p>Host identifies the target authority in HTTP/1.1; Content-Type describes the body; Accept describes acceptable response media types; Authorization carries credentials; Cache-Control guides caching; Origin is important in browser cross-origin requests; and Cookie/Set-Cookie support browser state.</p>
+</article>
+<article><h3>2. HTTPS and TLS</h3>
+<h4>What they are</h4><p>HTTPS is HTTP carried over a connection protected by TLS (Transport Layer Security). TLS is the security protocol; HTTPS is the secure use of HTTP over TLS.</p>
+<h4>How it works</h4><p>The client and server negotiate TLS parameters and establish shared session keys during a handshake. The server normally presents a digital certificate so the client can verify the server's identity. Application data is then encrypted and integrity-protected. Certificate validation, hostname matching and trusted certificate authorities are important.</p>
+<h4>Where used</h4><p>Virtually all modern websites and APIs, especially login, payments, personal data, administrative tools and any service exposed over the public internet.</p>
+<h4>Ports and methods</h4><p>HTTPS commonly uses TCP port 443 for HTTP/1.1 and HTTP/2 over TLS. HTTP/3 uses QUIC over UDP, commonly on port 443. HTTP methods remain GET, POST, PUT, PATCH and others; TLS does not define API methods.</p>
+<h4>Data formats</h4><p>TLS encrypts transport data and does not prescribe whether the application payload is JSON, XML, HTML, images or binary data.</p>
+<h4>Security boundaries</h4><p>TLS protects data in transit between endpoints. It does not automatically make an application secure, validate input, prevent authorization flaws, encrypt data stored on a server or protect a compromised device.</p>
+</article>
+<article><h3>3. TCP — Transmission Control Protocol</h3>
+<h4>What it is</h4><p>TCP is a connection-oriented transport-layer protocol that provides a reliable, ordered byte stream between application endpoints.</p>
+<h4>How it works</h4><p>A connection is established through a handshake. TCP numbers bytes, acknowledges received data, retransmits lost segments and uses flow and congestion control. Applications read a stream of bytes; message boundaries must be defined by the application protocol.</p>
+<h4>Where used</h4><p>HTTP/1.1, HTTP/2, SSH, SMTP, IMAP, database connections and many other applications use TCP.</p>
+<h4>Ports and data</h4><p>TCP uses port numbers to identify application endpoints. It carries bytes, not a particular file format. HTTP, SMTP or a database protocol defines how those bytes are interpreted.</p>
+<h4>Strengths and trade-offs</h4><p>Reliable ordered delivery simplifies application development. Retransmission and ordering can add latency, and a lost segment can delay later data in the same stream. TCP does not encrypt data by itself.</p>
+</article>
+<article><h3>4. UDP — User Datagram Protocol</h3>
+<h4>What it is</h4><p>UDP is a connectionless transport-layer protocol that sends independent datagrams. It provides port-based multiplexing and a checksum, but not TCP-style guaranteed delivery, ordering or retransmission.</p>
+<h4>How it works</h4><p>An application sends a datagram to a destination IP address and port. UDP adds a small header and passes it to IP. The receiver may receive it, receive it late, receive it out of order or not receive it at all. Applications add reliability or timing behavior if they need it.</p>
+<h4>Where used</h4><p>DNS queries, real-time voice/video, online games, live media and protocols such as QUIC commonly use UDP.</p>
+<h4>Data formats</h4><p>UDP carries datagrams; the application protocol defines their contents. It does not require JSON, XML or any other file format.</p>
+<h4>Strengths and trade-offs</h4><p>Low overhead and no built-in connection setup can suit latency-sensitive traffic. The application must manage loss, ordering, congestion and security as appropriate.</p>
+</article>
+<article><h3>5. IP — Internet Protocol (IPv4 and IPv6)</h3>
+<h4>What it is</h4><p>IP provides logical addressing and routing so packets can travel between networks. IP is a network-layer protocol and does not guarantee delivery or application-level ordering.</p>
+<h4>How it works</h4><p>The sender places data into IP packets with source and destination addresses. Routers forward packets toward the destination using routing information. Packets may take different paths; higher-layer protocols handle reliability when required.</p>
+<h4>IPv4 vs IPv6</h4><p>IPv4 uses 32-bit addresses, for example 192.0.2.25. IPv6 uses 128-bit addresses, for example 2001:db8::25. IPv6 offers a much larger address space and changes aspects of addressing and network configuration.</p>
+<h4>Where used</h4><p>Everyday internet communication, local networks, cloud hosting, mobile networks and communication between services.</p>
+<h4>What it does not do</h4><p>IP does not define HTTP methods, JSON structure, user authentication or guaranteed delivery. Those responsibilities belong to other layers and application protocols.</p>
+</article>
+<article><h3>6. DNS — Domain Name System</h3>
+<h4>What it is</h4><p>DNS is a distributed naming system that maps domain names to records used to locate services and publish domain-related information.</p>
+<h4>How it works</h4><p>A device asks a DNS resolver for a record. The resolver may answer from cache or query DNS infrastructure, following referrals until it obtains an answer. The result is cached according to its Time To Live (TTL). The application then uses the resolved information to contact the service.</p>
+<h4>Important record types</h4><p>A maps a name to an IPv4 address; AAAA maps to IPv6; CNAME provides an alias; MX identifies mail exchangers; TXT stores text data used for verification and email policies; NS identifies authoritative name servers; and SRV can describe service locations and ports.</p>
+<h4>Where used</h4><p>Website access, email routing, service discovery, domain verification and infrastructure configuration.</p>
+<h4>Ports and transport</h4><p>Traditional DNS commonly uses UDP port 53 for queries and TCP port 53 for cases such as large responses and zone transfers. DNS over TLS commonly uses port 853; DNS over HTTPS commonly uses HTTPS, often port 443.</p>
+<h4>Important distinction</h4><p>DNS resolves names; it does not fetch the web page. The browser still needs to establish a connection and make an HTTP request.</p>
+</article>
+<article><h3>7. SSH and SFTP</h3>
+<h4>What they are</h4><p>SSH (Secure Shell) provides encrypted remote login and command execution. SFTP (SSH File Transfer Protocol) is a file-transfer protocol that operates over SSH. SFTP is not the same protocol as FTP or FTPS.</p>
+<h4>How they work</h4><p>An SSH client connects to an SSH server, normally on TCP port 22. The parties negotiate cryptographic algorithms and establish an encrypted session. The user authenticates, commonly with a password or public-key authentication. SFTP uses the secure SSH channel to list, upload, download, rename and manage files.</p>
+<h4>Where used</h4><p>Remote server administration, secure file exchange, deployment workflows, backups and controlled transfers between organizations.</p>
+<h4>Data formats and commands</h4><p>SSH is a secure channel, not a file format. SFTP transfers files as bytes and can transfer JSON, CSV, images, archives or other file types without interpreting their contents.</p>
+<h4>Security practices</h4><p>Verify host keys, use strong key protection, restrict accounts and permissions, disable weak authentication options and avoid exposing SSH to unnecessary networks.</p>
+</article>
+<article><h3>8. FTP and FTPS</h3>
+<h4>What they are</h4><p>FTP (File Transfer Protocol) is a traditional file-transfer protocol. FTPS is FTP protected with TLS. FTP and SFTP are different protocols despite their similar names.</p>
+<h4>How they work</h4><p>FTP uses a control connection for commands and a separate data connection for transfers. Active and passive modes determine how data connections are established. FTPS adds TLS protection to the relevant connections, with explicit and implicit configurations seen in deployments.</p>
+<h4>Where used</h4><p>Legacy hosting, managed file-transfer environments and organizations with established FTP-based workflows.</p>
+<h4>Ports and formats</h4><p>FTP control commonly uses TCP port 21; data connections depend on mode and server configuration. FTP transfers file bytes and does not require a particular file format.</p>
+<h4>Limitations</h4><p>Plain FTP does not encrypt credentials or data. Firewalls and NAT can complicate separate data connections. Prefer SFTP or properly configured FTPS when secure file transfer is required.</p>
+</article>
+<article><h3>9. SMTP, IMAP and POP3 — Email protocols</h3>
+<h4>SMTP — sending email</h4><p>SMTP (Simple Mail Transfer Protocol) is used to submit and relay outgoing email between clients and mail servers or between mail servers. Common ports include 25 for server relay, 587 for message submission with STARTTLS commonly used, and 465 for implicit TLS submission.</p>
+<h4>IMAP — synchronized mailbox access</h4><p>IMAP (Internet Message Access Protocol) lets clients access and manage messages stored on a mail server. It supports folders, message flags and synchronization across multiple devices. Common ports are 143 (often upgraded with STARTTLS) and 993 (implicit TLS).</p>
+<h4>POP3 — mailbox retrieval</h4><p>POP3 (Post Office Protocol version 3) retrieves messages from a mailbox and generally offers simpler mailbox management than IMAP. Common ports are 110 and 995 for implicit TLS.</p>
+<h4>Formats and relationship</h4><p>Email messages use Internet Message Format, with headers and a body. MIME (Multipurpose Internet Mail Extensions) supports attachments and non-ASCII content. SMTP sends; IMAP and POP3 retrieve or access stored messages. They are complementary, not interchangeable.</p>
+<h4>Where used</h4><p>Email clients, mail servers, business notifications, support systems, account verification and automated application emails.</p>
+</article>
+<article><h3>10. WebSocket protocol</h3>
+<h4>What it is and how it works</h4><p>WebSocket is an application-layer protocol for full-duplex communication over a persistent connection. A client requests an HTTP upgrade; the server accepts; then both sides exchange WebSocket frames until closure.</p>
+<h4>Where used</h4><p>Chat, live dashboards, collaboration, game state, live tracking and push updates.</p>
+<h4>Ports and formats</h4><p>WebSocket commonly uses port 80 (ws) or 443 (wss). Text frames often contain JSON; binary frames can contain arbitrary binary data. The protocol does not impose one application payload format.</p>
+<h4>Operational concerns</h4><p>Implement authentication, authorization, origin checks, message-size limits, rate limits, ping/pong heartbeats, reconnect logic and horizontal-scaling strategy.</p>
+</article>
+<article><h3>11. QUIC</h3>
+<h4>What it is</h4><p>QUIC is a secure, multiplexed transport protocol built over UDP. It is the transport used by HTTP/3.</p>
+<h4>How it works</h4><p>QUIC integrates TLS 1.3 handshake mechanisms, stream multiplexing, loss recovery and connection migration. Separate streams can progress independently, reducing transport-level head-of-line blocking between streams compared with a single TCP byte stream.</p>
+<h4>Where used</h4><p>HTTP/3 web traffic, modern browsers, CDNs and services that benefit from fast connection setup and resilient transport.</p>
+<h4>Ports and formats</h4><p>QUIC commonly uses UDP port 443 for HTTP/3. It carries streams and datagrams; HTTP defines the application messages and content formats above it.</p>
+<h4>Important distinction</h4><p>QUIC is not the same as HTTP/3. QUIC is the transport; HTTP/3 is the HTTP mapping that uses QUIC.</p>
+</article>
+</section>
+<section class="part"><div class="part-label">PART III</div><h2>SDK TYPES AND DEVELOPMENT KITS</h2><p>An SDK is a packaged development toolkit. SDK categories are often defined by the platform, service, language or hardware being targeted. The categories can overlap: a single product may provide a platform SDK and service-specific SDK libraries.</p>
+<article><h3>1. Platform SDKs</h3>
+<h4>What they are</h4><p>Platform SDKs provide tools and interfaces for building software for a particular operating system, device platform or runtime environment.</p>
+<h4>Typical contents</h4><p>Platform APIs, libraries, compilers or build tools, headers, documentation, emulators/simulators, debugging tools and packaging utilities.</p>
+<h4>Examples and use</h4><p>Android SDK for Android applications; Apple SDKs for iOS, macOS and other Apple platforms; Windows SDK for Windows applications. Developers use them when an application must access platform capabilities such as sensors, notifications, storage, graphics or system services.</p>
+<h4>Workflow</h4><p>Install the supported SDK version, configure the development environment, select a target platform/API level, build against the platform interfaces, test on an emulator or real device, and package the application for distribution.</p>
+<h4>Trade-offs</h4><p>Platform SDKs provide direct access to native features but may tie code to a platform and require version-specific testing.</p>
+</article>
+<article><h3>2. Cloud and service SDKs</h3>
+<h4>What they are</h4><p>Cloud/service SDKs make it easier for an application to use a provider's hosted services, such as storage, databases, messaging, identity, analytics or maps.</p>
+<h4>Typical contents</h4><p>Service clients, authentication helpers, request signing, retry logic, pagination helpers, data models, configuration utilities and examples.</p>
+<h4>Examples and use</h4><p>Cloud-provider SDKs for storage or compute; Firebase SDKs for application services; mapping SDKs for maps and location. They are used when an application needs to call a provider's services without manually implementing every API request.</p>
+<h4>How they work</h4><p>The developer installs a package, configures a client with the required endpoint/region/credentials, calls library methods, and the SDK constructs network requests, handles serialization and returns results or errors.</p>
+<h4>Security</h4><p>Do not embed privileged server credentials in browser or mobile application code. Use restricted client keys where designed for public use, and keep privileged operations behind a trusted backend.</p>
+</article>
+<article><h3>3. Programming-language SDKs</h3>
+<h4>What they are</h4><p>A language-specific SDK or developer kit supplies APIs, libraries, tooling and conventions for using a platform or service from a particular programming language.</p>
+<h4>Examples and use</h4><p>A service may provide separate JavaScript, Python, Java, C# or Go SDK packages. Each package presents language-appropriate methods, types, asynchronous patterns and error handling.</p>
+<h4>How they work</h4><p>The package manager installs the dependency. The developer imports or references it, configures it and calls its functions/classes. The SDK may then make HTTP requests, serialize messages or interact with local platform tools.</p>
+<h4>Important distinction</h4><p>A language package is not automatically a complete SDK. Some are only libraries or API clients. Check what tools and capabilities are actually included.</p>
+</article>
+<article><h3>4. Hardware and device SDKs</h3>
+<h4>What they are</h4><p>Hardware SDKs help applications communicate with a particular device, board, sensor, camera, printer, scanner, vehicle system or embedded platform.</p>
+<h4>Typical contents</h4><p>Device drivers or wrappers, communication libraries, firmware utilities, sample code, protocols, debugging tools and hardware documentation.</p>
+<h4>Where used</h4><p>Internet of Things (IoT), robotics, industrial automation, point-of-sale systems, medical devices, cameras and specialized peripherals.</p>
+<h4>How they work</h4><p>The application uses SDK functions to communicate through an interface such as USB, Bluetooth, serial communication, Wi-Fi or a vendor-specific network protocol. The SDK hides some low-level commands but the developer must still manage device availability, permissions, timeouts and errors.</p>
+<h4>Trade-offs</h4><p>Hardware SDKs can simplify complex device integration but may be vendor-specific and dependent on firmware, operating system and hardware revisions.</p>
+</article>
+<article><h3>5. Game development SDKs</h3>
+<h4>What they are</h4><p>Game SDKs provide tools or service integrations for game development, publishing, multiplayer, input, audio, graphics, achievements, analytics or platform distribution.</p>
+<h4>Examples and use</h4><p>Game engine toolkits and platform SDKs for console/mobile publishing; multiplayer networking SDKs; audio and physics libraries; analytics and achievement services.</p>
+<h4>Typical contents</h4><p>APIs, runtime libraries, editor integrations, asset tools, emulators, profiling and debugging utilities, sample projects and documentation.</p>
+<h4>Selection considerations</h4><p>Check target platforms, performance overhead, licensing, engine compatibility, online-service dependencies, player privacy and long-term support.</p>
+</article>
+<article><h3>6. SDK vs API vs library vs framework — detailed distinction</h3>
+<h4>API</h4><p>The interface contract: the available operations, inputs, outputs and rules. An API may be local (inside a program) or remote (over a network).</p>
+<h4>Library</h4><p>Reusable implementation code that a developer calls. A JSON parsing library, for example, can parse JSON but does not necessarily provide a complete development environment.</p>
+<h4>Framework</h4><p>A larger structure that organizes an application and often invokes developer-written code through lifecycle hooks or conventions. The framework commonly controls the flow of execution.</p>
+<h4>SDK</h4><p>A development kit that may bundle APIs, libraries, frameworks, command-line tools, documentation, emulators, compilers or debugging utilities.</p>
+<h4>How they fit together</h4><p>A platform SDK may expose platform APIs, include libraries and provide command-line build tools. An application uses those components to call platform features. The API is the contract; the library provides reusable code; the SDK is the broader kit.</p>
+</article>
+<article><h3>7. How to evaluate and integrate an SDK</h3>
+<h4>Before installation</h4><p>Confirm the SDK's official source, supported language/runtime versions, platform compatibility, license, maintenance status, security advisories, package size and whether it is necessary.</p>
+<h4>During integration</h4><p>Use the official installation instructions and a supported version. Store secrets appropriately, configure only required permissions, inspect default telemetry/data collection and start with a minimal example.</p>
+<h4>Testing</h4><p>Test normal responses, invalid input, permission denial, network interruption, expired credentials, rate limits, large payloads and unsupported versions. Confirm that failures are surfaced clearly.</p>
+<h4>Maintenance</h4><p>Pin or constrain dependency versions, review release notes, update security fixes, remove unused packages and plan a migration path in case the provider changes or the SDK is discontinued.</p>
+</article>
+</section>
+<section class="part"><div class="part-label">CONSOLIDATION</div><h2>Comparative review and practical tasks</h2>
+<h3>Do not confuse these concepts</h3>
+<ul><li><b>REST</b> is an architectural style; <b>HTTP</b> is an application protocol commonly used to implement REST APIs.</li><li><b>JSON</b> is a data format, not an API type or network protocol.</li><li><b>TCP</b> and <b>UDP</b> are transport protocols; they do not define API operations or JSON fields.</li><li><b>TLS</b> protects a connection; <b>HTTPS</b> is HTTP secured with TLS.</li><li><b>GraphQL Query/Mutation</b> are GraphQL operation types, not HTTP methods.</li><li><b>gRPC</b> is an RPC framework; Protocol Buffers are a common serialization format it uses.</li><li><b>Webhooks</b> are an event-delivery pattern, usually implemented using HTTP requests.</li><li><b>SDK</b> is a toolkit; it may contain libraries, API clients, command-line tools and documentation.</li></ul>
+<h3>Practical tasks</h3>
+<ol><li>Design a REST API for student admissions. Define endpoints for listing, creating, viewing, updating and deleting an inquiry. Select HTTP methods, request formats and response status codes.</li><li>Write a short comparison of REST, SOAP, GraphQL and gRPC. For each, state its message format, communication pattern and a suitable use case.</li><li>Trace a browser request from domain lookup through transport connection and HTTPS protection to the HTTP response. Identify the role of DNS, IP, TCP or QUIC, TLS and HTTP.</li><li>Choose a live-chat feature and explain why WebSocket may be more appropriate than repeated polling.</li><li>Explain how a payment webhook should verify its sender and safely handle duplicate event delivery.</li><li>Choose a mobile or cloud SDK. Identify its target platform/service, included tools, installation approach, credentials and security precautions.</li></ol>
+<h3>Knowledge-check questions</h3>
+<ol><li>Why is REST not the same thing as HTTP?</li><li>Which HTTP method is normally used to partially update a REST resource?</li><li>Does REST require JSON? Explain.</li><li>What does a SOAP Envelope contain?</li><li>How do GraphQL queries differ from mutations?</li><li>What is a Protocol Buffer and why is it used by gRPC?</li><li>What happens during a WebSocket upgrade?</li><li>Why should webhook handlers be idempotent?</li><li>What is the difference between TCP reliability and UDP datagram delivery?</li><li>What is the difference between HTTPS and TLS?</li><li>What is the difference between SFTP and FTPS?</li><li>Which email protocol sends messages, and which protocols access a mailbox?</li><li>What is the difference between an SDK and a library?</li></ol>
+<div class="note"><b>Study reminder:</b> For every technology, be able to answer six questions: What is it? How does it work? Where is it used? What methods or operations does it expose? What data does it carry or accept? What are its strengths, limitations and security concerns?</div>
+</section></div><footer>Web Development 1.2 — Detailed APIs, Network Protocols &amp; SDKs | DevCore Community</footer></main></body></html>
