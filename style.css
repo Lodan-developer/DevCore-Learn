@@ -408,3 +408,121 @@ footer{
 
 
 }
+
+
+/* =================================
+   SMALL SCREEN RESTRICTION
+================================= */
+
+.screen-restriction {
+    display: none;
+}
+
+@media screen and (max-width: 320px) {
+
+    /* Hide the entire website */
+    body > :not(.screen-restriction) {
+        display: none !important;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        overflow: hidden;
+    }
+
+    /* Restriction page */
+    .screen-restriction {
+        display: flex !important;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+
+        padding: 25px 18px;
+
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        background: #fff;
+        color: var(--navy);
+
+        text-align: center;
+        z-index: 999999;
+        overflow: hidden;
+    }
+
+    /* Warning icon */
+    .restriction-icon {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 3px solid var(--primaryText);
+        border-radius: 50%;
+
+        color: var(--primaryText);
+        font-size: 38px;
+        font-weight: bold;
+
+        margin-bottom: 25px;
+    }
+
+    .restriction-content {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .restriction-label {
+        display: block;
+        font-size: 9px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: var(--primaryText);
+        margin-bottom: 15px;
+    }
+
+    .restriction-content h1 {
+        font-size: 38px;
+        margin-bottom: 5px;
+        color: var(--navy);
+    }
+
+    .restriction-content h2 {
+        font-size: 19px;
+        color: var(--primaryText);
+        margin-bottom: 18px;
+    }
+
+    .restriction-content p {
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--muted);
+    }
+
+    .restriction-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        margin-top: 40px;
+        padding-top: 20px;
+
+        border-top: 1px solid var(--line);
+
+        font-size: 9px;
+        color: var(--muted);
+    }
+
+    .restriction-footer span:first-child {
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: var(--primaryText);
+    }
+}
